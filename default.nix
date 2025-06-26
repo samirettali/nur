@@ -11,7 +11,11 @@
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
-  cursor = pkgs.callPackage ./pkgs/cursor {vscode-generic = pkgs.vscode;};
+  cursor = pkgs.callPackage ./pkgs/cursor {
+    vscode-generic = pkgs.vscode;
+  };
+
+  opencode = pkgs.callPackage ./pkgs/opencode {};
+
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
-  # ...
 }
