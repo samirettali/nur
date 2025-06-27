@@ -36,7 +36,7 @@ for nix_platform in "${!platform_map[@]}"; do
 
   echo "Fetching hash for ${nix_platform}..."
   hash_base64=$(nix-prefetch-url --type sha256 "$url")
-  sri_hash="sha256-${hash_base64}"
+  sri_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 
   # Use sed to update the hash for the specific platform
   sed -i -E "/\"${nix_platform}\"/,/\};/s|([[:space:]]*hash = \").*(\";)|\1${sri_hash}\2|" "$DEFAULT_NIX_FILE"
