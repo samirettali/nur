@@ -2,7 +2,6 @@
   lib,
   stdenvNoCC,
   fetchurl,
-  nix-update-script,
   unzip,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -50,7 +49,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
         hash = "sha256-8/TqD056t6J8n26v9Z63xCr4xkAycB2+bJR7wg5oiZ8=";
       };
     };
-    updateScript = nix-update-script {};
+
+    updateScript = ./update.sh;
   };
 
   meta = {
@@ -62,11 +62,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     '';
     homepage = "https://github.com/sst/opencode";
     license = lib.licenses.mit;
-    platforms = lib.platforms.unix;
-    maintainers = with lib.maintainers; [
-      zestsystem
-      delafthi
-    ];
+    platforms = builtins.attrNames finalAttrs.passthru.sources;
     mainProgram = "opencode";
   };
 })
