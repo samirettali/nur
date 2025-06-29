@@ -24,7 +24,7 @@
   };
 
   source = fetchurl {
-    url = sources.${hostPlatform.system};
+    url = sources.${hostPlatform.system}.url;
     hash = sources.${hostPlatform.system}.hash;
   };
 in
