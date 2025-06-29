@@ -17,6 +17,7 @@ npm_deps_hash=$(prefetch-npm-deps "$temp_dir/package-lock.json")
 rm -rf "$temp_dir"
 
 sed -i "s|version = \".*\";|version = \"$latest_version\";|" "${DEFAULT_NIX_FILE}"
-sed -i "s|rev = \".*\";|rev = \"$latest_rev\";|" "${DEFAULT_NIX_FILE}"
+# TODO: is this needed?
+# sed -i "s|rev = \".*\";|rev = \"$latest_rev\";|" "${DEFAULT_NIX_FILE}"
 sed -i "/src = fetchFromGitHub/,/};/s|hash = \".*\";|hash = \"$src_hash\";|" "${DEFAULT_NIX_FILE}"
 sed -i "/npmDeps = fetchNpmDeps/,/};/s|hash = \".*\";|hash = \"$npm_deps_hash\";|" "${DEFAULT_NIX_FILE}"

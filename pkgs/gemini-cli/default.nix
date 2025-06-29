@@ -13,19 +13,18 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "gemini-cli";
-  version = "0.1.5";
+  version = "0.1.7";
 
   src = fetchFromGitHub {
     owner = "google-gemini";
     repo = "gemini-cli";
-    # Currently there's no release tag
-    rev = "121bba346411cce23e350b833dc5857ea2239f2f";
-    hash = "sha256-2w28N6Fhm6k3wdTYtKH4uLPBIOdELd/aRFDs8UMWMmU=";
+    rev = "v${finalAttrs.version}";
+    hash = "sha256-DAenod/w9BydYdYsOnuLj7kCQRcTnZ81tf4MhLUug6c=";
   };
 
   npmDeps = fetchNpmDeps {
     inherit (finalAttrs) src;
-    hash = "sha256-yoUAOo8OwUWG0gyI5AdwfRFzSZvSCd3HYzzpJRvdbiM=";
+    hash = "sha256-otogkSsKJ5j1BY00y4SRhL9pm7CK9nmzVisvGCDIMlU=";
   };
 
   preConfigure = ''
@@ -56,14 +55,14 @@ buildNpmPackage (finalAttrs: {
     chmod +x "$out/bin/gemini"
 
     echo "Removing bundled eslint from gemini-cli to prevent collision"
-    rm -rf $out/lib/node_modules/eslint
+    # rm -rf $out/lib/node_modules/eslint
 
     # Also remove the symlink that points to the now-deleted directory.
     # We use -f to prevent an error if the symlink doesn't exist for some reason.
-    rm -f $out/lib/node_modules/.bin/eslint
+    # rm -f $out/lib/node_modules/.bin/eslint
   '';
 
-  passthru.updateScript = "./update.sh";
+  passthru.updateScript = ./update.sh;
 
   meta = {
     description = "AI agent that brings the power of Gemini directly into your terminal";
