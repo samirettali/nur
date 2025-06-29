@@ -17,5 +17,7 @@
       default = import ./modules/opencode.nix;
       opencode = import ./modules/opencode.nix;
     };
+
+    overlays.default = import ./overlay.nix;
   };
 }
