@@ -55,11 +55,11 @@ buildNpmPackage (finalAttrs: {
     chmod +x "$out/bin/gemini"
 
     echo "Removing bundled eslint from gemini-cli to prevent collision"
-    # rm -rf $out/lib/node_modules/eslint
+    rm -rf $out/lib/node_modules/eslint
 
     # Also remove the symlink that points to the now-deleted directory.
     # We use -f to prevent an error if the symlink doesn't exist for some reason.
-    # rm -f $out/lib/node_modules/.bin/eslint
+    rm -f $out/lib/node_modules/.bin/eslint
   '';
 
   passthru.updateScript = ./update.sh;
