@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   lib,
   config,
@@ -7,13 +6,14 @@
 }:
 with lib; let
   cfg = config.programs.opencode;
+  opencode = pkgs.callPackage ../pkgs/opencode {};
 in {
   options.programs.opencode = {
     enable = mkEnableOption "opencode cli";
 
     package = mkOption {
       type = types.package;
-      default = inputs.my-overlay.packages.${pkgs.system}.opencode;
+      default = opencode;
       description = "The opencode package to use";
     };
 
