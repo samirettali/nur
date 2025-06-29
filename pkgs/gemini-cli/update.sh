@@ -6,13 +6,14 @@ set -euo pipefail
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 
-latest_version=$(curl -s "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/package-lock.json" | jq -r '.version')
-latest_rev=$(curl -s "https://api.github.com/repos/google-gemini/gemini-cli/commits/main" | jq -r '.sha')
+tags_response=$(curl -s "https://api.github.com/repos/google-gemini/gemini-cli/tags")
+latest_version=$(echo "$tags_response" | jq -r '.[0].name' | sed 's/^v//')
+latest_rev=$(echo "$tags_response" | jq -r '.[0].commit.sha')
 
 src_hash=$(nix-prefetch-github google-gemini gemini-cli --rev "$latest_rev" | jq -r '.hash')
 
 temp_dir=$(mktemp -d)
-curl -s "https://raw.githubusercontent.com/google-gemini/gemini-cli/$latest_rev/package-lock.json" > "$temp_dir/package-lock.json"
+curl -s "https://raw.githubusercontent.com/google-gemini/gemini-cli/v$latest_version/package-lock.json" > "$temp_dir/package-lock.json"
 npm_deps_hash=$(prefetch-npm-deps "$temp_dir/package-lock.json")
 rm -rf "$temp_dir"
 
