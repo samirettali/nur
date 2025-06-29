@@ -1,7 +1,6 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i bash -p curl jq coreutils common-updater-scripts gnused
 set -eu -o pipefail
-set -x
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"

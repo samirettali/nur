@@ -85,6 +85,8 @@ in
         [
           "aarch64-linux"
           "x86_64-linux"
+          "aarch64-darwin"
+          "x86_64-darwin"
         ]
         ++ lib.platforms.darwin;
       mainProgram = "cursor";
@@ -106,5 +108,6 @@ in
       (oldAttrs.passthru or {})
       // {
         inherit sources;
+        updateScript = ./update.sh;
       };
   })
