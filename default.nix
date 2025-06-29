@@ -16,4 +16,5 @@
   };
 
   opencode = pkgs.callPackage ./pkgs/opencode {};
+  gemini-cli = pkgs.callPackage ./pkgs/gemini-cli {};
 }
