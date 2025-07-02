@@ -6,7 +6,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "opencode";
-  version = "0.1.170";
+  version = "0.1.176";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -34,11 +34,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     sources = {
       "aarch64-darwin" = fetchurl {
         url = "https://github.com/sst/opencode/releases/download/v${finalAttrs.version}/opencode-darwin-arm64.zip";
-        hash = "sha256-8bgOZ7PWfIaQ8ELCmgR5opDMEsQel7Z02Q1We50Phjk=";
+        hash = "sha256-MVQLPrzbR6JuMm6/nLDunrX7S4jogQ7KiAn90+7WQZs=";
       };
       "aarch64-linux" = fetchurl {
         url = "https://github.com/sst/opencode/releases/download/v${finalAttrs.version}/opencode-linux-arm64.zip";
-        hash = "sha256-AfhGZ6Xkx/O8P6jsPmK/t3k8YjLcCZ2OGYPxsGwL0jE=";
+        hash = "sha256-alAxc7cknwwqZJMq2tA10XFDECqx80npxzGODZx/pcE=";
       };
       # "x86_64-darwin" = fetchurl {
       #   url = "https://github.com/sst/opencode/releases/download/v${finalAttrs.version}/opencode-darwin-x64.zip";
@@ -46,7 +46,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       # };
       "x86_64-linux" = fetchurl {
         url = "https://github.com/sst/opencode/releases/download/v${finalAttrs.version}/opencode-linux-x64.zip";
-        hash = "sha256-CX4f7CjcfCWYfC3xWnTbS3b3fPxTSBQeeoD5QVzvJgk=";
+        hash = "sha256-7meKAVnzhvQtRPHj29qIc5ZPnbJy5U0ONCqwI/koWEY=";
       };
     };
 
