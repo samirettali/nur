@@ -13,11 +13,6 @@
       });
     packages = forAllSystems (system: nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v) self.legacyPackages.${system});
 
-    homeManagerModules = {
-      default = import ./modules/opencode.nix;
-      opencode = import ./modules/opencode.nix;
-    };
-
     overlays.default = import ./overlay.nix;
   };
 }
