@@ -13,14 +13,14 @@
   finalCommandLineArgs = "--update=false " + commandLineArgs;
 
   sources = {
-    x86_64-linux.url = "https://downloads.cursor.com/production/5b19bac7a947f54e4caa3eb7e4c5fbf832389853/linux/x64/Cursor-1.1.6-x86_64.AppImage";
-    x86_64-linux.hash = "sha256-T0vJRs14tTfT2kqnrQWPFXVCIcULPIud1JEfzjqcEIM=";
-    aarch64-linux.url = "https://downloads.cursor.com/production/5b19bac7a947f54e4caa3eb7e4c5fbf832389853/linux/arm64/Cursor-1.1.6-aarch64.AppImage";
-    aarch64-linux.hash = "sha256-HKr87IOzSNYWIYBxVOef1758f+id/t44YM5+SNunkTs=";
-    x86_64-darwin.url = "https://downloads.cursor.com/production/5b19bac7a947f54e4caa3eb7e4c5fbf832389853/darwin/x64/Cursor-darwin-x64.dmg";
-    x86_64-darwin.hash = "sha256-gzVucvipWQW7/ClwocPrszHruDbbU4KmccgdBFS5PbQ=";
-    aarch64-darwin.url = "https://downloads.cursor.com/production/5b19bac7a947f54e4caa3eb7e4c5fbf832389853/darwin/arm64/Cursor-darwin-arm64.dmg";
-    aarch64-darwin.hash = "sha256-7kjPfJV7XJqmllB30+rYuNBTCMPojyVBYHpavruAFr8=";
+    x86_64-linux.url = "https://downloads.cursor.com/production/faa03b17cce93e8a80b7d62d57f5eda6bb6ab9fa/linux/x64/Cursor-1.2.2-x86_64.AppImage";
+    x86_64-linux.hash = "sha256-mQr1QMw4wP+kHvE9RWPkCKtHObbr0jpyOxNw3LfTPfc=";
+    aarch64-linux.url = "https://downloads.cursor.com/production/faa03b17cce93e8a80b7d62d57f5eda6bb6ab9fa/linux/arm64/Cursor-1.2.2-aarch64.AppImage";
+    aarch64-linux.hash = "sha256-EGvm/VW+NDTmOB1o2j3dpq4ckWbroFWEbF9Pezr8SZQ=";
+    x86_64-darwin.url = "https://downloads.cursor.com/production/faa03b17cce93e8a80b7d62d57f5eda6bb6ab9fa/darwin/x64/Cursor-darwin-x64.dmg";
+    x86_64-darwin.hash = "sha256-IDJklB8wMfrPpc2SO02iVBBE9d7fLN7JotVpPyCQkyE=";
+    aarch64-darwin.url = "https://downloads.cursor.com/production/faa03b17cce93e8a80b7d62d57f5eda6bb6ab9fa/darwin/arm64/Cursor-darwin-arm64.dmg";
+    aarch64-darwin.hash = "sha256-GxiNf58Kf5/l01eBhXRWMLMxAnj1txDQwSe5ei6nTgg=";
   };
 
   source = fetchurl {
@@ -32,7 +32,7 @@ in
     inherit useVSCodeRipgrep;
     commandLineArgs = finalCommandLineArgs;
 
-    version = "1.1.6";
+    version = "1.2.2";
     pname = "cursor";
 
     # You can find the current VSCode version in the About dialog:
