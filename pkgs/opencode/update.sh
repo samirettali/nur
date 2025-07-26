@@ -26,7 +26,7 @@ declare -A platform_map
 platform_map=(
     ["aarch64-darwin"]="darwin-arm64"
     ["aarch64-linux"]="linux-arm64"
-    # ["x86_64-darwin"]="darwin-x64"
+    ["x86_64-darwin"]="darwin-x64"
     ["x86_64-linux"]="linux-x64"
 )
 
@@ -43,4 +43,3 @@ for nix_platform in "${!platform_map[@]}"; do
 done
 
 echo "Successfully updated opencode to version $latest_version in $DEFAULT_NIX_FILE"
-
