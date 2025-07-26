@@ -19,5 +19,4 @@
   gemini-cli = pkgs.callPackage ./pkgs/gemini-cli {};
   wgsl-analyzer = pkgs.callPackage ./pkgs/wgsl-analyzer {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
-  quickenv = pkgs.callPackage ./pkgs/quickenv {};
 }
