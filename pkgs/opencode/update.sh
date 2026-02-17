@@ -6,8 +6,8 @@ set -euo pipefail
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 
-echo "Fetching latest release information for sst/opencode..."
-latest_release_data=$(curl --silent --fail "https://api.github.com/repos/sst/opencode/releases/latest")
+echo "Fetching latest release information for anomalyco/opencode..."
+latest_release_data=$(curl --silent --fail "https://api.github.com/repos/anomalyco/opencode/releases/latest")
 
 latest_version=$(echo "$latest_release_data" | jq -r .tag_name | sed 's/^v//')
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
@@ -32,7 +32,7 @@ platform_map=(
 
 for nix_platform in "${!platform_map[@]}"; do
 	gh_platform=${platform_map[$nix_platform]}
-	url="https://github.com/sst/opencode/releases/download/v${latest_version}/opencode-${gh_platform}"
+	url="https://github.com/anomalyco/opencode/releases/download/v${latest_version}/opencode-${gh_platform}"
 
 	echo "Fetching hash for ${nix_platform}..."
 	hash_base64=$(nix-prefetch-url --type sha256 "$url")
