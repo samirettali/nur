@@ -16,7 +16,6 @@
   # };
 
   opencode = pkgs.callPackage ./pkgs/opencode {};
-  gemini-cli = pkgs.callPackage ./pkgs/gemini-cli {};
   wgsl-analyzer = pkgs.callPackage ./pkgs/wgsl-analyzer {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
