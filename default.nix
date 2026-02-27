@@ -19,5 +19,4 @@
   wgsl-analyzer = pkgs.callPackage ./pkgs/wgsl-analyzer {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
-  csharp-ls = pkgs.callPackage ./pkgs/csharp-ls {};
 }
