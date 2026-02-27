@@ -18,4 +18,5 @@
   opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
+  tredis = pkgs.callPackage ./pkgs/tredis {};
 }
