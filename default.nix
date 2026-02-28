@@ -20,4 +20,5 @@
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
   tredis = pkgs.callPackage ./pkgs/tredis {};
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
+  mole = pkgs.callPackage ./pkgs/mole {};
 }
