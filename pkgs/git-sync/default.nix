@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "git-sync";
-  version = "0.19.0";
+  version = "0.21.0";
 
   src = fetchFromGitHub {
     owner = "AkashRajpurohit";
     repo = "git-sync";
     rev = "v${version}";
-    hash = "sha256-MHr4X8bPrbm9YxBSWJ9bHCChlcMFTsUPDliPVzlUFZY=";
+    hash = "sha256-Nbig7NNzXY2ezVeUflrrltMgfQJYtrRJG9LvIm7jRfo=";
   };
 
-  vendorHash = "sha256-VJLdAkONyJiyQTtrZ9xwVXTqpkbHsIbVgOAu2RA62ao=";
+  vendorHash = "sha256-Ed1aSYAVsF8cPc+GrQDlcl4a18qxNAW4ms98SEEn/8g=";
 
   ldflags = [
     "-s"
