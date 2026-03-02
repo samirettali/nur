@@ -23,6 +23,8 @@ buildGoModule rec {
     "-X=github.com/AkashRajpurohit/git-sync/pkg/version.Build=1970-01-01T00:00:00Z"
   ];
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "A simple tool to backup and sync your git repositories";
     homepage = "https://github.com/AkashRajpurohit/git-sync";

@@ -39,6 +39,8 @@ buildGoModule rec {
     chmod +x $out/bin/mole $out/bin/mo
   '';
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "A macOS utility for cleaning, optimization, and system monitoring";
     homepage = "https://github.com/tw93/mole";

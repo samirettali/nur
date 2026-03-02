@@ -17,6 +17,8 @@
 
   vendorHash = "sha256-P/QKOamka6ENyvSI0N5YOwdlKWVN7iyxuwR3g6hAeGs=";
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "A minimalist TUI for querying JSON, CSV using SQL";
     homepage = "https://github.com/kiki-ki/go-qo";

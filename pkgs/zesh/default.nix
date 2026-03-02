@@ -16,6 +16,8 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-N39JD7qeLzro4+6wSP14uAjH8D7kv6sGuhLomcVw600=";
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "";
     homepage = "https://github.com/roberte777/zesh";

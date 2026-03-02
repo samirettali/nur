@@ -16,6 +16,8 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-5EMxHYwEj4lGFMK37HfOeJ5ombZ2KyTor4qSvom30P0=";
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "A modern TUI for managing Redis servers";
     homepage = "https://github.com/huseyinbabal/tredis";

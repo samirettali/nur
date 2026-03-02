@@ -55,6 +55,8 @@ buildGoModule rec {
 
   vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "...";
     homepage = "https://github.com/<owner>/<repo>";
@@ -95,6 +97,8 @@ rustPlatform.buildRustPackage rec {
   };
 
   cargoHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+
+  passthru.updateScript = ./update.sh;
 
   meta = {
     description = "...";
@@ -193,3 +197,4 @@ For pre-built binaries, the update script should update the version and re-fetch
 - [ ] Entry added to `default.nix`
 - [ ] `nix build .#<name>` succeeds
 - [ ] `pkgs/<name>/update.sh` created and executable (`chmod +x`)
+- [ ] `passthru.updateScript = ./update.sh` set in `default.nix`
