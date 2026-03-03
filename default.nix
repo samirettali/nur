@@ -21,4 +21,5 @@
   tredis = pkgs.callPackage ./pkgs/tredis {};
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
   mole = pkgs.callPackage ./pkgs/mole {};
+  zmx = pkgs.callPackage ./pkgs/zmx {};
 }
