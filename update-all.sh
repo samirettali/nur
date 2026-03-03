@@ -7,14 +7,16 @@ echo "Scanning for packages with updateScript..."
 
 # Get all package names from the NUR
 packages=$(nix eval --json --impure --expr 'builtins.attrNames (import ./. {})' | jq -r '.[]')
-excluded=( "lib" "modules" "overlays" )
+excluded=("lib" "modules" "overlays")
 
 for pkg in $packages; do
-    if [[ "${excluded[@]}" =~ "$pkg" ]]; then
-        continue
-    fi
+    for excluded_item in "${excluded[@]}"; do
+        if [[ "$excluded_item" = "$pkg" ]]; then
+            continue 2
+        fi
+    done
 
-  update_script=$(nix eval --impure --expr "(import ./. {}).$pkg.passthru.updateScript or null" 2>/dev/null)
+    update_script=$(nix eval --impure --expr "(import ./. {}).$pkg.passthru.updateScript or null" 2>/dev/null)
     if [[ -z "$update_script" || "$update_script" == "null" ]]; then
         echo "⚠️ $pkg has no update script"
         continue
@@ -34,7 +36,7 @@ for pkg in $packages; do
 
     echo -n "=== Updating $pkg ==="
 
-    if $update_script 2&>/dev/null; then
+    if $update_script 2 &>/dev/null; then
         # clean line by deleting everying using escape sequence
         tput rc
         tput el
