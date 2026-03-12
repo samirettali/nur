@@ -2,24 +2,25 @@
   lib,
   stdenvNoCC,
   fetchurl,
-  unzip,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "ghostty";
-  version = "2026-03-12";
+  version = "1.3.0";
 
   src = fetchurl {
-    url = "https://github.com/ghostty-org/ghostty/releases/download/tip/ghostty-macos-universal.zip";
-    hash = "sha256-TWYB2l78zhxPd7EdYmA+lLmDXEc1gY1FVG+CxYrzIEs=";
+    url = "https://release.files.ghostty.org/${finalAttrs.version}/Ghostty.dmg";
+    hash = "sha256-U/6Y5wmCEYAIwDuf2/XfJlUip/22vfoY630NTNMdDMU=";
   };
 
   strictDeps = true;
-  nativeBuildInputs = [unzip];
 
   sourceRoot = ".";
 
   unpackPhase = ''
-    unzip $src
+    mnt=$(mktemp -d)
+    /usr/bin/hdiutil attach -readonly -nobrowse -mountpoint "$mnt" "$src"
+    cp -r "$mnt/Ghostty.app" .
+    /usr/bin/hdiutil detach "$mnt"
   '';
 
   dontConfigure = true;
@@ -30,10 +31,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
     mkdir -p $out/Applications
     cp -r Ghostty.app $out/Applications/
-
-    # Re-sign with an ad-hoc signature since the Nix store path differs from
-    # the original signing path, causing macOS Launch Constraint Violations.
-    /usr/bin/codesign --force --deep --sign - "$out/Applications/Ghostty.app"
 
     mkdir -p $out/bin
     ln -s $out/Applications/Ghostty.app/Contents/MacOS/ghostty $out/bin/ghostty
@@ -46,7 +43,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   meta = {
     description = "Fast, feature-rich, and cross-platform terminal emulator";
     homepage = "https://ghostty.org";
-    changelog = "https://github.com/ghostty-org/ghostty/releases/tag/tip";
+    changelog = "https://github.com/ghostty-org/ghostty/releases/tag/v${finalAttrs.version}";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [];
     platforms = ["aarch64-darwin" "x86_64-darwin"];
