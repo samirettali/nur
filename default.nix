@@ -23,4 +23,5 @@
   mole = pkgs.callPackage ./pkgs/mole {};
   ghostty = pkgs.callPackage ./pkgs/ghostty {};
   gastown = pkgs.callPackage ./pkgs/gastown {};
+  beads = pkgs.callPackage ./pkgs/beads {};
 }
