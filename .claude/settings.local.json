@@ -7,7 +7,12 @@
       "Bash(nix eval:*)",
       "Bash(chmod)",
       "Bash(grep:*)",
-      "Bash(nix-prefetch-url:*)"
+      "Bash(nix-prefetch-url:*)",
+      "Bash(nix log:*)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(gh release:*)",
+      "Bash(gh api:*)",
+      "Bash(xargs -I{} nix hash convert --hash-algo sha256 --to sri {})"
     ]
   }
 }

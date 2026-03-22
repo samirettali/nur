@@ -22,4 +22,5 @@
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
   mole = pkgs.callPackage ./pkgs/mole {};
   ghostty = pkgs.callPackage ./pkgs/ghostty {};
+  quartz = pkgs.callPackage ./pkgs/quartz {};
 }
