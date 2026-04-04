@@ -5,6 +5,7 @@
   typescript-go,
   versionCheckHook,
   writableTmpDirAsHomeHook,
+  fd,
   ripgrep,
   makeBinaryWrapper,
 }:
@@ -18,6 +19,10 @@ buildNpmPackage (finalAttrs: {
     tag = "v${finalAttrs.version}";
     hash = "sha256-b6WwmN7zFi3iYW+VNG/uZ+804bxLlle31tf5wDoP55U=";
   };
+
+  patches = [
+    ./normalize-package-display-paths.patch
+  ];
 
   npmDepsHash = "sha256-MC7RBKJDhPNed6MxC8oqqCKi5SwRpbT+QAB4yfwpfBA=";
   npmDepsFetcherVersion = 2;
@@ -46,6 +51,8 @@ buildNpmPackage (finalAttrs: {
   # Replace runtime workspace symlinks with real copies.
   postInstall = ''
     local nm="$out/lib/node_modules/pi-monorepo/node_modules"
+    local pkgRoot="$out/lib/node_modules/pi-monorepo"
+    local shareRoot="$out/share/pi-coding-agent"
 
     for ws in @mariozechner/pi-ai:packages/ai \
               @mariozechner/pi-agent-core:packages/agent \
@@ -57,11 +64,20 @@ buildNpmPackage (finalAttrs: {
 
     find "$nm" -type l -lname '*/packages/*' -delete
     find "$nm/.bin" -xtype l -delete
+
+    mkdir -p "$shareRoot"
+    cp "$pkgRoot/package.json" "$shareRoot/"
+    cp "$pkgRoot/README.md" "$shareRoot/"
+    cp "$pkgRoot/CHANGELOG.md" "$shareRoot/"
+    cp -r "$pkgRoot/docs" "$shareRoot/"
+    cp -r "$pkgRoot/examples" "$shareRoot/"
+    cp -r "$pkgRoot/dist" "$shareRoot/"
   '';
 
   postFixup = ''
     wrapProgram $out/bin/pi \
-      --prefix PATH : ${lib.makeBinPath [ripgrep]}
+      --prefix PATH : ${lib.makeBinPath [fd ripgrep]} \
+      --set-default PI_PACKAGE_DIR "$out/share/pi-coding-agent"
   '';
 
   doInstallCheck = true;

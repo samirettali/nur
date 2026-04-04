@@ -1,0 +1,110 @@
+diff --git a/packages/coding-agent/src/config.ts b/packages/coding-agent/src/config.ts
+--- a/packages/coding-agent/src/config.ts
++++ b/packages/coding-agent/src/config.ts
+@@ -77,6 +77,12 @@
+  * - For Node.js (dist/): returns __dirname (the dist/ directory)
+  * - For tsx (src/): returns parent directory (the package root)
+  */
++function expandHomePath(path: string): string {
++	if (path === "~") return homedir();
++	if (path.startsWith("~/")) return homedir() + path.slice(1);
++	return path;
++}
++
+ export function getPackageDir(): string {
+ 	// Allow override via environment variable (useful for Nix/Guix where store paths tokenize poorly)
+ 	const envDir = process.env.PI_PACKAGE_DIR;
+@@ -84,9 +90,7 @@
+ 		if (envDir === "~") return homedir();
+ 		if (envDir.startsWith("~/")) return homedir() + envDir.slice(1);
+ 		return envDir;
+-	}
+-
+-	if (isBunBinary) {
++	} else if (isBunBinary) {
+ 		// Bun binary: process.execPath points to the compiled executable
+ 		return dirname(process.execPath);
+ 	}
+@@ -100,6 +104,21 @@
+ 	}
+ 	// Fallback (shouldn't happen)
+ 	return __dirname;
++}
++
++export function getDisplayPackageDir(): string {
++	return process.env.PI_PACKAGE_DIR ? expandHomePath(process.env.PI_PACKAGE_DIR) : getPackageDir();
++}
++
++export function normalizePackageDisplayPath(path: string): string {
++	const actualPackageDir = resolve(getPackageDir());
++	const resolvedPath = resolve(path);
++	const displayPackageDir = getDisplayPackageDir();
++	if (resolvedPath === actualPackageDir) return displayPackageDir;
++	if (resolvedPath.startsWith(`${actualPackageDir}/`)) {
++		return join(displayPackageDir, resolvedPath.slice(actualPackageDir.length + 1));
++	}
++	return path;
+ }
+ 
+ /**
+diff --git a/packages/coding-agent/src/core/source-info.ts b/packages/coding-agent/src/core/source-info.ts
+--- a/packages/coding-agent/src/core/source-info.ts
++++ b/packages/coding-agent/src/core/source-info.ts
+@@ -1,3 +1,4 @@
++import { normalizePackageDisplayPath } from "../config.js";
+ import type { PathMetadata } from "./package-manager.js";
+ 
+ export type SourceScope = "user" | "project" | "temporary";
+@@ -13,7 +14,7 @@
+ 
+ export function createSourceInfo(path: string, metadata: PathMetadata): SourceInfo {
+ 	return {
+-		path,
++		path: normalizePackageDisplayPath(path),
+ 		source: metadata.source,
+ 		scope: metadata.scope,
+ 		origin: metadata.origin,
+@@ -31,7 +32,7 @@
+ 	},
+ ): SourceInfo {
+ 	return {
+-		path,
++		path: normalizePackageDisplayPath(path),
+ 		source: options.source,
+ 		scope: options.scope ?? "temporary",
+ 		origin: options.origin ?? "top-level",
+diff --git a/packages/coding-agent/src/core/system-prompt.ts b/packages/coding-agent/src/core/system-prompt.ts
+--- a/packages/coding-agent/src/core/system-prompt.ts
++++ b/packages/coding-agent/src/core/system-prompt.ts
+@@ -2,7 +2,7 @@
+  * System prompt construction and project context loading
+  */
+ 
+-import { getDocsPath, getExamplesPath, getReadmePath } from "../config.js";
++import { getDocsPath, getExamplesPath, getReadmePath, normalizePackageDisplayPath } from "../config.js";
+ import { formatSkillsForPrompt, type Skill } from "./skills.js";
+ 
+ export interface BuildSystemPromptOptions {
+@@ -79,6 +79,9 @@
+ 	const readmePath = getReadmePath();
+ 	const docsPath = getDocsPath();
+ 	const examplesPath = getExamplesPath();
++	const displayReadmePath = normalizePackageDisplayPath(readmePath);
++	const displayDocsPath = normalizePackageDisplayPath(docsPath);
++	const displayExamplesPath = normalizePackageDisplayPath(examplesPath);
+ 
+ 	// Build tools list based on selected tools.
+ 	// A tool appears in Available tools only when the caller provides a one-line snippet.
+@@ -135,9 +138,9 @@
+ ${guidelines}
+ 
+ Pi documentation (read only when the user asks about pi itself, its SDK, extensions, themes, skills, or TUI):
+-- Main documentation: ${readmePath}
+-- Additional docs: ${docsPath}
+-- Examples: ${examplesPath} (extensions, custom tools, SDK)
++- Main documentation: ${displayReadmePath}
++- Additional docs: ${displayDocsPath}
++- Examples: ${displayExamplesPath} (extensions, custom tools, SDK)
+ - When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), pi packages (docs/packages.md)
+ - When working on pi topics, read the docs and examples, and follow .md cross-references before implementing
+ - Always read pi .md files completely and follow links to related docs (e.g., tui.md for TUI API details)`;
