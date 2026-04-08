@@ -1,6 +1,7 @@
-# Add NUR Package
-
-Add a new package derivation to this NUR repository.
+---
+name: Add NUR Package
+description: Add a new package derivation to this NUR repository.
+---
 
 The user will provide a GitHub URL (or package name). Follow the steps below based on the package type.
 
