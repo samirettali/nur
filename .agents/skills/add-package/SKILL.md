@@ -1,5 +1,5 @@
 ---
-name: Add NUR Package
+name: add-package
 description: Add a new package derivation to this NUR repository.
 ---
 
