@@ -28,10 +28,11 @@ hash_base64=$(nix-prefetch-url --unpack --type sha256 "$url" 2>/dev/null)
 src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 sed -i -E "s|( *hash = \").*(\";)|\1${src_hash}\2|" "$DEFAULT_NIX_FILE"
 
-# Update vendorHash by building with a fake hash and capturing the real one
+# Update vendorHash by building the goModules derivation with a fake hash.
+# This works on Linux CI even though mole itself is Darwin-only.
 echo "Fetching vendor hash..."
-sed -i -E 's|( *vendorHash = \").*(\";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
-vendor_hash=$(nix build "${NUR_ROOT}#mole" 2>&1 | grep "got:" | awk '{print $NF}' || true)
+sed -i -E 's|( *vendorHash = ").*(";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
+vendor_hash=$(nix build --impure --expr "let repo = import ${NUR_ROOT} {}; in repo.mole.goModules" 2>&1 | awk '/got:/ { print $NF }' | tail -n1 || true)
 if [[ -z "$vendor_hash" ]]; then
 	echo "Failed to determine vendor hash" >&2
 	exit 1
