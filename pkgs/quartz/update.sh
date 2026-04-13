@@ -27,8 +27,8 @@ hash_base64=$(nix-prefetch-url --unpack --type sha256 \
 src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 sed -i -E "s|( *hash = \").*(\";)|\1${src_hash}\2|" "$DEFAULT_NIX_FILE"
 
-sed -i -E 's|( *npmDepsHash = \").*(\";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
-dep_hash=$(nix build "${NUR_ROOT}#quartz" 2>&1 | grep "got:" | awk '{print $NF}' || true)
+sed -i -E 's|( *npmDepsHash = ").*(";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
+dep_hash=$(nix build --impure --expr "let repo = import ${NUR_ROOT} {}; in repo.quartz.npmDeps" 2>&1 | awk '/got:/ { print $NF }' | tail -n1 || true)
 if [[ -z "$dep_hash" ]]; then
   echo "Failed to determine npmDepsHash" >&2
   exit 1

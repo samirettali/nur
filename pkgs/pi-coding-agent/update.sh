@@ -27,8 +27,8 @@ src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 sed -i -E "s|( *hash = \").*(\";)|\1${src_hash}\2|" "$DEFAULT_NIX_FILE"
 
 echo "Fetching npm dependency hash..."
-sed -i -E 's|( *npmDepsHash = \").*(\";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
-npm_deps_hash=$(nix build "${NUR_ROOT}#pi-coding-agent" 2>&1 | grep "got:" | awk '{print $NF}' || true)
+sed -i -E 's|( *npmDepsHash = ").*(";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
+npm_deps_hash=$(nix build --impure --expr "let repo = import ${NUR_ROOT} {}; in repo.pi-coding-agent.npmDeps" 2>&1 | awk '/got:/ { print $NF }' | tail -n1 || true)
 if [[ -z "$npm_deps_hash" ]]; then
   echo "Failed to determine npm dependency hash" >&2
   exit 1

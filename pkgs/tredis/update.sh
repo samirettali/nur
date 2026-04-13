@@ -28,10 +28,10 @@ hash_base64=$(nix-prefetch-url --unpack --type sha256 "$url" 2>/dev/null)
 src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 sed -i -E "s|( *hash = \").*(\";)|\1${src_hash}\2|" "$DEFAULT_NIX_FILE"
 
-# Update cargoHash by building with a fake hash and capturing the real one
+# Update cargoHash by building the cargo dependency derivation with a fake hash.
 echo "Fetching cargo hash..."
-sed -i -E 's|( *cargoHash = \").*(\";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
-cargo_hash=$(nix build "${NUR_ROOT}#tredis" 2>&1 | grep "got:" | awk '{print $NF}' || true)
+sed -i -E 's|( *cargoHash = ").*(";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
+cargo_hash=$(nix build --impure --expr "let repo = import ${NUR_ROOT} {}; in repo.tredis.cargoDeps" 2>&1 | awk '/got:/ { print $NF }' | tail -n1 || true)
 if [[ -z "$cargo_hash" ]]; then
 	echo "Failed to determine cargo hash" >&2
 	exit 1

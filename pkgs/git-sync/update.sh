@@ -27,8 +27,8 @@ src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 sed -i -E "s|( *hash = \").*(\";)|\1${src_hash}\2|" "$DEFAULT_NIX_FILE"
 
 echo "Fetching vendor hash..."
-sed -i -E 's|( *vendorHash = \").*(\";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
-vendor_hash=$(nix build "${NUR_ROOT}#git-sync" 2>&1 | grep "got:" | awk '{print $NF}' || true)
+sed -i -E 's|( *vendorHash = ").*(";)|\1sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\2|' "$DEFAULT_NIX_FILE"
+vendor_hash=$(nix build --impure --expr "let repo = import ${NUR_ROOT} {}; in repo.git-sync.goModules" 2>&1 | awk '/got:/ { print $NF }' | tail -n1 || true)
 if [[ -z "$vendor_hash" ]]; then
 	echo "Failed to determine vendor hash" >&2
 	exit 1
