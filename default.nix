@@ -15,6 +15,7 @@
   #   vscode-generic = import "${pkgs.path}/pkgs/applications/editors/vscode/generic.nix";
   # };
 
+  codex = pkgs.callPackage ./pkgs/codex {};
   opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
