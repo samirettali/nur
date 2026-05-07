@@ -10,20 +10,20 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-coding-agent";
-  version = "0.73.0";
+  version = "0.73.1";
 
   src = fetchFromGitHub {
-    owner = "badlogic";
-    repo = "pi-mono";
+    owner = "earendil-works";
+    repo = "pi";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-oE4zMH5KEH185Vdp0CE221sa9rJJw35jFLlfhTa3Sg4=";
+    hash = "sha256-ZcqMWghMACzEUswLujwClPF1pbwjTKzTbcYW86ZvjL4=";
   };
 
   patches = [
     ./normalize-package-display-paths.patch
   ];
 
-  npmDepsHash = "sha256-Eh2BQ8igbanQwyHEfAgmpfzlort15ywpXkcPeNE6+n8=";
+  npmDepsHash = "sha256-Nbw2XrfxRhZQVbu3aFp7//1rrmIDldZyuZvWYI4mPN0=";
   npmDepsFetcherVersion = 2;
   npmWorkspace = "packages/coding-agent";
 
@@ -91,9 +91,9 @@ buildNpmPackage (finalAttrs: {
 
   meta = {
     description = "Coding agent CLI with read, bash, edit, write tools and session management";
-    homepage = "https://shittycodingagent.ai/";
+    homepage = "https://github.com/earendil-works/pi";
     downloadPage = "https://www.npmjs.com/package/@mariozechner/pi-coding-agent";
-    changelog = "https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/CHANGELOG.md";
+    changelog = "https://github.com/earendil-works/pi/blob/main/packages/coding-agent/CHANGELOG.md";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [];
     mainProgram = "pi";
