@@ -26,4 +26,5 @@
   quartz = pkgs.callPackage ./pkgs/quartz {};
   pi-coding-agent = pkgs.callPackage ./pkgs/pi-coding-agent {};
   tailscale-gui = pkgs.callPackage ./pkgs/tailscale-gui {};
+  sol = pkgs.callPackage ./pkgs/sol {};
 }
