@@ -2,6 +2,8 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
+  importNpmLock,
+  nodejs,
   versionCheckHook,
   writableTmpDirAsHomeHook,
   fd,
@@ -23,8 +25,17 @@ buildNpmPackage (finalAttrs: {
     ./normalize-package-display-paths.patch
   ];
 
-  npmDepsHash = "sha256-iRLcqWiH5rfAf+l+tukJYtRUD/WaHF/NrpCP9Kvr7Iw=";
-  npmDepsFetcherVersion = 2;
+  postPatch = ''
+    cp ${./package-lock.json} package-lock.json
+  '';
+
+  npmDeps = importNpmLock.buildNodeModules {
+    npmRoot = finalAttrs.src;
+    package = lib.importJSON (finalAttrs.src + "/package.json");
+    packageLock = lib.importJSON ./package-lock.json;
+    inherit nodejs;
+  };
+  npmConfigHook = importNpmLock.npmConfigHook;
   npmWorkspace = "packages/coding-agent";
 
   # Skip native module rebuild for unneeded workspaces.
