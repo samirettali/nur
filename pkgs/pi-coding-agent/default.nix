@@ -3,7 +3,6 @@
   buildNpmPackage,
   fetchFromGitHub,
   importNpmLock,
-  nodejs,
   versionCheckHook,
   writableTmpDirAsHomeHook,
   fd,
@@ -29,11 +28,10 @@ buildNpmPackage (finalAttrs: {
     cp ${./package-lock.json} package-lock.json
   '';
 
-  npmDeps = importNpmLock.buildNodeModules {
+  npmDeps = importNpmLock {
     npmRoot = finalAttrs.src;
     package = lib.importJSON (finalAttrs.src + "/package.json");
     packageLock = lib.importJSON ./package-lock.json;
-    inherit nodejs;
   };
   npmConfigHook = importNpmLock.npmConfigHook;
   npmWorkspace = "packages/coding-agent";
@@ -63,9 +61,9 @@ buildNpmPackage (finalAttrs: {
     local pkgRoot="$out/lib/node_modules/pi-monorepo"
     local shareRoot="$out/share/pi-coding-agent"
 
-    for ws in @mariozechner/pi-ai:packages/ai \
-              @mariozechner/pi-agent-core:packages/agent \
-              @mariozechner/pi-tui:packages/tui; do
+    for ws in @earendil-works/pi-ai:packages/ai \
+              @earendil-works/pi-agent-core:packages/agent \
+              @earendil-works/pi-tui:packages/tui; do
       IFS=: read -r pkg src <<< "$ws"
       rm "$nm/$pkg"
       cp -r "$src" "$nm/$pkg"

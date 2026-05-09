@@ -52,8 +52,21 @@ for path, pkg in lock["packages"].items():
         }
     pkg["resolved"] = cache[key]["resolved"]
     pkg["integrity"] = cache[key]["integrity"]
+
+# Normalize URL-type dependency version specifiers in workspace package entries.
+# importNpmLock preserves non-semver specifiers as-is, causing npm to try fetching
+# the URL directly in offline mode. Replace with the resolved semver version.
+url_deps_fixed = 0
+for path, pkg in lock["packages"].items():
+    for dep_name, dep_ver in list(pkg.get("dependencies", {}).items()):
+        if dep_ver.startswith("http") or dep_ver.startswith("git"):
+            nm_entry = lock["packages"].get("node_modules/" + dep_name, {})
+            if nm_entry.get("version"):
+                pkg["dependencies"][dep_name] = nm_entry["version"]
+                url_deps_fixed += 1
+
 out.write_text(json.dumps(lock, separators=(",", ":")))
-print(f"Wrote {out} with {len(cache)} patched package versions")
+print(f"Wrote {out} with {len(cache)} patched package versions, {url_deps_fixed} URL deps normalized")
 PY
 
 echo "Successfully updated pi-coding-agent to version $latest_version"
