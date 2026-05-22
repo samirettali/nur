@@ -51,8 +51,8 @@ diff --git a/packages/coding-agent/src/core/source-info.ts b/packages/coding-age
 --- a/packages/coding-agent/src/core/source-info.ts
 +++ b/packages/coding-agent/src/core/source-info.ts
 @@ -1,3 +1,4 @@
-+import { normalizePackageDisplayPath } from "../config.js";
- import type { PathMetadata } from "./package-manager.js";
++import { normalizePackageDisplayPath } from "../config.ts";
+ import type { PathMetadata } from "./package-manager.ts";
  
  export type SourceScope = "user" | "project" | "temporary";
 @@ -13,7 +14,7 @@
@@ -80,9 +80,9 @@ diff --git a/packages/coding-agent/src/core/system-prompt.ts b/packages/coding-a
   * System prompt construction and project context loading
   */
  
--import { getDocsPath, getExamplesPath, getReadmePath } from "../config.js";
-+import { getDocsPath, getExamplesPath, getReadmePath, normalizePackageDisplayPath } from "../config.js";
- import { formatSkillsForPrompt, type Skill } from "./skills.js";
+-import { getDocsPath, getExamplesPath, getReadmePath } from "../config.ts";
++import { getDocsPath, getExamplesPath, getReadmePath, normalizePackageDisplayPath } from "../config.ts";
+ import { formatSkillsForPrompt, type Skill } from "./skills.ts";
  
  export interface BuildSystemPromptOptions {
 @@ -79,6 +79,9 @@
@@ -105,6 +105,7 @@ diff --git a/packages/coding-agent/src/core/system-prompt.ts b/packages/coding-a
 +- Main documentation: ${displayReadmePath}
 +- Additional docs: ${displayDocsPath}
 +- Examples: ${displayExamplesPath} (extensions, custom tools, SDK)
+ - When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory
  - When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), pi packages (docs/packages.md)
  - When working on pi topics, read the docs and examples, and follow .md cross-references before implementing
  - Always read pi .md files completely and follow links to related docs (e.g., tui.md for TUI API details)`;

@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p curl jq nix python3
+#!nix-shell -i bash -p curl nix python3
 
 set -euo pipefail
 
@@ -7,12 +7,42 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 VENDORED_LOCKFILE="$SCRIPT_DIR/package-lock.json"
 
-echo "Fetching latest release information for earendil-works/pi..."
-latest_version=$(curl --silent --fail "https://api.github.com/repos/earendil-works/pi/releases/latest" | jq -r .tag_name | sed 's/^v//')
+echo "Fetching release information for earendil-works/pi..."
+releases_json=$(curl --silent --fail "https://api.github.com/repos/earendil-works/pi/releases?per_page=100")
+latest_version=$(python3 -c '
+import json, re, sys
+
+releases = json.load(sys.stdin)
+semver_re = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)$")
+candidates = []
+for release in releases:
+    if release.get("draft") or release.get("prerelease"):
+        continue
+    tag = release.get("tag_name") or ""
+    match = semver_re.match(tag)
+    if match:
+        candidates.append((tuple(map(int, match.groups())), tag.removeprefix("v")))
+
+if not candidates:
+    raise SystemExit("No stable semver releases found")
+
+print(max(candidates)[1])
+' <<<"$releases_json")
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 
-if [[ "$latest_version" == "$current_version" ]]; then
-  echo "pi-coding-agent is already up-to-date at version $latest_version"
+if python3 - "$current_version" "$latest_version" <<'PY'
+import re, sys
+
+def parse(version):
+    match = re.fullmatch(r"v?(\d+)\.(\d+)\.(\d+)", version)
+    if not match:
+        raise SystemExit(f"Unsupported version format: {version}")
+    return tuple(map(int, match.groups()))
+
+sys.exit(0 if parse(sys.argv[2]) <= parse(sys.argv[1]) else 1)
+PY
+then
+  echo "pi-coding-agent is already up-to-date at version $current_version; newest stable semver release is $latest_version"
   exit 0
 fi
 
