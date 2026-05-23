@@ -1,38 +1,13 @@
 diff --git a/packages/coding-agent/src/config.ts b/packages/coding-agent/src/config.ts
 --- a/packages/coding-agent/src/config.ts
 +++ b/packages/coding-agent/src/config.ts
-@@ -77,6 +77,12 @@
-  * - For Node.js (dist/): returns __dirname (the dist/ directory)
-  * - For tsx (src/): returns parent directory (the package root)
-  */
-+function expandHomePath(path: string): string {
-+	if (path === "~") return homedir();
-+	if (path.startsWith("~/")) return homedir() + path.slice(1);
-+	return path;
-+}
-+
- export function getPackageDir(): string {
- 	// Allow override via environment variable (useful for Nix/Guix where store paths tokenize poorly)
- 	const envDir = process.env.PI_PACKAGE_DIR;
-@@ -84,9 +90,7 @@
- 		if (envDir === "~") return homedir();
- 		if (envDir.startsWith("~/")) return homedir() + envDir.slice(1);
- 		return envDir;
--	}
--
--	if (isBunBinary) {
-+	} else if (isBunBinary) {
- 		// Bun binary: process.execPath points to the compiled executable
- 		return dirname(process.execPath);
- 	}
-@@ -100,6 +104,21 @@
- 	}
+@@ -350,6 +350,22 @@ export function getPackageDir(): string {
  	// Fallback (shouldn't happen)
  	return __dirname;
-+}
+ }
 +
 +export function getDisplayPackageDir(): string {
-+	return process.env.PI_PACKAGE_DIR ? expandHomePath(process.env.PI_PACKAGE_DIR) : getPackageDir();
++	return process.env.PI_PACKAGE_DIR ? normalizePath(process.env.PI_PACKAGE_DIR) : getPackageDir();
 +}
 +
 +export function normalizePackageDisplayPath(path: string): string {
@@ -40,13 +15,15 @@ diff --git a/packages/coding-agent/src/config.ts b/packages/coding-agent/src/con
 +	const resolvedPath = resolve(path);
 +	const displayPackageDir = getDisplayPackageDir();
 +	if (resolvedPath === actualPackageDir) return displayPackageDir;
-+	if (resolvedPath.startsWith(`${actualPackageDir}/`)) {
-+		return join(displayPackageDir, resolvedPath.slice(actualPackageDir.length + 1));
++	const actualPackageDirPrefix = actualPackageDir.endsWith(sep) ? actualPackageDir : `${actualPackageDir}${sep}`;
++	if (resolvedPath.startsWith(actualPackageDirPrefix)) {
++		return join(displayPackageDir, resolvedPath.slice(actualPackageDirPrefix.length));
 +	}
 +	return path;
- }
++}
  
  /**
+  * Get path to built-in themes directory (shipped with package)
 diff --git a/packages/coding-agent/src/core/source-info.ts b/packages/coding-agent/src/core/source-info.ts
 --- a/packages/coding-agent/src/core/source-info.ts
 +++ b/packages/coding-agent/src/core/source-info.ts
@@ -55,7 +32,7 @@ diff --git a/packages/coding-agent/src/core/source-info.ts b/packages/coding-age
  import type { PathMetadata } from "./package-manager.ts";
  
  export type SourceScope = "user" | "project" | "temporary";
-@@ -13,7 +14,7 @@
+@@ -13,7 +14,7 @@ export interface SourceInfo {
  
  export function createSourceInfo(path: string, metadata: PathMetadata): SourceInfo {
  	return {
@@ -64,7 +41,7 @@ diff --git a/packages/coding-agent/src/core/source-info.ts b/packages/coding-age
  		source: metadata.source,
  		scope: metadata.scope,
  		origin: metadata.origin,
-@@ -31,7 +32,7 @@
+@@ -31,7 +32,7 @@ export function createSyntheticSourceInfo(
  	},
  ): SourceInfo {
  	return {
@@ -85,7 +62,7 @@ diff --git a/packages/coding-agent/src/core/system-prompt.ts b/packages/coding-a
  import { formatSkillsForPrompt, type Skill } from "./skills.ts";
  
  export interface BuildSystemPromptOptions {
-@@ -79,6 +79,9 @@
+@@ -84,6 +84,9 @@ export function buildSystemPrompt(options: BuildSystemPromptOptions): string {
  	const readmePath = getReadmePath();
  	const docsPath = getDocsPath();
  	const examplesPath = getExamplesPath();
@@ -95,7 +72,7 @@ diff --git a/packages/coding-agent/src/core/system-prompt.ts b/packages/coding-a
  
  	// Build tools list based on selected tools.
  	// A tool appears in Available tools only when the caller provides a one-line snippet.
-@@ -135,9 +138,9 @@
+@@ -140,9 +143,9 @@ ${toolInstructions}
  ${guidelines}
  
  Pi documentation (read only when the user asks about pi itself, its SDK, extensions, themes, skills, or TUI):
@@ -108,4 +85,3 @@ diff --git a/packages/coding-agent/src/core/system-prompt.ts b/packages/coding-a
  - When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory
  - When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), pi packages (docs/packages.md)
  - When working on pi topics, read the docs and examples, and follow .md cross-references before implementing
- - Always read pi .md files completely and follow links to related docs (e.g., tui.md for TUI API details)`;
