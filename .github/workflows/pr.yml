@@ -1,0 +1,90 @@
+name: PR checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  nix-build-changed-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Determine packages to build
+        id: packages
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+
+          mapfile -t changed_files < <(git diff --name-only "$BASE_SHA" HEAD)
+          printf 'Changed files:\n'
+          printf '  %s\n' "${changed_files[@]}"
+
+          packages=()
+          for file in "${changed_files[@]}"; do
+            case "$file" in
+              pkgs/*/*)
+                package=${file#pkgs/}
+                package=${package%%/*}
+                packages+=("$package")
+                ;;
+            esac
+          done
+
+          # If shared Nix plumbing changed, build every package available on the runner.
+          for file in "${changed_files[@]}"; do
+            case "$file" in
+              default.nix|flake.nix|flake.lock|overlay.nix|overlays/*|lib/*)
+                mapfile -t packages < <(nix eval --json '.#packages.x86_64-linux' --apply 'builtins.attrNames' | jq -r '.[]')
+                break
+                ;;
+            esac
+          done
+
+          if ((${#packages[@]})); then
+            printf '%s\n' "${packages[@]}" | sort -u > packages.txt
+          else
+            : > packages.txt
+          fi
+
+          echo 'Packages selected for build:'
+          sed 's/^/  /' packages.txt || true
+          {
+            echo 'list<<EOF'
+            cat packages.txt
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check flake evaluation
+        run: nix flake check --print-build-logs
+
+      - name: Build changed packages
+        if: steps.packages.outputs.list != ''
+        run: |
+          set -euo pipefail
+          while IFS= read -r package; do
+            [ -n "$package" ] || continue
+            echo "::group::nix build .#$package"
+            nix build --print-build-logs ".#$package"
+            echo "::endgroup::"
+          done < packages.txt
+
+      - name: No package changes
+        if: steps.packages.outputs.list == ''
+        run: echo 'No package derivations changed; flake evaluation was checked.'
