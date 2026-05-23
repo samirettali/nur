@@ -16,6 +16,7 @@
   # };
 
   codex = pkgs.callPackage ./pkgs/codex {};
+  cmux = pkgs.callPackage ./pkgs/cmux {};
   opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
