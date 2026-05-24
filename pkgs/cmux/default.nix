@@ -5,11 +5,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "cmux";
-  version = "0.64.9";
+  version = "0.64.10";
 
   src = fetchurl {
     url = "https://github.com/manaflow-ai/cmux/releases/download/v${finalAttrs.version}/cmux-macos.dmg";
-    hash = "sha256-L/UX02N97RoGV0VyhXCbrEMeVJZPAhyXIYiySzr3Q7g=";
+    hash = "sha256-+MKcMChZTFiDF482mVIh6mzeyKghDMV9gLA+6BjamXw=";
   };
 
   strictDeps = true;
