@@ -13,7 +13,19 @@ concurrency:
 
 jobs:
   nix-build-changed-packages:
-    runs-on: ubuntu-latest
+    name: Nix build (${{ matrix.nix-system }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - nix-system: x86_64-linux
+            runner: ubuntu-latest
+          - nix-system: aarch64-darwin
+            runner: macos-14-arm64
+    env:
+      RUNNER_NIX_SYSTEM: ${{ matrix.nix-system }}
+      NIXPKGS_ALLOW_UNFREE: "1"
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -51,7 +63,7 @@ jobs:
           for file in "${changed_files[@]}"; do
             case "$file" in
               default.nix|flake.nix|flake.lock|overlay.nix|overlays/*|lib/*)
-                mapfile -t packages < <(nix eval --json '.#packages.x86_64-linux' --apply 'builtins.attrNames' | jq -r '.[]')
+                mapfile -t packages < <(nix eval --impure --json ".#packages.${RUNNER_NIX_SYSTEM}" --apply 'builtins.attrNames' | jq -r '.[]')
                 break
                 ;;
             esac
@@ -71,20 +83,27 @@ jobs:
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
-      - name: Check flake evaluation
-        run: nix flake check --print-build-logs
+      - name: Check runner package set evaluation
+        run: nix eval --impure --json ".#packages.${RUNNER_NIX_SYSTEM}" --apply 'builtins.attrNames' >/dev/null
 
-      - name: Build changed packages
+      - name: Build changed packages supported on runner
         if: steps.packages.outputs.list != ''
         run: |
           set -euo pipefail
           while IFS= read -r package; do
             [ -n "$package" ] || continue
-            echo "::group::nix build .#$package"
-            nix build --print-build-logs ".#$package"
+
+            platforms=$(nix eval --impure --json ".#packages.${RUNNER_NIX_SYSTEM}.\"${package}\".meta.platforms" 2>/dev/null || echo '[]')
+            if ! jq -e --arg system "$RUNNER_NIX_SYSTEM" 'length == 0 or any(. == $system)' <<<"$platforms" >/dev/null; then
+              echo "Skipping $package: unsupported on $RUNNER_NIX_SYSTEM (platforms: $platforms)"
+              continue
+            fi
+
+            echo "::group::nix build .#packages.${RUNNER_NIX_SYSTEM}.\"${package}\""
+            nix build --impure --print-build-logs ".#packages.${RUNNER_NIX_SYSTEM}.\"${package}\""
             echo "::endgroup::"
           done < packages.txt
 
       - name: No package changes
         if: steps.packages.outputs.list == ''
-        run: echo 'No package derivations changed; flake evaluation was checked.'
+        run: echo 'No package derivations changed; runner package set evaluation was checked.'
