@@ -24,6 +24,7 @@
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
   hunk = pkgs.callPackage ./pkgs/hunk {};
   mole = pkgs.callPackage ./pkgs/mole {};
+  rift = pkgs.callPackage ./pkgs/rift {};
   ghostty = pkgs.callPackage ./pkgs/ghostty {};
   quartz = pkgs.callPackage ./pkgs/quartz {};
   pi-coding-agent = pkgs.callPackage ./pkgs/pi-coding-agent {};
