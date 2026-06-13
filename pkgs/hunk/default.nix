@@ -5,7 +5,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "hunk";
-  version = "0.15.1";
+  version = "0.15.2";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -26,19 +26,19 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     sources = {
       "aarch64-darwin" = fetchurl {
         url = "https://github.com/modem-dev/hunk/releases/download/v${finalAttrs.version}/hunkdiff-darwin-arm64.tar.gz";
-        hash = "sha256-CjzN4yiW+gzjfh1k5JBKKXnL6yepoe+rxSRPAD8+p5g=";
+        hash = "sha256-LEwToQrP0lia+S6A4ltsBEX9YkAN+2jlYykz+Kf8RNc=";
       };
       "aarch64-linux" = fetchurl {
         url = "https://github.com/modem-dev/hunk/releases/download/v${finalAttrs.version}/hunkdiff-linux-arm64.tar.gz";
-        hash = "sha256-HM0so9T77rA364Bzoau1/SxuDiPtPNHc//w3Cdle26I=";
+        hash = "sha256-xvqnTPjmm+2XZ81mzJ1jFXXZOTyUmxDMUiCYzXeIHhw=";
       };
       "x86_64-darwin" = fetchurl {
         url = "https://github.com/modem-dev/hunk/releases/download/v${finalAttrs.version}/hunkdiff-darwin-x64.tar.gz";
-        hash = "sha256-Ow2kQl641Ahztn3RINefNmHgFPOnraWRTOi3CjEf2L4=";
+        hash = "sha256-Urmg4BgmDtfUrIva8HlPe9gXO3+oLrzgYcFMhdnQcbk=";
       };
       "x86_64-linux" = fetchurl {
         url = "https://github.com/modem-dev/hunk/releases/download/v${finalAttrs.version}/hunkdiff-linux-x64.tar.gz";
-        hash = "sha256-HWWXh1d8j2JPyVWv2ULRAkrH+wNTL7+InS8mAkr5a/k=";
+        hash = "sha256-0NkfiQ5uyCcqkeCjRc7cLTwyMot/poPMtlHun+b3f+g=";
       };
     };
 
