@@ -16,6 +16,7 @@
   # };
 
   codex = pkgs.callPackage ./pkgs/codex {};
+  grok-cli = pkgs.callPackage ./pkgs/grok-cli {};
   cmux = pkgs.callPackage ./pkgs/cmux {};
   opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
