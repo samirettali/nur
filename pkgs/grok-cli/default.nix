@@ -52,7 +52,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   meta = {
     description = "Grok CLI coding agent";
     homepage = "https://x.ai/cli";
-    license = lib.licenses.unfree;
     platforms = builtins.attrNames finalAttrs.passthru.sources;
     mainProgram = "grok";
   };
