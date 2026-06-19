@@ -32,4 +32,5 @@
   tailscale-gui = pkgs.callPackage ./pkgs/tailscale-gui {};
   sol = pkgs.callPackage ./pkgs/sol {};
   eqmac = pkgs.callPackage ./pkgs/eqmac {};
+  lathe = pkgs.callPackage ./pkgs/lathe {};
 }
