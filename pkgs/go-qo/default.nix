@@ -6,16 +6,16 @@
 }:
 (buildGoModule.override {go = go_1_26;}) rec {
   pname = "go-qo";
-  version = "0.4.0";
+  version = "0.4.1";
 
   src = fetchFromGitHub {
     owner = "kiki-ki";
     repo = "go-qo";
     rev = "v${version}";
-    hash = "sha256-ZVarr9XYiogfFQNMExFeuN/5rZgGyAj/hur16QnoUF0=";
+    hash = "sha256-zCjgGf5/aCGJ2svIrSS8H6zdwjDGFsiLXBL9B2N1qnU=";
   };
 
-  vendorHash = "sha256-OYwny+4xgnn6TOXwmdaGnF33zKVHl9evw5UKkVA55EA=";
+  vendorHash = "sha256-Gp4kgmZNE2Juge1zN1UyfGNggJv9yRwdBOyygNAgsMI=";
 
   passthru.updateScript = ./update.sh;
 
