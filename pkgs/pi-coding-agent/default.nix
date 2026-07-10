@@ -11,13 +11,13 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-coding-agent";
-  version = "0.80.3";
+  version = "0.80.6";
 
   src = fetchFromGitHub {
     owner = "earendil-works";
     repo = "pi";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-wQTrWKsb2HCGwzSAFEk8NWSDpqxSY/lv1/R6ghcmbaA=";
+    hash = "sha256-e/wcHruEcBAHDF5tKvwew7LXjVp0eraHh2k+QaL2sCA=";
   };
 
   patches = [
