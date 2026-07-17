@@ -30,6 +30,7 @@
   quartz = pkgs.callPackage ./pkgs/quartz {};
   pi-coding-agent = pkgs.callPackage ./pkgs/pi-coding-agent {};
   pi-mcp-adapter = pkgs.callPackage ./pkgs/pi-mcp-adapter {};
+  pi-provider-kimi-code = pkgs.callPackage ./pkgs/pi-provider-kimi-code {};
   tailscale-gui = pkgs.callPackage ./pkgs/tailscale-gui {};
   sol = pkgs.callPackage ./pkgs/sol {};
   eqmac = pkgs.callPackage ./pkgs/eqmac {};
