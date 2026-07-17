@@ -2,6 +2,7 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
+  fetchpatch,
   importNpmLock,
 }:
 buildNpmPackage (finalAttrs: {
@@ -14,6 +15,13 @@ buildNpmPackage (finalAttrs: {
     tag = "v${finalAttrs.version}";
     hash = "sha256-q8A0h72ZKIcl5DRmUjymWI/F1z6KqdartpPoqFuctEI=";
   };
+
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/Leechael/pi-provider-kimi-code/commit/1d8b05f6f3421fc440b919d5e21e956aaa9ab657.patch";
+      hash = "sha256-wESWsQS8HuXZnRnhtHwyaLDv7V2HTqPRs23a8qqyddk=";
+    })
+  ];
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
@@ -32,10 +40,8 @@ buildNpmPackage (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out
-    cp -R $src/. $out/
+    cp -R . $out/
     chmod -R u+w $out
-    cp ${./package-lock.json} $out/package-lock.json
-    cp -R node_modules $out/
 
     runHook postInstall
   '';
