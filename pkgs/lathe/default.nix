@@ -5,13 +5,13 @@
 }:
 buildGoModule rec {
   pname = "lathe";
-  version = "0.4.0";
+  version = "0.5.0";
 
   src = fetchFromGitHub {
     owner = "devenjarvis";
     repo = "lathe";
     rev = "v${version}";
-    hash = "sha256-X7EYZH5sotrCVHmJwd6KP6nlLsN/R4lqP28q+QqAqKE=";
+    hash = "sha256-3QkHfIM21MeEPl4EnDw3SUU5f/hoHu2MieapqWX2Aqs=";
   };
 
   vendorHash = "sha256-3QV/ocKpCu2cmefLBCf4ZAAgFbN3500To5qpMinm+uM=";
