@@ -5,13 +5,13 @@
 }:
 buildGoModule rec {
   pname = "spotctl";
-  version = "0.3.0";
+  version = "0.4.0";
 
   src = fetchFromGitHub {
     owner = "samirettali";
     repo = "spotctl";
     rev = "v${version}";
-    hash = "sha256-RNUtmUezQmWF7GXl2Bl3iM1+hlwcY4XxvE4ECPh7Mt0=";
+    hash = "sha256-/Lu6kS9pu5GOY028iFsTCqP4i/+QHgh+WkGC1U2gfXM=";
   };
 
   vendorHash = null;
