@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "spotctl";
-  version = "0.4.0";
+  version = "0.5.0";
 
   src = fetchFromGitHub {
     owner = "samirettali";
     repo = "spotctl";
     rev = "v${version}";
-    hash = "sha256-/Lu6kS9pu5GOY028iFsTCqP4i/+QHgh+WkGC1U2gfXM=";
+    hash = "sha256-NZYCOPJK16sHq4nHT6XGQItlxIJrzBNQcYdwPHjGtqc=";
   };
 
-  vendorHash = null;
+  vendorHash = "sha256-ZG+eQhOHW5J1WLm2WZ57ywXA+NobgMorRJkR2Mkb2fY=";
 
   passthru.updateScript = ./update.sh;
 
