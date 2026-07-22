@@ -24,6 +24,7 @@
   tredis = pkgs.callPackage ./pkgs/tredis {};
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
   hunk = pkgs.callPackage ./pkgs/hunk {};
+  spotctl = pkgs.callPackage ./pkgs/spotctl {};
   mole = pkgs.callPackage ./pkgs/mole {};
   rift = pkgs.callPackage ./pkgs/rift {};
   ghostty = pkgs.callPackage ./pkgs/ghostty {};
