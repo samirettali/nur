@@ -36,4 +36,5 @@
   sol = pkgs.callPackage ./pkgs/sol {};
   eqmac = pkgs.callPackage ./pkgs/eqmac {};
   lathe = pkgs.callPackage ./pkgs/lathe {};
+  herdr = pkgs.callPackage ./pkgs/herdr {};
 }
