@@ -20,8 +20,17 @@ Consumed by the dotfiles repo (`~/dev/dotfiles`) via the `nurPkgs` specialArg.
 ## Updating
 
 `./update-all.sh` runs every wired package's `update.sh` and commits each bump
-as `<pkg>: <old> -> <new>` with upstream compare/release links in the body.
-It requires a clean working tree and stops on the first failure or dirty state.
+as `<pkg>: <old> -> <new>`. It requires a clean working tree and stops on the
+first failure or dirty state.
+
+The commit body is a list of plain `key: value` lines (`homepage`,
+`repository`, `compare`, `release`) derived from the package's `meta`, with each
+URL verified to exist before it is written. That format is a contract:
+`.github/scripts/build-pr-body.sh` parses those lines to build the pull request
+body, expanding the `compare` range into an inline commit list via the GitHub
+API (merges dropped, capped at 30). Packages whose upstream is not on GitHub —
+`grok-cli`, for instance — have no fetchable changelog and fall back to links
+only.
 
 ## Commits
 

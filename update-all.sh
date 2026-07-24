@@ -110,16 +110,22 @@ build_commit_body() {
     fi
   fi
 
-  printf 'Automated package update.\n\n'
-  printf 'Version:\n'
-  printf -- '- old: %s\n' "$old_version"
-  printf -- '- new: %s\n' "$new_version"
+  # Keep these as plain "key: value" lines: .github/scripts/build-pr-body.sh
+  # parses them out of the commit message to build the pull request body.
+  if [[ -n "$homepage" ]]; then
+    printf 'homepage: %s\n' "$homepage"
+  fi
 
-  if [[ -n "$repo_url" || -n "$compare_url" || -n "$release_url" ]]; then
-    printf '\nUpstream:\n'
-    [[ -n "$repo_url" ]] && printf -- '- repository: %s\n' "$repo_url"
-    [[ -n "$compare_url" ]] && printf -- '- compare: %s\n' "$compare_url"
-    [[ -n "$release_url" ]] && printf -- '- release: %s\n' "$release_url"
+  if [[ -n "$repo_url" ]]; then
+    printf 'repository: %s\n' "$repo_url"
+  fi
+
+  if [[ -n "$compare_url" ]]; then
+    printf 'compare: %s\n' "$compare_url"
+  fi
+
+  if [[ -n "$release_url" ]]; then
+    printf 'release: %s\n' "$release_url"
   fi
 }
 
