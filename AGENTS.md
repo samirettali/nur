@@ -28,7 +28,9 @@ The commit body is a list of plain `key: value` lines (`homepage`,
 URL verified to exist before it is written. That format is a contract:
 `.github/scripts/build-pr-body.sh` parses those lines to build the pull request
 body, expanding the `compare` range into an inline commit list via the GitHub
-API (merges dropped, capped at 30). Packages whose upstream is not on GitHub —
+API (merges dropped, otherwise complete). The list is only trimmed — newest
+kept — when it would push the body past GitHub's 65536-character limit, which
+takes a range of roughly 500 commits. Packages whose upstream is not on GitHub —
 `grok-cli`, for instance — have no fetchable changelog and fall back to links
 only.
 

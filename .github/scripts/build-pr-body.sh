@@ -11,7 +11,10 @@
 
 set -euo pipefail
 
-COMMIT_LIMIT=30
+# GitHub rejects pull request bodies over 65536 characters; leave room for the
+# heading and the links section. The commit list is only trimmed to stay under
+# this, which takes a range of roughly 500 commits.
+COMMITS_BUDGET=60000
 
 commit="${1:?usage: build-pr-body.sh <commit-ish>}"
 
@@ -46,28 +49,40 @@ compare_api_path() {
 # Merges are dropped: they carry no changelog value in a version range.
 render_commits() {
   local api_path="$1"
-  local payload total shown
+  local payload bullets total kept
 
   payload=$(gh api --paginate "$api_path" 2>/dev/null) || return 1
 
-  payload=$(jq -s '{commits: (map(.commits) | add // [])}' <<<"$payload")
+  bullets=$(jq -rs '
+    map(.commits) | add // []
+    | .[]
+    | select((.parents | length) < 2)
+    | "- [`\(.sha[0:7])`](\(.html_url)) \(.commit.message | split("\n")[0])"
+  ' <<<"$payload")
 
-  total=$(jq '[.commits[] | select((.parents | length) < 2)] | length' <<<"$payload")
-  if [[ "$total" -eq 0 ]]; then
+  if [[ -z "$bullets" ]]; then
     return 1
   fi
 
   printf '## Commits\n\n'
 
-  jq -r --argjson limit "$COMMIT_LIMIT" '
-    [.commits[] | select((.parents | length) < 2)][:$limit][]
-    | "- [`\(.sha[0:7])`](\(.html_url)) \(.commit.message | split("\n")[0])"
-  ' <<<"$payload"
-
-  shown=$((total > COMMIT_LIMIT ? COMMIT_LIMIT : total))
-  if [[ "$total" -gt "$shown" ]]; then
-    printf '\n_…and %s more_\n' "$((total - shown))"
+  if [[ "${#bullets}" -le "$COMMITS_BUDGET" ]]; then
+    printf '%s\n' "$bullets"
+    return 0
   fi
+
+  # Too long to post in full: keep the newest commits, which are the ones worth
+  # reading, and point at the compare page for the rest.
+  total=$(wc -l <<<"$bullets")
+  kept="$total"
+
+  while [[ "$kept" -gt 1 && "${#bullets}" -gt "$COMMITS_BUDGET" ]]; do
+    kept=$((kept - 1))
+    bullets=$(tail -n "$kept" <<<"$bullets")
+  done
+
+  printf '_Showing the %s most recent of %s commits._\n\n' "$kept" "$total"
+  printf '%s\n' "$bullets"
 }
 
 commits_rendered=""
