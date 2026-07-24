@@ -1,37 +1,76 @@
-# nur-packages-template
+# nur
 
-**A template for [NUR](https://github.com/nix-community/NUR) repositories**
+**Personal [NUR](https://github.com/nix-community/NUR) repository**
 
-## Setup
+Mostly macOS tooling and terminal-based AI coding agents that are not in
+nixpkgs, or that move faster there than I would like to wait for.
 
-1. Click on [Use this template](https://github.com/nix-community/nur-packages-template/generate) to start a repo based on this template. (Do _not_ fork it.)
-2. Add your packages to the [pkgs](./pkgs) directory and to
-   [default.nix](./default.nix)
-   * Remember to mark the broken packages as `broken = true;` in the `meta`
-     attribute, or travis (and consequently caching) will fail!
-   * Library functions, modules and overlays go in the respective directories
-3. Choose your CI: Depending on your preference you can use github actions (recommended) or [Travis ci](https://travis-ci.com).
-   - Github actions: Change your NUR repo name and optionally add a cachix name in [.github/workflows/build.yml](./.github/workflows/build.yml) and change the cron timer
-     to a random value as described in the file
-   - Travis ci: Change your NUR repo name and optionally your cachix repo name in 
-   [.travis.yml](./.travis.yml). Than enable travis in your repo. You can add a cron job in the repository settings on travis to keep your cachix cache fresh
-5. Change your travis and cachix names on the README template section and delete
-   the rest
-6. [Add yourself to NUR](https://github.com/nix-community/NUR#how-to-add-your-own-repository)
+## Usage
 
-## README template
+This repository is not registered in the [NUR index](https://github.com/nix-community/NUR),
+so it is consumed directly as a flake input rather than through
+`nur.repos.<name>`:
 
-# nur-packages
+```nix
+{
+  inputs.samirettali-nur.url = "github:samirettali/nur";
+}
+```
 
-**My personal [NUR](https://github.com/nix-community/NUR) repository**
+That exposes `packages.<system>.<name>`, which is how my
+[dotfiles](https://github.com/samirettali/dotfiles) pass it around as a
+`nurPkgs` special argument:
 
-<!-- Remove this if you don't use github actions -->
-![Build and populate cache](https://github.com/<YOUR-GITHUB-USER>/nur-packages/workflows/Build%20and%20populate%20cache/badge.svg)
+```nix
+nurPkgs = inputs.samirettali-nur.packages.${pkgs.stdenv.hostPlatform.system};
+```
 
-<!--
-Uncomment this if you use travis:
+There is also an `overlays.default` that merges every package straight into
+`pkgs`.
 
-[![Build Status](https://travis-ci.com/<YOUR_TRAVIS_USERNAME>/nur-packages.svg?branch=master)](https://travis-ci.com/<YOUR_TRAVIS_USERNAME>/nur-packages)
--->
-[![Cachix Cache](https://img.shields.io/badge/cachix-<YOUR_CACHIX_CACHE_NAME>-blue.svg)](https://<YOUR_CACHIX_CACHE_NAME>.cachix.org)
+To build one locally:
 
+```console
+nix-build -A <name>
+```
+
+## Packages
+
+<!-- BEGIN PACKAGES -->
+
+| Package | Description |
+| --- | --- |
+| [cmux](https://github.com/manaflow-ai/cmux) | Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents |
+| [codex](https://github.com/openai/codex) | Lightweight coding agent that runs in your terminal |
+| [eqmac](https://github.com/bitgapp/eqMac) | macOS system-wide audio equalizer and volume mixer |
+| [ghostty](https://ghostty.org) | Fast, feature-rich, and cross-platform terminal emulator |
+| [git-sync](https://github.com/AkashRajpurohit/git-sync) | A simple tool to backup and sync your git repositories |
+| [go-qo](https://github.com/kiki-ki/go-qo) | A minimalist TUI for querying JSON, CSV using SQL |
+| [grok-cli](https://x.ai/cli) | Grok CLI coding agent |
+| [herdr](https://herdr.dev) | Terminal workspace manager for AI coding agents |
+| [hunk](https://github.com/modem-dev/hunk) | Review-first terminal diff viewer for agentic coders |
+| [lathe](https://github.com/devenjarvis/lathe) | Generate, store, serve, verify, and extend hands-on technical tutorials |
+| [mole](https://github.com/tw93/mole) | A macOS utility for cleaning, optimization, and system monitoring |
+| [opencode](https://github.com/sst/opencode) | The AI coding agent built for the terminal |
+| [pi-coding-agent](https://github.com/earendil-works/pi) | Coding agent CLI with read, bash, edit, write tools and session management |
+| [pi-mcp-adapter](https://github.com/nicobailon/pi-mcp-adapter) | MCP adapter extension for the Pi coding agent |
+| [pi-provider-kimi-code](https://github.com/Leechael/pi-provider-kimi-code) | Kimi Code provider extension for the Pi coding agent |
+| [quartz](https://github.com/jackyzha0/quartz) | A fast, batteries-included static-site generator that transforms Markdown content into fully functional websites |
+| [rift](https://github.com/acsandmann/rift) | Tiling window manager for macOS |
+| [sol](https://github.com/ospfranco/sol) | MacOS launcher and command palette |
+| [spotctl](https://github.com/samirettali/spotctl) | Agent-friendly Spotify CLI with machine-readable JSON output |
+| [tailscale-gui](https://tailscale.com) | Tailscale GUI client for macOS |
+| [tredis](https://github.com/huseyinbabal/tredis) | A modern TUI for managing Redis servers |
+| [zesh](https://github.com/roberte777/zesh) | Zellij session manager |
+
+<!-- END PACKAGES -->
+
+The table is generated from each package's `meta` by
+`.github/scripts/update-readme.sh`; edit the derivation, not the table.
+Versions are left out on purpose, since they change on nearly every update run.
+
+## Updating
+
+`./update-all.sh` runs every package's `update.sh`, commits each bump as
+`<pkg>: <old> -> <new>`, and refreshes this table. A scheduled workflow runs it
+daily and opens one pull request per package.

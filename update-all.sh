@@ -213,3 +213,13 @@ for pkg in $packages; do
 
   rm -f "$log_file"
 done
+
+# The README table lists no versions, so this only has anything to do when a
+# package was added or removed without regenerating it by hand.
+"$NUR_ROOT/.github/scripts/update-readme.sh"
+
+if [[ -n "$(git status --porcelain -- README.md)" ]]; then
+  git add -- README.md
+  git commit -m 'docs: refresh package list' >/dev/null
+  echo "✅ Refreshed the README package list"
+fi

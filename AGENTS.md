@@ -16,6 +16,11 @@ Consumed by the dotfiles repo (`~/dev/dotfiles`) via the `nurPkgs` specialArg.
 1. Create `pkgs/<name>/default.nix` and an executable `pkgs/<name>/update.sh`.
 2. Wire it in `default.nix`.
 3. Build with `nix-build -A <name>`.
+4. Run `.github/scripts/update-readme.sh` to refresh the README package table,
+   which is generated from each package's `meta.description` and
+   `meta.homepage` between the `<!-- BEGIN PACKAGES -->` markers. `update-all.sh`
+   also runs it as a safety net, so a forgotten refresh shows up as a
+   `docs: refresh package list` commit.
 
 ## Updating
 
