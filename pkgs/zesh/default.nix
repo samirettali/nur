@@ -19,7 +19,7 @@ rustPlatform.buildRustPackage rec {
   passthru.updateScript = ./update.sh;
 
   meta = {
-    description = "";
+    description = "Zellij session manager";
     homepage = "https://github.com/roberte777/zesh";
     changelog = "https://github.com/roberte777/zesh/blob/${src.rev}/CHANGELOG.md";
     license = lib.licenses.mit;
