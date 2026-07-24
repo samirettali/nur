@@ -2,26 +2,18 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
-  fetchpatch,
   importNpmLock,
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-provider-kimi-code";
-  version = "0.6.7";
+  version = "0.6.8";
 
   src = fetchFromGitHub {
     owner = "Leechael";
     repo = "pi-provider-kimi-code";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-q8A0h72ZKIcl5DRmUjymWI/F1z6KqdartpPoqFuctEI=";
+    hash = "sha256-RmO9aN2+LuZhGPtAQmkhUQSFdeNRcTLPFzQBXfF/oKM=";
   };
-
-  patches = [
-    (fetchpatch {
-      url = "https://github.com/Leechael/pi-provider-kimi-code/commit/1d8b05f6f3421fc440b919d5e21e956aaa9ab657.patch";
-      hash = "sha256-wESWsQS8HuXZnRnhtHwyaLDv7V2HTqPRs23a8qqyddk=";
-    })
-  ];
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
