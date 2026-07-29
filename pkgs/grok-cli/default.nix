@@ -5,7 +5,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "grok-cli";
-  version = "0.2.112";
+  version = "0.2.114";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -30,19 +30,19 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     sources = {
       "aarch64-darwin" = fetchurl {
         url = "https://x.ai/cli/grok-${finalAttrs.version}-macos-aarch64";
-        hash = "sha256-XPBf5nCxgYVh2vdWa1gKXea4EUkWZJnWEHLklkC1QaQ=";
+        hash = "sha256-5xX1f5AYoXN8GmTvHLJgrCpQRd+moaDhx6fL4ZOgg7I=";
       };
       "aarch64-linux" = fetchurl {
         url = "https://x.ai/cli/grok-${finalAttrs.version}-linux-aarch64";
-        hash = "sha256-0h8aqrp/KTDbDvfVqdw/gUqUxUryCOCR9yojnKwCujk=";
+        hash = "sha256-R4sGgRhanQx/NY8G4sxTGlTmtRqvU/HKH0tFM5f+PcM=";
       };
       "x86_64-darwin" = fetchurl {
         url = "https://x.ai/cli/grok-${finalAttrs.version}-macos-x86_64";
-        hash = "sha256-nQC+Pj4o0c48NvJtZcQKrCYjkXqrxqILO9ohomnY6iQ=";
+        hash = "sha256-EVAzp43E/gfA8inYyPLnB/PZPmLsdZmKXEc09EXjZCE=";
       };
       "x86_64-linux" = fetchurl {
         url = "https://x.ai/cli/grok-${finalAttrs.version}-linux-x86_64";
-        hash = "sha256-woZxEvfYk2YSP+aKVaI9+wJ9NgL8W1uc1cCA2stKJQM=";
+        hash = "sha256-8R1hnBqsthaeEMEZu7vrw3PMv+irkmt2z7+1++psjEo=";
       };
     };
 
