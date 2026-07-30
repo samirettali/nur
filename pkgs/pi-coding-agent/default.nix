@@ -2,12 +2,14 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
+  fetchzip,
   importNpmLock,
   versionCheckHook,
   writableTmpDirAsHomeHook,
   fd,
   ripgrep,
   makeBinaryWrapper,
+  piAiNpmHash ? "sha256-ToWghBcWOUT3dNC37vaYzAmmhXpVb6tD+vCshjLfTxo=",
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-coding-agent";
@@ -26,6 +28,12 @@ buildNpmPackage (finalAttrs: {
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
+    cp -r ${
+      fetchzip {
+        url = "https://registry.npmjs.org/@earendil-works/pi-ai/-/pi-ai-${finalAttrs.version}.tgz";
+        hash = piAiNpmHash;
+      }
+    }/dist/providers/data packages/ai/src/providers/
   '';
 
   npmDeps = importNpmLock {

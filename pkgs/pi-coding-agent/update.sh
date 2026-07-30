@@ -56,6 +56,12 @@ hash_base64=$(nix-prefetch-url --unpack --type sha256 "$url" 2>/dev/null)
 src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 sed -i -E 's|( *hash = ").*(";)|\1'"${src_hash}"'\2|' "$DEFAULT_NIX_FILE"
 
+npm_url="https://registry.npmjs.org/@earendil-works/pi-ai/-/pi-ai-${latest_version}.tgz"
+echo "Fetching pi-ai npm data hash..."
+npm_hash_base64=$(nix-prefetch-url --unpack --type sha256 "$npm_url" 2>/dev/null)
+npm_hash=$(nix hash convert --hash-algo sha256 --to sri "$npm_hash_base64")
+sed -i -E 's|( *piAiNpmHash \? ").*(",)|\1'"${npm_hash}"'\2|' "$DEFAULT_NIX_FILE"
+
 echo "Vendoring fixed package-lock.json..."
 python3 - <<'PY' "$latest_version" "$VENDORED_LOCKFILE"
 import json, sys, urllib.parse, urllib.request
