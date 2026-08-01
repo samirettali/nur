@@ -16,7 +16,7 @@ let
   version = "0.7.5";
 
   src = fetchFromGitHub {
-    owner = "ogulcancelik";
+    owner = "herdrdev";
     repo = "herdr";
     rev = "v${version}";
     hash = "sha256-3BA8eredGku+vsL2Af7sUf43QiArR5XTHNrI+X11vFM=";
@@ -68,7 +68,7 @@ rustPlatform.buildRustPackage {
   meta = {
     description = "Terminal workspace manager for AI coding agents";
     homepage = "https://herdr.dev";
-    changelog = "https://github.com/ogulcancelik/herdr/releases/tag/v${version}";
+    changelog = "https://github.com/herdrdev/herdr/releases/tag/v${version}";
     license = lib.licenses.asl20;
     maintainers = with lib.maintainers; [ ];
     mainProgram = "herdr";

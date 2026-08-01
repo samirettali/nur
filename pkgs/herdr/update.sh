@@ -7,8 +7,8 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 NUR_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 
-echo "Fetching latest release information for ogulcancelik/herdr..."
-latest_version=$(curl --silent --fail "https://api.github.com/repos/ogulcancelik/herdr/releases/latest" | jq -r .tag_name | sed 's/^v//')
+echo "Fetching latest release information for herdrdev/herdr..."
+latest_version=$(curl --silent --fail "https://api.github.com/repos/herdrdev/herdr/releases/latest" | jq -r .tag_name | sed 's/^v//')
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 
 if [[ "$latest_version" == "$current_version" ]]; then
@@ -20,7 +20,7 @@ echo "Updating herdr from $current_version to $latest_version"
 
 sed -i -E "s/^( *version = \").*(\";)/\1$latest_version\2/" "$DEFAULT_NIX_FILE"
 
-url="https://github.com/ogulcancelik/herdr/archive/refs/tags/v${latest_version}.tar.gz"
+url="https://github.com/herdrdev/herdr/archive/refs/tags/v${latest_version}.tar.gz"
 echo "Fetching source hash..."
 hash_base64=$(nix-prefetch-url --unpack --type sha256 "$url" 2>/dev/null)
 src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
