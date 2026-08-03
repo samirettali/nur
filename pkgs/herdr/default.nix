@@ -13,13 +13,13 @@
   xcbuild ? null,
 }:
 let
-  version = "0.7.5";
+  version = "0.8.0";
 
   src = fetchFromGitHub {
     owner = "herdrdev";
     repo = "herdr";
     rev = "v${version}";
-    hash = "sha256-3BA8eredGku+vsL2Af7sUf43QiArR5XTHNrI+X11vFM=";
+    hash = "sha256-empFQ+hrnCh2JhOzQRWSCLV0YoZC3DXW3bY6k8YuJjk=";
   };
 
   zigDeps = callPackage "${src}/vendor/libghostty-vt/build.zig.zon.nix" {
@@ -39,7 +39,7 @@ rustPlatform.buildRustPackage {
   pname = "herdr";
   inherit version src;
 
-  cargoHash = "sha256-lWnc0Ka0hp7bbm+dkKKj22Dbk+Cwrld86romXs3lzBs=";
+  cargoHash = "sha256-E1lBgpTFZwNjeALeg/atwbDFL/XQbUnvCdX7ohbAHAc=";
 
   nativeBuildInputs = [
     git
