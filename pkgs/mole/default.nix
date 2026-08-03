@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "mole";
-  version = "1.48.1";
+  version = "1.49.1";
 
   src = fetchFromGitHub {
     owner = "tw93";
     repo = "mole";
     rev = "V${version}";
-    hash = "sha256-7LrpZbkSDtuK0EJMEhnuJ4d1ZP4M85GhYssYdw084D0=";
+    hash = "sha256-QyJFCMWmjIdMaKcecp4UXLmyoQHEnzHvXPP0+Pw51Ho=";
   };
 
-  vendorHash = "sha256-hLFlAy4AE1eNOxd4d75Mbo3ZKlwvNK7QV2DNVPd7NHc=";
+  vendorHash = "sha256-fWmki7xFZzNU3+A3Ge60YnKkqXa7nf0sDmOIjGyf+RE=";
 
   # Tests interact with macOS Trash which is unavailable in the Nix sandbox
   doCheck = false;
