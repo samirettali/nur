@@ -47,6 +47,7 @@ nix-build -A <name>
 | [git-sync](https://github.com/AkashRajpurohit/git-sync) | A simple tool to backup and sync your git repositories |
 | [go-qo](https://github.com/kiki-ki/go-qo) | A minimalist TUI for querying JSON, CSV using SQL |
 | [grok-cli](https://x.ai/cli) | Grok CLI coding agent |
+| [helium](https://helium.computer) | Private, fast, and honest web browser |
 | [herdr](https://herdr.dev) | Terminal workspace manager for AI coding agents |
 | [hunk](https://github.com/modem-dev/hunk) | Review-first terminal diff viewer for agentic coders |
 | [lathe](https://github.com/devenjarvis/lathe) | Generate, store, serve, verify, and extend hands-on technical tutorials |
