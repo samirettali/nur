@@ -6,13 +6,13 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-mcp-adapter";
-  version = "2.19.0";
+  version = "2.20.1";
 
   src = fetchFromGitHub {
     owner = "nicobailon";
     repo = "pi-mcp-adapter";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-bt5Zb5aiT4caAQDkQ13t1he3FBpMSMLcQOYuAEBzcVg=";
+    hash = "sha256-m9F6189qfKxoGGNd/OhoYH1bvaBJK3ireLm7bjCXiWI=";
   };
 
   postPatch = ''
