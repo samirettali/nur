@@ -9,17 +9,17 @@
   fd,
   ripgrep,
   makeBinaryWrapper,
-  piAiNpmHash ? "sha256-OpiG7u0hptGZRnwhSlB6jbA1iNHd71zBXrDEERrpQTg=",
+  piAiNpmHash ? "sha256-vz5+zzzXMrIgO43oluJwA2kTGLmyKjyda06oYryOfAM=",
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-coding-agent";
-  version = "0.83.0";
+  version = "0.84.1";
 
   src = fetchFromGitHub {
     owner = "earendil-works";
     repo = "pi";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-+XRJua2TSXkZMnWtxtLMskSzEHrGEFFyvYcPATi7An4=";
+    hash = "sha256-lg+I4S/aAjazjhGZU567ow+rksoNiqOqjHl//TjAMes=";
   };
 
   patches = [
