@@ -30,6 +30,32 @@ package_has_changes() {
   [[ -n "$(git status --porcelain -- "pkgs/$pkg")" ]]
 }
 
+rollback_package_changes() {
+  local pkg="$1"
+
+  git restore --source=HEAD --staged --worktree -- "pkgs/$pkg"
+  git clean -fd -- "pkgs/$pkg" >/dev/null
+}
+
+record_package_result() {
+  local pkg="$1"
+  local status="$2"
+  local log_file="${3:-}"
+
+  if [[ -z "${UPDATE_RESULTS_DIR:-}" ]]; then
+    return
+  fi
+
+  mkdir -p "$UPDATE_RESULTS_DIR"
+  printf '%s\n' "$status" >"$UPDATE_RESULTS_DIR/$pkg.status"
+
+  if [[ -n "$log_file" ]]; then
+    head -n 200 "$log_file" >"$UPDATE_RESULTS_DIR/$pkg.log"
+  else
+    rm -f "$UPDATE_RESULTS_DIR/$pkg.log"
+  fi
+}
+
 print_log_excerpt() {
   local log_file="$1"
 
@@ -200,15 +226,21 @@ for pkg in $packages; do
       rm -f "$log_file"
       exit 1
     fi
+
+    record_package_result "$pkg" success
   else
     echo "❌ Failed to update $pkg"
     print_log_excerpt "$log_file"
+    rollback_package_changes "$pkg"
 
     if [[ -n "$(git status --porcelain)" ]]; then
-      echo "Stopping because the working tree is dirty after the failed update"
+      echo "Stopping because the failed update for $pkg changed files outside pkgs/$pkg"
       rm -f "$log_file"
       exit 1
     fi
+
+    record_package_result "$pkg" failure "$log_file"
+    echo "⏭️ Skipped $pkg and rolled back its changes"
   fi
 
   rm -f "$log_file"

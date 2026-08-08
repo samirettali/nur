@@ -25,8 +25,12 @@ Consumed by the dotfiles repo (`~/dev/dotfiles`) via the `nurPkgs` specialArg.
 ## Updating
 
 `./update-all.sh` runs every wired package's `update.sh` and commits each bump
-as `<pkg>: <old> -> <new>`. It requires a clean working tree and stops on the
-first failure or dirty state.
+as `<pkg>: <old> -> <new>`. It requires a clean working tree. A failed updater
+is rolled back within its `pkgs/<name>` directory and skipped; changes outside
+that directory still stop the run as a safety check. In CI, each failed updater
+opens or comments on `chore(<pkg>): fix failed automatic update`; the issue is
+closed automatically after that updater next exits successfully, including an
+already-up-to-date result.
 
 The commit body is a list of plain `key: value` lines (`homepage`,
 `repository`, `compare`, `release`) derived from the package's `meta`, with each

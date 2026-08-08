@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
 
 concurrency:
@@ -39,7 +40,58 @@ jobs:
           git checkout -B automated/update-all-workspace "origin/${DEFAULT_BRANCH}"
 
       - name: Run update-all
+        env:
+          UPDATE_RESULTS_DIR: ${{ runner.temp }}/update-results
         run: NIX_PATH=nixpkgs=channel:nixpkgs-unstable ./update-all.sh
+
+      - name: Sync updater failure issues
+        env:
+          GH_TOKEN: ${{ secrets.PR_AUTOMATION_TOKEN || github.token }}
+          UPDATE_RESULTS_DIR: ${{ runner.temp }}/update-results
+        run: |
+          shopt -s nullglob
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          for status_file in "${UPDATE_RESULTS_DIR}"/*.status; do
+            pkg=$(basename "${status_file}" .status)
+            status=$(<"${status_file}")
+            title="chore(${pkg}): fix failed automatic update"
+            issue_number=$(gh issue list \
+              --state open \
+              --limit 100 \
+              --json number,title \
+              | jq -r --arg title "${title}" ".[] | select(.title == \$title) | .number" \
+              | head -n1)
+
+            if [ "${status}" = failure ]; then
+              body_file=$(mktemp)
+              {
+                printf 'The automatic updater for **%s** failed.\n\n' "${pkg}"
+                printf 'Run: [%s](%s)\n\n' "${GITHUB_RUN_ID}" "${run_url}"
+                printf '<!-- automatic-update-failure:%s -->\n' "${pkg}"
+                if [ -f "${UPDATE_RESULTS_DIR}/${pkg}.log" ]; then
+                  printf '\n<details><summary>Updater output</summary>\n\n```text\n'
+                  cat "${UPDATE_RESULTS_DIR}/${pkg}.log"
+                  printf '\n```\n\n</details>\n'
+                fi
+              } >"${body_file}"
+
+              if [ -n "${issue_number}" ]; then
+                gh issue comment "${issue_number}" --body-file "${body_file}"
+              else
+                gh issue create \
+                  --title "${title}" \
+                  --body-file "${body_file}" \
+                  --assignee "${GITHUB_REPOSITORY_OWNER}"
+              fi
+
+              rm -f "${body_file}"
+            elif [ -n "${issue_number}" ]; then
+              gh issue close "${issue_number}" \
+                --reason completed \
+                --comment "The updater completed successfully in [run ${GITHUB_RUN_ID}](${run_url}). Closing automatically."
+            fi
+          done
 
       - name: Check for new commits
         id: changes
