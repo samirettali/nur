@@ -6,6 +6,62 @@ set -euo pipefail
 NUR_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 cd "$NUR_ROOT"
 
+# Updates every package by default. --only takes a comma-separated list, which
+# is what a release in one of my own repos dispatches: the tag knows which
+# package changed, so there is no reason to re-check all the others.
+only=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --only)
+      only="${2:-}"
+      if [[ -z "$only" ]]; then
+        echo "--only needs a comma-separated list of packages" >&2
+        exit 2
+      fi
+      shift 2
+      ;;
+    --only=*)
+      only="${1#--only=}"
+      if [[ -z "$only" ]]; then
+        echo "--only needs a comma-separated list of packages" >&2
+        exit 2
+      fi
+      shift
+      ;;
+    -h | --help)
+      echo "usage: update.sh [--only pkg1,pkg2]"
+      exit 0
+      ;;
+    *)
+      echo "unknown argument: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
+requested=()
+if [[ -n "$only" ]]; then
+  IFS=',' read -r -a requested <<<"$only"
+fi
+
+is_requested() {
+  local pkg="$1"
+
+  if [[ ${#requested[@]} -eq 0 ]]; then
+    return 0
+  fi
+
+  local wanted
+  for wanted in "${requested[@]}"; do
+    if [[ "$wanted" = "$pkg" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 get_package_version() {
   local pkg="$1"
 
@@ -155,10 +211,14 @@ build_commit_body() {
   fi
 }
 
-echo "Scanning for packages with update scripts..."
+if [[ ${#requested[@]} -gt 0 ]]; then
+  echo "Updating only: ${requested[*]}"
+else
+  echo "Scanning for packages with update scripts..."
+fi
 
 if [[ -n "$(git status --porcelain)" ]]; then
-  echo "Working tree is not clean. Commit or stash changes before running update-all.sh"
+  echo "Working tree is not clean. Commit or stash changes before running update.sh"
   exit 1
 fi
 
@@ -171,6 +231,10 @@ for pkg in $packages; do
       continue 2
     fi
   done
+
+  if ! is_requested "$pkg"; then
+    continue
+  fi
 
   update_script="$NUR_ROOT/pkgs/$pkg/update.sh"
   if [[ ! -f "$update_script" ]]; then

@@ -1,7 +1,12 @@
-name: Update all packages
+name: Update packages
 
 on:
   workflow_dispatch:
+    inputs:
+      only:
+        description: 'Comma-separated packages to update (empty updates all)'
+        required: false
+        type: string
   schedule:
     - cron: '40 15 * * *'
 
@@ -11,11 +16,11 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: update-all
+  group: update
   cancel-in-progress: false
 
 jobs:
-  update-all:
+  update:
     runs-on: ubuntu-latest
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -37,12 +42,18 @@ jobs:
       - name: Create update workspace
         run: |
           git fetch origin "${DEFAULT_BRANCH}"
-          git checkout -B automated/update-all-workspace "origin/${DEFAULT_BRANCH}"
+          git checkout -B automated/update-workspace "origin/${DEFAULT_BRANCH}"
 
-      - name: Run update-all
+      - name: Run update
         env:
           UPDATE_RESULTS_DIR: ${{ runner.temp }}/update-results
-        run: NIX_PATH=nixpkgs=channel:nixpkgs-unstable ./update-all.sh
+          ONLY: ${{ inputs.only }}
+        run: |
+          args=()
+          if [ -n "${ONLY}" ]; then
+            args+=(--only "${ONLY}")
+          fi
+          NIX_PATH=nixpkgs=channel:nixpkgs-unstable ./update.sh "${args[@]}"
 
       - name: Sync updater failure issues
         env:

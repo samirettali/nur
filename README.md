@@ -71,6 +71,6 @@ Versions are left out on purpose, since they change on nearly every update run.
 
 ## Updating
 
-`./update-all.sh` runs every package's `update.sh`, commits each bump as
+`./update.sh` runs every package's `update.sh`, commits each bump as
 `<pkg>: <old> -> <new>`, and refreshes this table. A scheduled workflow runs it
 daily and opens one pull request per package.

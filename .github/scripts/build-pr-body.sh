@@ -4,7 +4,7 @@
 #
 # Usage: build-pr-body.sh <commit-ish>
 #
-# Reads the "key: value" links that update-all.sh writes into the bump commit
+# Reads the "key: value" links that update.sh writes into the bump commit
 # message and, when the package lives on GitHub, expands the compare range into
 # an inline commit list via the API. Requires GH_TOKEN for the API call; without
 # it the commit list is skipped and only the links are emitted.

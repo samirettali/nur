@@ -5,7 +5,7 @@
 # default.nix. Rewrites the block between the BEGIN/END markers and leaves the
 # rest of the file alone.
 #
-# Versions are deliberately left out: they change on almost every update-all.sh
+# Versions are deliberately left out: they change on almost every update.sh
 # run and would keep the README perpetually out of date.
 
 set -euo pipefail
