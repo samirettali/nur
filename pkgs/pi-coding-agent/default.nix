@@ -55,6 +55,9 @@ buildNpmPackage (finalAttrs: {
   buildPhase = ''
     runHook preBuild
 
+    npm exec -- tsgo -p packages/telemetry/tsconfig.build.json
+    npm exec -- tsgo -p packages/protocol/tsconfig.build.json
+    npm exec -- tsgo -p packages/client/tsconfig.build.json
     npm exec -- tsgo -p packages/ai/tsconfig.build.json
     npm exec -- tsgo -p packages/tui/tsconfig.build.json
     npm exec -- tsgo -p packages/agent/tsconfig.build.json
@@ -71,7 +74,10 @@ buildNpmPackage (finalAttrs: {
 
     for ws in @earendil-works/pi-ai:packages/ai \
               @earendil-works/pi-agent-core:packages/agent \
-              @earendil-works/pi-tui:packages/tui; do
+              @earendil-works/pi-tui:packages/tui \
+              @earendil-works/pi-telemetry:packages/telemetry \
+              @earendil-works/pi-protocol:packages/protocol \
+              @earendil-works/pi-client:packages/client; do
       IFS=: read -r pkg src <<< "$ws"
       rm "$nm/$pkg"
       cp -r "$src" "$nm/$pkg"
