@@ -58,6 +58,7 @@ nix-build -A <name>
 | [quartz](https://github.com/jackyzha0/quartz) | A fast, batteries-included static-site generator that transforms Markdown content into fully functional websites |
 | [rift](https://github.com/acsandmann/rift) | Tiling window manager for macOS |
 | [sol](https://github.com/ospfranco/sol) | MacOS launcher and command palette |
+| [sottomano](https://github.com/samirettali/sottomano) | macOS launcher driven by one leader key |
 | [spotctl](https://github.com/samirettali/spotctl) | Agent-friendly Spotify CLI with machine-readable JSON output |
 | [tailscale-gui](https://tailscale.com) | Tailscale GUI client for macOS |
 | [tredis](https://github.com/huseyinbabal/tredis) | A modern TUI for managing Redis servers |
