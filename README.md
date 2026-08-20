@@ -40,6 +40,7 @@ nix-build -A <name>
 
 | Package | Description |
 | --- | --- |
+| [claude-code](https://github.com/anthropics/claude-code) | Agentic coding tool that lives in your terminal |
 | [cmux](https://github.com/manaflow-ai/cmux) | Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents |
 | [codex](https://github.com/openai/codex) | Lightweight coding agent that runs in your terminal |
 | [eqmac](https://github.com/bitgapp/eqMac) | macOS system-wide audio equalizer and volume mixer |
