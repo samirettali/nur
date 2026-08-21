@@ -1,8 +1,10 @@
 {
   lib,
+  stdenv,
   stdenvNoCC,
   fetchurl,
-  autoPatchelfHook,
+  makeBinaryWrapper,
+  glibc,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "claude-code";
@@ -13,20 +15,45 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
 
   strictDeps = true;
-  nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [autoPatchelfHook];
+  nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [makeBinaryWrapper];
 
   sourceRoot = ".";
 
   dontConfigure = true;
   dontBuild = true;
+  dontPatchELF = true;
+  dontStrip = true;
 
-  installPhase = ''
-    runHook preInstall
+  # The release binary is a bun standalone executable: bun locates its embedded
+  # bundle through a trailer at the end of the file. patchelf cannot rewrite the
+  # interpreter in place and appends to the file, which moves that trailer away
+  # from the end; bun then finds no bundle and prints its own help. So keep the
+  # binary byte for byte and call the loader explicitly instead.
+  installPhase =
+    ''
+      runHook preInstall
 
-    install -Dm 755 ./claude $out/bin/claude
+    ''
+    + (
+      if stdenvNoCC.hostPlatform.isLinux
+      then ''
+        install -Dm 755 ./claude $out/libexec/claude-code/claude
 
-    runHook postInstall
-  '';
+        makeWrapper ${stdenv.cc.bintools.dynamicLinker} $out/bin/claude \
+          --add-flags --library-path \
+          --add-flags ${lib.makeLibraryPath [glibc]} \
+          --add-flags --argv0 \
+          --add-flags claude \
+          --add-flags $out/libexec/claude-code/claude
+      ''
+      else ''
+        install -Dm 755 ./claude $out/bin/claude
+      ''
+    )
+    + ''
+
+      runHook postInstall
+    '';
 
   passthru = {
     sources = {
