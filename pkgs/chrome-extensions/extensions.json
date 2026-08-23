@@ -1,0 +1,56 @@
+{
+  "acmacodkjbdgmoleebolmdjonilkdbch": {
+    "hash": "sha256-o9fmSa3Clu0wFndnYL1jkdg/b/jQgaFYcY2TDh2h/gw=",
+    "name": "rabby",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7cTDvoc1F9-_dK_CIIr_jnOoYQllsNSEFqRAtsaom2-0IbjlOfB_pw5vOkb_VCpF4Xj7YAjkdjuIAJ2oQPxl7ObPZ7bzhh6huU5wD8TKU-nBRzzKAlxY6877ClJdMeAMZSmuX8amoqQAAVdSRJRGcla4mlRwxEmw/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_4_0.crx",
+    "version": "0.94.4"
+  },
+  "bfnaelmomeimhlpmgjnjophhpkkoljpa": {
+    "hash": "sha256-JCJiNeId78NIaEh/niBbtj3N9NwNJ3qa+sSPmMK64mU=",
+    "name": "phantom",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7gXMGogmGJzUOEjEqe8KCba4S3It4a0CcEUzD-wYfxI70KBGSTXleZEvySqLIj5oo90Pj6scGhZ2CGuT_Q4sCRHwc9UZT-peJdCf84cqIWHXt1eTo_k41z7dSuzpUoAMZSmuVXRu7i35IFFTSHxm981Evq8MdhtA/BFNAELMOMEIMHLPMGJNJOPHHPKKOLJPA_26_26_0_0.crx",
+    "version": "26.26.0"
+  },
+  "dbepggeogbaibhgnhhndojpepiihcmeb": {
+    "hash": "sha256-MZjCaqcZvkYt6lhQUPvtm4uAYo1X6oihE7q/UzTFUXw=",
+    "name": "vimium",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL4iVdxTQ-0OzPZpyn-HaEqAGZ7v4AE1ym0mkqSuYCdlC08iKcxoOd1ZQ_y8ruAm8khb99P48-8pJSb5xEifRz1jYuhIYVBl7TUZFxQZ-Y8VLv_PVX7Rd8UT21yYNOoAxlKa5YSDJtCEKp4XpLOwG926PjEh9mGC/DBEPGGEOGBAIBHGNHHNDOJPEPIIHCMEB_2_4_2_0.crx",
+    "version": "2.4.2"
+  },
+  "ddkjiahejlhfcafbddmgiahcphecmpfh": {
+    "hash": "sha256-fBzFyuzCdxv3NW0RJTIu/1wxNSFFr/pCVtfdZnWZTAs=",
+    "name": "ublock-origin-lite",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL6jgS7UbQLqrOGJVZfqnpyWC5zn5nRV8xCUDS7yyvZrP9tuSCLz7BA-Drzn0iJ8GA_MvO4e0CJ-Rhd9rD6_5I03LdpaB7C-Y1HDKaNcvq9598BEIfoE4nFT68I1_nm5AMZSmuVfu8goBvj3Em6oiQCK-5QL1fHNTg/DDKJIAHEJLHFCAFBDDMGIAHCPHECMPFH_2026_820_1159_0.crx",
+    "version": "2026.820.1159"
+  },
+  "dmkamcknogkgcdfhhbddcghachkejeap": {
+    "hash": "sha256-HjXRlT3MnfqBHnvXkMVnwRECfM8PP49eKYPGWrbz0tY=",
+    "name": "keplr",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL6C6t2jvUgHjmcPtuZpLxtm05lxhWOi5BoqA1gTwSrDPjOU98rQtJPXaRrHwoOUEV7-dtDO2RwzhXUlFLM9ZFG-aVUwngAshJ4NM_iN5YmVaY3OHAvwAGX7AFMgr6azAMZSmuV64N1Wkf_S9zyryg-mnJfnkwPs1g/DMKAMCKNOGKGCDFHHBDDCGHACHKEJEAP_0_13_42_0.crx",
+    "version": "0.13.42"
+  },
+  "gbmdgpbipfallnflgajpaliibnhdgobh": {
+    "hash": "sha256-B72FCRtWQRL7O59RdpMmmZzHqZ0llRh7gYOEChinliY=",
+    "name": "json-viewer",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7geRiAj4atmqkt4Pac2TpW3VYNbm8ma-svGnGbeWDa-RywdvcT9aWhp_rqkbaMtsmDhSNuYBBIJ9qcGPhwR1L-GuYZVTrUq7VlMQGjhN_Da52BAMZSmuWFPHEWI_kOu12OVUm9D-1PjbIThQ/GBMDGPBIPFALLNFLGAJPALIIBNHDGOBH_0_18_1_0.crx",
+    "version": "0.18.1"
+  },
+  "jinjaccalgkegednnccohejagnlnfdag": {
+    "hash": "sha256-yRTrkG3wgVKXMLPT+1cOWMHpdhXEat3wAmiSD0Z6lc8=",
+    "name": "violentmonkey",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7UFnKs3o2ez3kHSFGddzbobHcj_PrrHwjQbrQVVFXF0c3lQj_4Zysa7tjBhC0-epDJZl1M2InEE943cM4ym2fbxRgTMzomTCjOqL7l1AjJP8N9pAQvfn4qnwvjHwEAxlKa5XRaBfjKi6zMOFUzXq4beg7-DVjd/JINJACCALGKEGEDNNCCOHEJAGNLNFDAG_2_48_0_0.crx",
+    "version": "2.48.0"
+  },
+  "mnjggcdmjocbbbhaepdhchncahnbgone": {
+    "hash": "sha256-VYf+K2qZRhAcoN3nxu/nanVcXuW21uY9/EjH9zbNtP8=",
+    "name": "sponsorblock",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7RCHJCj6slk2j-zacFPcXfU4A2gypDjjCZ3GIBncx9a3M3TswyPUUw7uKEWUyWiDTP3xbVQMERhNR4z595f0IH6WxySgm-BOmrulfi2YGAgJyT3Fsax3JN31x1aSYAxlKa5YnstwglTZpBrAk_jmAFtnY9HQkS/MNJGGCDMJOCBBBHAEPDHCHNCAHNBGONE_6_1_6_0.crx",
+    "version": "6.1.6"
+  },
+  "nngceckbapebfimnlniiiahkandclblb": {
+    "hash": "sha256-0aWULZwjTQM4LamSeZMgVQZMquejLMmxV5QMhjFl1Z8=",
+    "name": "bitwarden",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7_g5bgahzKWnklqVbAa1Aqwx8z0TDFZhWlNA_3gtEtR2V_XsBqF0TUPiKRyytOnHBiE7ZQ5kwC6WDQ1iIBkMWbjBXWsXEZVIH0DlQWkIC_6i3DMvpw0zlxlJjGQTCIAMZSmuVbqR_s3kCm0U4bYGjxX3MhHW6EDA/NNGCECKBAPEBFIMNLNIIIAHKANDCLBLB_2026_8_0_0.crx",
+    "version": "2026.8.0"
+  }
+}
