@@ -40,6 +40,7 @@ nix-build -A <name>
 
 | Package | Description |
 | --- | --- |
+| [chrome-extensions](https://chromewebstore.google.com) | Pinned Chrome Web Store extensions for Chromium forks without the Web Store |
 | [claude-code](https://github.com/anthropics/claude-code) | Agentic coding tool that lives in your terminal |
 | [cmux](https://github.com/manaflow-ai/cmux) | Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents |
 | [codex](https://github.com/openai/codex) | Lightweight coding agent that runs in your terminal |
@@ -48,6 +49,7 @@ nix-build -A <name>
 | [git-sync](https://github.com/AkashRajpurohit/git-sync) | A simple tool to backup and sync your git repositories |
 | [go-qo](https://github.com/kiki-ki/go-qo) | A minimalist TUI for querying JSON, CSV using SQL |
 | [grok-cli](https://x.ai/cli) | Grok CLI coding agent |
+| [helium](https://helium.computer) | Private, fast, and honest web browser |
 | [herdr](https://herdr.dev) | Terminal workspace manager for AI coding agents |
 | [hunk](https://github.com/modem-dev/hunk) | Review-first terminal diff viewer for agentic coders |
 | [lathe](https://github.com/devenjarvis/lathe) | Generate, store, serve, verify, and extend hands-on technical tutorials |
@@ -63,6 +65,7 @@ nix-build -A <name>
 | [spotctl](https://github.com/samirettali/spotctl) | Agent-friendly Spotify CLI with machine-readable JSON output |
 | [tailscale-gui](https://tailscale.com) | Tailscale GUI client for macOS |
 | [tredis](https://github.com/huseyinbabal/tredis) | A modern TUI for managing Redis servers |
+| [widevine-cdm](https://www.widevine.com/) | Widevine Content Decryption Module for Chromium forks without a component updater |
 | [zesh](https://github.com/roberte777/zesh) | Zellij session manager |
 
 <!-- END PACKAGES -->
