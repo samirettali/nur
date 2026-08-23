@@ -19,6 +19,7 @@
   claude-code = pkgs.callPackage ./pkgs/claude-code {};
   grok-cli = pkgs.callPackage ./pkgs/grok-cli {};
   cmux = pkgs.callPackage ./pkgs/cmux {};
+  helium = pkgs.callPackage ./pkgs/helium {};
   opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
