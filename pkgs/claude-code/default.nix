@@ -1,10 +1,7 @@
 {
   lib,
-  stdenv,
   stdenvNoCC,
   fetchurl,
-  makeBinaryWrapper,
-  glibc,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "claude-code";
@@ -15,7 +12,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
 
   strictDeps = true;
-  nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [makeBinaryWrapper];
 
   sourceRoot = ".";
 
@@ -27,33 +23,26 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   # The release binary is a bun standalone executable: bun locates its embedded
   # bundle through a trailer at the end of the file. patchelf cannot rewrite the
   # interpreter in place and appends to the file, which moves that trailer away
-  # from the end; bun then finds no bundle and prints its own help. So keep the
-  # binary byte for byte and call the loader explicitly instead.
-  installPhase =
-    ''
-      runHook preInstall
+  # from the end; bun then finds no bundle and crashes. So the binary is
+  # installed byte for byte and runs through the host's own FHS loader.
+  #
+  # Calling the store loader explicitly instead — ld-linux.so --library-path …
+  # ./claude — is what this package used to do, and it is worse than an impure
+  # dependency: when a program is started that way, /proc/self/exe names the
+  # loader rather than the program. Claude reads its own path from there and
+  # re-executes itself for every subprocess it spawns — remote-control sessions,
+  # the multicall grep and find helpers it injects into the shell — so each one
+  # ran ld-linux.so with Claude's flags and died on `unrecognized option`.
+  #
+  # A NixOS host therefore needs programs.nix-ld.enable to provide the loader at
+  # its FHS path; every other Linux distribution already has it.
+  installPhase = ''
+    runHook preInstall
 
-    ''
-    + (
-      if stdenvNoCC.hostPlatform.isLinux
-      then ''
-        install -Dm 755 ./claude $out/libexec/claude-code/claude
+    install -Dm 755 ./claude $out/bin/claude
 
-        makeWrapper ${stdenv.cc.bintools.dynamicLinker} $out/bin/claude \
-          --add-flags --library-path \
-          --add-flags ${lib.makeLibraryPath [glibc]} \
-          --add-flags --argv0 \
-          --add-flags claude \
-          --add-flags $out/libexec/claude-code/claude
-      ''
-      else ''
-        install -Dm 755 ./claude $out/bin/claude
-      ''
-    )
-    + ''
-
-      runHook postInstall
-    '';
+    runHook postInstall
+  '';
 
   passthru = {
     sources = {
