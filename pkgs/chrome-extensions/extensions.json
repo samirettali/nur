@@ -6,10 +6,10 @@
     "version": "0.94.4"
   },
   "bfnaelmomeimhlpmgjnjophhpkkoljpa": {
-    "hash": "sha256-JCJiNeId78NIaEh/niBbtj3N9NwNJ3qa+sSPmMK64mU=",
+    "hash": "sha256-vhBBrVzM5RRhQJmwWrxvtcEq/UyYmnQV7V4j7AtCUY4=",
     "name": "phantom",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7gXMGogmGJzUOEjEqe8KCba4S3It4a0CcEUzD-wYfxI70KBGSTXleZEvySqLIj5oo90Pj6scGhZ2CGuT_Q4sCRHwc9UZT-peJdCf84cqIWHXt1eTo_k41z7dSuzpUoAMZSmuVXRu7i35IFFTSHxm981Evq8MdhtA/BFNAELMOMEIMHLPMGJNJOPHHPKKOLJPA_26_26_0_0.crx",
-    "version": "26.26.0"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7wKj4vPCUfrhWU-wP1YehbQhr5IiURYB-NZFE0JTTZ-LZCSZk74SRZqvMf-W5xG9yMSvip5zBVrbug9vliFJIwwoP2W_mAmoHjnCYDTKkz-JL4hKSoTTTNAsQu7qUDAMZSmuWO0O-lr0pxYy5-XytB8Rn8_VSA0g/BFNAELMOMEIMHLPMGJNJOPHHPKKOLJPA_26_27_0_0.crx",
+    "version": "26.27.0"
   },
   "dbepggeogbaibhgnhhndojpepiihcmeb": {
     "hash": "sha256-MZjCaqcZvkYt6lhQUPvtm4uAYo1X6oihE7q/UzTFUXw=",
@@ -18,16 +18,16 @@
     "version": "2.4.2"
   },
   "ddkjiahejlhfcafbddmgiahcphecmpfh": {
-    "hash": "sha256-fBzFyuzCdxv3NW0RJTIu/1wxNSFFr/pCVtfdZnWZTAs=",
+    "hash": "sha256-QrYLqJjMtC6rke8CAoz1xqPwKuoUMDyvEZl2+X7Nz10=",
     "name": "ublock-origin-lite",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL6jgS7UbQLqrOGJVZfqnpyWC5zn5nRV8xCUDS7yyvZrP9tuSCLz7BA-Drzn0iJ8GA_MvO4e0CJ-Rhd9rD6_5I03LdpaB7C-Y1HDKaNcvq9598BEIfoE4nFT68I1_nm5AMZSmuVfu8goBvj3Em6oiQCK-5QL1fHNTg/DDKJIAHEJLHFCAFBDDMGIAHCPHECMPFH_2026_820_1159_0.crx",
-    "version": "2026.820.1159"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL5BOZ90OfUJFywf_O_PNpnh8clavbinRSi9jwtBfMSJG93kuOn_3c9moWQAnXDADQ0JRZc73Ud7kpP4BhVgv_oorZk9NCDsc2gDT2igXdqFfv-2IjEOVAFDjU61xtrSAMZSmuUcWvwDfmyMFVwpKL-cmOUuKaKFXg/DDKJIAHEJLHFCAFBDDMGIAHCPHECMPFH_2026_825_1619_0.crx",
+    "version": "2026.825.1619"
   },
   "dmkamcknogkgcdfhhbddcghachkejeap": {
-    "hash": "sha256-HjXRlT3MnfqBHnvXkMVnwRECfM8PP49eKYPGWrbz0tY=",
+    "hash": "sha256-m5mICtu1+MRteWipBUPwZmxRQy5SX8vKy+PiQr8B/9g=",
     "name": "keplr",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL6C6t2jvUgHjmcPtuZpLxtm05lxhWOi5BoqA1gTwSrDPjOU98rQtJPXaRrHwoOUEV7-dtDO2RwzhXUlFLM9ZFG-aVUwngAshJ4NM_iN5YmVaY3OHAvwAGX7AFMgr6azAMZSmuV64N1Wkf_S9zyryg-mnJfnkwPs1g/DMKAMCKNOGKGCDFHHBDDCGHACHKEJEAP_0_13_42_0.crx",
-    "version": "0.13.42"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL4MzNhCVvs4RJOZs6JsX-Vlr-0NG_jHi-RlC1rioSPOlpiCrw-x9ACtCxuJ-3F73A3vhKLYxd8QRmG-pDza_qwCZ-p3U78g0lhghipHq6HJqO-Hh2X75fTRlUQixWO6AMZSmuViHrl3IurrJdsYbrld_eIqQn4yIg/DMKAMCKNOGKGCDFHHBDDCGHACHKEJEAP_0_13_43_0.crx",
+    "version": "0.13.43"
   },
   "gbmdgpbipfallnflgajpaliibnhdgobh": {
     "hash": "sha256-B72FCRtWQRL7O59RdpMmmZzHqZ0llRh7gYOEChinliY=",
