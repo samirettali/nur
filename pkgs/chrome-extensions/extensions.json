@@ -1,9 +1,15 @@
 {
   "acmacodkjbdgmoleebolmdjonilkdbch": {
-    "hash": "sha256-o9fmSa3Clu0wFndnYL1jkdg/b/jQgaFYcY2TDh2h/gw=",
+    "hash": "sha256-sRUbyhC/ZUkXYQcfKrGWlpterJ5+kV4Pt14y5nLa3tM=",
     "name": "rabby",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7cTDvoc1F9-_dK_CIIr_jnOoYQllsNSEFqRAtsaom2-0IbjlOfB_pw5vOkb_VCpF4Xj7YAjkdjuIAJ2oQPxl7ObPZ7bzhh6huU5wD8TKU-nBRzzKAlxY6877ClJdMeAMZSmuX8amoqQAAVdSRJRGcla4mlRwxEmw/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_4_0.crx",
-    "version": "0.94.4"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL79g16FD2KjrK2R2RjLP0lE3jYfyisj9iZlvvDRehUFycmkBcQP0tqOAbKUox35rsMHkpSTfNJ3zHgLxsCzw_bXzh7yc8K-4jiy6T2lUgbjCINf4LttuOh4i2a3ooRiAMZSmuXzLa5FCd8GOjUgP3-DTCXcVb_RCg/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_5_0.crx",
+    "version": "0.94.5"
+  },
+  "beakmhbijpdhipnjhnclmhgjlddhidpe": {
+    "hash": "sha256-sAiPAvtjcpbtFciHdXOFVkHjuyJ4G1RHHp5QNgwRRnE=",
+    "name": "linkding",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7nRu3vrDl6un-o4DrLDbhndma0aqX6qVRfn66YBaxCBPbXg1Wfn1dcRqLu5Lux2QwxMiDVgmktlTQwPRkCaDGoU4JzocXNTAi0TrCuIhnpkTaKkEBLoq22nP-uQ9oAxlKa5dHNqSSiQL81fXZH3W-gJd5YfrNY/BEAKMHBIJPDHIPNJHNCLMHGJLDDHIDPE_1_15_1_0.crx",
+    "version": "1.15.1"
   },
   "bfnaelmomeimhlpmgjnjophhpkkoljpa": {
     "hash": "sha256-vhBBrVzM5RRhQJmwWrxvtcEq/UyYmnQV7V4j7AtCUY4=",
@@ -11,11 +17,11 @@
     "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7wKj4vPCUfrhWU-wP1YehbQhr5IiURYB-NZFE0JTTZ-LZCSZk74SRZqvMf-W5xG9yMSvip5zBVrbug9vliFJIwwoP2W_mAmoHjnCYDTKkz-JL4hKSoTTTNAsQu7qUDAMZSmuWO0O-lr0pxYy5-XytB8Rn8_VSA0g/BFNAELMOMEIMHLPMGJNJOPHHPKKOLJPA_26_27_0_0.crx",
     "version": "26.27.0"
   },
-  "dbepggeogbaibhgnhhndojpepiihcmeb": {
-    "hash": "sha256-MZjCaqcZvkYt6lhQUPvtm4uAYo1X6oihE7q/UzTFUXw=",
-    "name": "vimium",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL4iVdxTQ-0OzPZpyn-HaEqAGZ7v4AE1ym0mkqSuYCdlC08iKcxoOd1ZQ_y8ruAm8khb99P48-8pJSb5xEifRz1jYuhIYVBl7TUZFxQZ-Y8VLv_PVX7Rd8UT21yYNOoAxlKa5YSDJtCEKp4XpLOwG926PjEh9mGC/DBEPGGEOGBAIBHGNHHNDOJPEPIIHCMEB_2_4_2_0.crx",
-    "version": "2.4.2"
+  "cnjifjpddelmedmihgijeibhnjfabmlf": {
+    "hash": "sha256-H32I06Rx3LArg1/ysJfcsapIpwWlUufkwu9Xamx1NGc=",
+    "name": "obsidian-web-clipper",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL4vqT-xVgg5gEyEVXHDEs_MaBOUkySMEngCGIvQIHO-ShgoRg9iRfJMBxtz5VSjGcGJG3K3YlTkZQDtMUR3GKD2s7aJsQZIaWxaal3xnSfiTKs1LqNvWhfwIxc0Dhm_AMZSmuWwSWDmVXReqQ57NfCciRQjXHIM2w/CNJIFJPDDELMEDMIHGIJEIBHNJFABMLF_1_7_1_0.crx",
+    "version": "1.7.1"
   },
   "ddkjiahejlhfcafbddmgiahcphecmpfh": {
     "hash": "sha256-QrYLqJjMtC6rke8CAoz1xqPwKuoUMDyvEZl2+X7Nz10=",
@@ -35,11 +41,23 @@
     "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7geRiAj4atmqkt4Pac2TpW3VYNbm8ma-svGnGbeWDa-RywdvcT9aWhp_rqkbaMtsmDhSNuYBBIJ9qcGPhwR1L-GuYZVTrUq7VlMQGjhN_Da52BAMZSmuWFPHEWI_kOu12OVUm9D-1PjbIThQ/GBMDGPBIPFALLNFLGAJPALIIBNHDGOBH_0_18_1_0.crx",
     "version": "0.18.1"
   },
+  "hfjbmagddngcpeloejdejnfgbamkjaeg": {
+    "hash": "sha256-1kiLH+QIjOIheJXFNE/BKJ7tWZLvwHpr6ec1cLIlBCM=",
+    "name": "vimium-c",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL6X5-W2com5vB1EGpmhDcDXMNYBEUAyohLpjrCT-Yu003wHf--20UEVnDNpen4U8_fLGunXDcioOyqanqNB_UK-SVKwwfpa5TPyyQTbsGRD3qS6Ci7nrsi1U4-NsmMAxlKa5Sdza0ibMd98aNEQleHi-ypENTyl/HFJBMAGDDNGCPELOEJDEJNFGBAMKJAEG_2_12_2_0.crx",
+    "version": "2.12.2"
+  },
   "jinjaccalgkegednnccohejagnlnfdag": {
     "hash": "sha256-yRTrkG3wgVKXMLPT+1cOWMHpdhXEat3wAmiSD0Z6lc8=",
     "name": "violentmonkey",
     "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7UFnKs3o2ez3kHSFGddzbobHcj_PrrHwjQbrQVVFXF0c3lQj_4Zysa7tjBhC0-epDJZl1M2InEE943cM4ym2fbxRgTMzomTCjOqL7l1AjJP8N9pAQvfn4qnwvjHwEAxlKa5XRaBfjKi6zMOFUzXq4beg7-DVjd/JINJACCALGKEGEDNNCCOHEJAGNLNFDAG_2_48_0_0.crx",
     "version": "2.48.0"
+  },
+  "mdjildafknihdffpkfmmpnpoiajfjnjd": {
+    "hash": "sha256-qdMdkakBMffTyrLcPjN+Q/dfTyto5/3oEuDNJKgTvpg=",
+    "name": "consent-o-matic",
+    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL4ZqMSbCO6LHP9ELUI41Giu1iS8ep2v7cnRSNN60yDoneeNF0DsWspnnRUaOS1OhpdiQiYcjwtt32Fnv7IlF2EhP2PqTipkcu6Vx2eIuM62JyVwR_vk4r_T-2mr2f4AxlKa5dJpxhCxXHHOyT52yncm82iLL305/MDJILDAFKNIHDFFPKFMMPNPOIAJFJNJD_1_1_3_0.crx",
+    "version": "1.1.3"
   },
   "mnjggcdmjocbbbhaepdhchncahnbgone": {
     "hash": "sha256-VYf+K2qZRhAcoN3nxu/nanVcXuW21uY9/EjH9zbNtP8=",
