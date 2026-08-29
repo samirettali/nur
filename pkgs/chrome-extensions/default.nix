@@ -20,7 +20,7 @@ in
     pname = "chrome-extensions";
     # Nine extensions, nine upstream versions: the date of the last refresh is
     # the only version this set as a whole can have. update.sh moves it.
-    version = "2026-08-27";
+    version = "2026-08-29";
 
     dontUnpack = true;
 
