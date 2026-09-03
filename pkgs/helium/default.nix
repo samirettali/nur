@@ -14,24 +14,24 @@
   enableWidevine ? true,
 }: let
   pname = "helium";
-  version = "0.16.3.1";
+  version = "0.16.4.1";
 
   sources = {
     "aarch64-darwin" = fetchurl {
       url = "https://github.com/imputnet/helium-macos/releases/download/${version}/helium_${version}_arm64-macos.dmg";
-      hash = "sha256-TMJx0TBfCJNNlQC2clJa5fn1qi7UmYbYu8YlqZvYMiA=";
+      hash = "sha256-fJRdy6yoFR0rLCh9Q4p7Rry+aaPZ2SHbh9YMw1tLj2w=";
     };
     "aarch64-linux" = fetchurl {
       url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-${version}-arm64.AppImage";
-      hash = "sha256-FOU6WQLFPbpPLEuQJhasuxE4vDsB6cWIc0k9DAcghBk=";
+      hash = "sha256-PNDXow9Q4cP5ZW3hXkWDKikXbVEgSDf8MU+IucjMTeo=";
     };
     "x86_64-darwin" = fetchurl {
       url = "https://github.com/imputnet/helium-macos/releases/download/${version}/helium_${version}_x86_64-macos.dmg";
-      hash = "sha256-S8TOy8Geuo/sh8AM107bJEZZKhu4ovvgpoICDvbD9Pw=";
+      hash = "sha256-FwtKzzGwI/asmn28OlLApmIo8oYPoNp1vdkeo1uo+t8=";
     };
     "x86_64-linux" = fetchurl {
       url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-${version}-x86_64.AppImage";
-      hash = "sha256-k3CjrF45s7SizRof/X9eOnPKwkOB9c1AvBSmjj7ROIM=";
+      hash = "sha256-z0OoKmW49F/2F3mxjZlyJsTY45keyZJAj4pjoGBjBO8=";
     };
   };
 
