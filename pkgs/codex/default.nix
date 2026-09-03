@@ -22,6 +22,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
       or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
 
+  codeModeHostSrc =
+    finalAttrs.passthru.codeModeHostSources.${stdenvNoCC.hostPlatform.system}
+      or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
+
   strictDeps = true;
   nativeBuildInputs = [
     gnutar
@@ -31,6 +35,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   unpackPhase = ''
     unpackFile $src
+    unpackFile $codeModeHostSrc
   '';
 
   dontConfigure = true;
@@ -42,6 +47,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook preInstall
 
     install -Dm755 ./codex-${finalAttrs.platform} $out/bin/codex-raw
+    install -Dm755 ./codex-code-mode-host-${finalAttrs.platform} $out/bin/codex-code-mode-host
     makeWrapper "$out/bin/codex-raw" "$out/bin/codex" \
       --run 'export CODEX_EXECUTABLE_PATH="$HOME/.local/bin/codex"' \
       --set DISABLE_AUTOUPDATER 1 \
@@ -74,6 +80,25 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       "x86_64-linux" = fetchurl {
         url = "https://github.com/openai/codex/releases/download/rust-v${finalAttrs.version}/codex-x86_64-unknown-linux-musl.tar.gz";
         hash = "sha256-NagsFT2DlZ3gnCy4SscLpp0FeIrusI1Klcpo45+GaA4=";
+      };
+    };
+
+    codeModeHostSources = {
+      "aarch64-darwin" = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rust-v${finalAttrs.version}/codex-code-mode-host-aarch64-apple-darwin.tar.gz";
+        hash = "sha256-hf2wRhY26dWAb6IAtPAApc0odFbzZvavR5ekwy1dUOk=";
+      };
+      "aarch64-linux" = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rust-v${finalAttrs.version}/codex-code-mode-host-aarch64-unknown-linux-musl.tar.gz";
+        hash = "sha256-Jp1gBvtVyV+HZFT8A+03VcNnwcN2t3qYXQApOVpadzY=";
+      };
+      "x86_64-darwin" = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rust-v${finalAttrs.version}/codex-code-mode-host-x86_64-apple-darwin.tar.gz";
+        hash = "sha256-yYSVZkPTkgeiMmGASzqJP4WjpSuSgJS43xMZBcQnL/w=";
+      };
+      "x86_64-linux" = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rust-v${finalAttrs.version}/codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz";
+        hash = "sha256-K4F6SV41pTMz6Us1r57YeeGA+bKP1X7xWs6ahXuobyw=";
       };
     };
 

@@ -29,15 +29,31 @@ platform_map=(
   ["x86_64-linux"]="x86_64-unknown-linux-musl"
 )
 
-for nix_platform in "${!platform_map[@]}"; do
-  release_platform=${platform_map[$nix_platform]}
-  url="https://github.com/openai/codex/releases/download/rust-v${latest_version}/codex-${release_platform}.tar.gz"
+update_hash() {
+  local source_set=$1
+  local nix_platform=$2
+  local asset=$3
+  local release_platform=${platform_map[$nix_platform]}
+  local url="https://github.com/openai/codex/releases/download/rust-v${latest_version}/${asset}-${release_platform}.tar.gz"
 
-  echo "Fetching hash for ${nix_platform}..."
+  echo "Fetching ${asset} hash for ${nix_platform}..."
+  local hash_base64
   hash_base64=$(nix-prefetch-url --type sha256 "$url" 2>/dev/null)
+  local sri_hash
   sri_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
 
-  sed -i -E "/\"${nix_platform}\"/,/\};/s|([[:space:]]*hash = \").*(\";)|\1${sri_hash}\2|" "$DEFAULT_NIX_FILE"
+  sed -i -E "
+    /^    ${source_set} = \\{/,/^    \\};/ {
+      /\"${nix_platform}\"/,/\\};/ {
+        s|([[:space:]]*hash = .).*(.;)|\\1${sri_hash}\\2|
+      }
+    }
+  " "$DEFAULT_NIX_FILE"
+}
+
+for nix_platform in "${!platform_map[@]}"; do
+  update_hash sources "$nix_platform" codex
+  update_hash codeModeHostSources "$nix_platform" codex-code-mode-host
 done
 
 echo "Successfully updated codex to version $latest_version"
