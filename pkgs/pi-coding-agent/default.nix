@@ -55,6 +55,7 @@ buildNpmPackage (finalAttrs: {
   buildPhase = ''
     runHook preBuild
 
+    npm exec -- tsgo -p packages/chord/tsconfig.build.json
     npm exec -- tsgo -p packages/telemetry/tsconfig.build.json
     npm exec -- tsgo -p packages/protocol/tsconfig.build.json
     npm exec -- tsgo -p packages/client/tsconfig.build.json
@@ -72,7 +73,8 @@ buildNpmPackage (finalAttrs: {
     local pkgRoot="$out/lib/node_modules/pi-monorepo"
     local shareRoot="$out/share/pi-coding-agent"
 
-    for ws in @earendil-works/pi-ai:packages/ai \
+    for ws in @earendil-works/chord:packages/chord \
+              @earendil-works/pi-ai:packages/ai \
               @earendil-works/pi-agent-core:packages/agent \
               @earendil-works/pi-tui:packages/tui \
               @earendil-works/pi-telemetry:packages/telemetry \
