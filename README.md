@@ -45,6 +45,7 @@ nix-build -A <name>
 | [cmux](https://github.com/manaflow-ai/cmux) | Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents |
 | [codex](https://github.com/openai/codex) | Lightweight coding agent that runs in your terminal |
 | [eqmac](https://github.com/bitgapp/eqMac) | macOS system-wide audio equalizer and volume mixer |
+| [firecrawl-cli](https://github.com/firecrawl/cli) | CLI and Agent Skill for Firecrawl - Add scrape, search, and browsing capabilities to your AI agents |
 | [ghostty](https://ghostty.org) | Fast, feature-rich, and cross-platform terminal emulator |
 | [git-sync](https://github.com/AkashRajpurohit/git-sync) | A simple tool to backup and sync your git repositories |
 | [go-qo](https://github.com/kiki-ki/go-qo) | A minimalist TUI for querying JSON, CSV using SQL |
