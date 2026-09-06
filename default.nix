@@ -18,6 +18,7 @@
   codex = pkgs.callPackage ./pkgs/codex {};
   claude-code = pkgs.callPackage ./pkgs/claude-code {};
   grok-cli = pkgs.callPackage ./pkgs/grok-cli {};
+  firecrawl-cli = pkgs.callPackage ./pkgs/firecrawl-cli {};
   cmux = pkgs.callPackage ./pkgs/cmux {};
   helium = pkgs.callPackage ./pkgs/helium {};
   widevine-cdm = pkgs.callPackage ./pkgs/widevine-cdm {};
