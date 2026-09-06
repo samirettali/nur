@@ -5,11 +5,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "sottomano";
-  version = "0.1.0";
+  version = "0.2.0";
 
   src = fetchurl {
     url = "https://github.com/samirettali/sottomano/releases/download/v${finalAttrs.version}/Sottomano-${finalAttrs.version}.dmg";
-    hash = "sha256-QhjzqOwRe3j4zHi/80M9jOP9rr/Ft0icr97DW6ODzQI=";
+    hash = "sha256-Q2FznKb7CYrKpe1iQOfAOK095XrpjV6qRkY8u4yAwOs=";
   };
 
   strictDeps = true;
