@@ -18,9 +18,9 @@ let
 in
   stdenvNoCC.mkDerivation {
     pname = "chrome-extensions";
-    # Nine extensions, nine upstream versions: the date of the last refresh is
+    # Ten extensions, ten upstream versions: the date of the last refresh is
     # the only version this set as a whole can have. update.sh moves it.
-    version = "2026-08-29";
+    version = "2026-09-07";
 
     dontUnpack = true;
 

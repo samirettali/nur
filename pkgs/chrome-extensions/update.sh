@@ -70,7 +70,7 @@ fi
 
 jq --sort-keys '.' <<<"$extensions" >"$EXTENSIONS_FILE"
 
-# Nine extensions with nine versions have no single version between them, and
+# Ten extensions with ten versions have no single version between them, and
 # the repository's update.sh insists that a changed package changed its version.
 # The date of the last refresh is the only honest answer.
 today=$(date -u +%Y-%m-%d)
