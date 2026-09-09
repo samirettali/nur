@@ -65,6 +65,7 @@ nix-build -A <name>
 | [sottomano](https://github.com/samirettali/sottomano) | macOS launcher driven by one leader key |
 | [sottovoce](https://github.com/samirettali/sottovoce) | macOS menu bar dictation app |
 | [spotctl](https://github.com/samirettali/spotctl) | Agent-friendly Spotify CLI with machine-readable JSON output |
+| [t3code](https://github.com/pingdotgg/t3code) | Desktop control surface for coding agents running on your machine |
 | [tailscale-gui](https://tailscale.com) | Tailscale GUI client for macOS |
 | [tredis](https://github.com/huseyinbabal/tredis) | A modern TUI for managing Redis servers |
 | [widevine-cdm](https://www.widevine.com/) | Widevine Content Decryption Module for Chromium forks without a component updater |

@@ -44,4 +44,5 @@
   eqmac = pkgs.callPackage ./pkgs/eqmac {};
   lathe = pkgs.callPackage ./pkgs/lathe {};
   herdr = pkgs.callPackage ./pkgs/herdr {};
+  t3code = pkgs.callPackage ./pkgs/t3code {};
 }
