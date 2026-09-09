@@ -11,7 +11,18 @@
   # team IDs differ, and DRM playback fails. Upstream considers third-party CDMs
   # unsupported and points at re-signing the bundle instead:
   # https://github.com/imputnet/helium-macos/issues/296
-  enableWidevine ? true,
+  #
+  # Re-signing costs upstream's Developer ID, so this is off by default: the
+  # package everyone else gets is the bundle imput signed.
+  enableWidevine ? false,
+  # The identity to re-sign with, as `codesign --sign` spells it. `null` signs
+  # ad hoc, which leaves the bundle without a Team ID: macOS then falls back to
+  # identifying it by path and cdhash, so every version bump invalidates the
+  # microphone, camera and screen recording grants and the `Helium Safe Storage`
+  # Keychain item. A Developer ID here keeps one stable identity across bumps.
+  # It needs the private key, so a build carrying one is neither reproducible
+  # nor substitutable.
+  signingIdentity ? null,
 }: let
   pname = "helium";
   version = "0.16.6.1";
@@ -150,10 +161,24 @@
         framework="$app/Contents/Frameworks/Helium Framework.framework"
         chmod -R u+w "$app"
 
+        # Upstream ships no usage descriptions at all. Without them macOS cannot
+        # show the consent prompt, so a grant that no longer matches can never be
+        # replaced: the request is denied in silence and the site sees a bare
+        # NotAllowedError. Added before signing, because the signature seals the
+        # Info.plist.
+        /usr/libexec/PlistBuddy \
+          -c 'Add :NSMicrophoneUsageDescription string "A site wants to use the microphone."' \
+          -c 'Add :NSCameraUsageDescription string "A site wants to use the camera."' \
+          "$app/Contents/Info.plist"
+
         sign() {
           /usr/bin/codesign \
             --force \
-            --sign - \
+            --sign ${
+          if signingIdentity == null
+          then "-"
+          else lib.escapeShellArg signingIdentity
+        } \
             --options runtime \
             --entitlements ${entitlements} \
             --timestamp=none \
