@@ -13,13 +13,17 @@
   xcbuild ? null,
 }:
 let
-  version = "0.9.0";
+  # Tracks master rather than the release tag: the multi-machine work landed in
+  # 0.9.0 and its fixes keep arriving on master, so the release lags what is
+  # usable. update.sh follows master's HEAD.
+  version = "0.9.0-unstable-2026-09-09";
+  rev = "1f773dd6f44ab5a66371d4249c3d6f33a02d1069";
 
   src = fetchFromGitHub {
     owner = "herdrdev";
     repo = "herdr";
-    rev = "v${version}";
-    hash = "sha256-SUYF4bbaYwNgoe498VoCUzuLPcjBLQXR0o0DWjjoSnI=";
+    inherit rev;
+    hash = "sha256-wil9M8ysFH335Tm/JW44VsKJA7ejCmW/9rj9YolY6+4=";
   };
 
   zigDeps = callPackage "${src}/vendor/libghostty-vt/build.zig.zon.nix" {
@@ -68,7 +72,7 @@ rustPlatform.buildRustPackage {
   meta = {
     description = "Terminal workspace manager for AI coding agents";
     homepage = "https://herdr.dev";
-    changelog = "https://github.com/herdrdev/herdr/releases/tag/v${version}";
+    changelog = "https://github.com/herdrdev/herdr/commits/master";
     license = lib.licenses.asl20;
     maintainers = with lib.maintainers; [ ];
     mainProgram = "herdr";
