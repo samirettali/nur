@@ -7,20 +7,35 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 NUR_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 
-echo "Fetching latest release information for herdrdev/herdr..."
-latest_version=$(curl --silent --fail "https://api.github.com/repos/herdrdev/herdr/releases/latest" | jq -r .tag_name | sed 's/^v//')
-current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
+# herdr is pinned to master, not to the latest release: the multi-machine
+# feature set keeps landing there and the tags lag behind it. The version is
+# therefore <cargo version>-unstable-<commit date>, the nixpkgs convention for
+# an unreleased pin.
 
-if [[ "$latest_version" == "$current_version" ]]; then
-	echo "herdr is already up-to-date at version $latest_version"
+echo "Fetching master HEAD for herdrdev/herdr..."
+head_json=$(curl --silent --fail \
+	-H "Accept: application/vnd.github+json" \
+	"https://api.github.com/repos/herdrdev/herdr/commits/master")
+latest_rev=$(jq -r .sha <<<"$head_json")
+commit_date=$(jq -r '.commit.committer.date | split("T")[0]' <<<"$head_json")
+current_rev=$(grep -E '^ *rev = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
+
+if [[ "$latest_rev" == "$current_rev" ]]; then
+	echo "herdr is already up-to-date at $latest_rev"
 	exit 0
 fi
+
+url="https://github.com/herdrdev/herdr/archive/${latest_rev}.tar.gz"
+cargo_version=$(curl --silent --fail "https://raw.githubusercontent.com/herdrdev/herdr/${latest_rev}/Cargo.toml" |
+	grep -m1 -E '^version = "' | cut -d '"' -f 2)
+latest_version="${cargo_version}-unstable-${commit_date}"
+current_version=$(grep -E '^ *version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 
 echo "Updating herdr from $current_version to $latest_version"
 
 sed -i -E "s/^( *version = \").*(\";)/\1$latest_version\2/" "$DEFAULT_NIX_FILE"
+sed -i -E "s/^( *rev = \").*(\";)/\1$latest_rev\2/" "$DEFAULT_NIX_FILE"
 
-url="https://github.com/herdrdev/herdr/archive/refs/tags/v${latest_version}.tar.gz"
 echo "Fetching source hash..."
 hash_base64=$(nix-prefetch-url --unpack --type sha256 "$url" 2>/dev/null)
 src_hash=$(nix hash convert --hash-algo sha256 --to sri "$hash_base64")
@@ -35,4 +50,4 @@ if [[ -z "$cargo_hash" ]]; then
 fi
 sed -i -E "s|( *cargoHash = \").*(\";)|\1${cargo_hash}\2|" "$DEFAULT_NIX_FILE"
 
-echo "Successfully updated herdr to version $latest_version"
+echo "Successfully updated herdr to $latest_version ($latest_rev)"
