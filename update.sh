@@ -160,11 +160,31 @@ find_first_existing_url() {
   return 1
 }
 
+# The revision a package is pinned to, read out of its default.nix: the committed
+# one when a ref is given, the working tree copy otherwise. Only a literal hash is
+# returned, since `rev = "v${version}"` names no ref a compare range could use.
+package_rev() {
+  local rev="" ref="${1:-}" file="$2"
+
+  if [[ -n "$ref" ]]; then
+    rev=$(git show "$ref:$file" 2>/dev/null | grep -m1 -E '^ *rev = "' | cut -d '"' -f 2 || true)
+  elif [[ -f "$file" ]]; then
+    rev=$(grep -m1 -E '^ *rev = "' "$file" | cut -d '"' -f 2 || true)
+  fi
+
+  if [[ "$rev" =~ ^[0-9a-f]{7,40}$ ]]; then
+    printf '%s\n' "$rev"
+    return 0
+  fi
+
+  return 1
+}
+
 build_commit_body() {
   local pkg="$1"
   local old_version="$2"
   local new_version="$3"
-  local metadata homepage changelog repo_url compare_url release_url
+  local metadata homepage changelog repo_url compare_url release_url old_rev new_rev
 
   metadata=$(get_package_metadata "$pkg")
   homepage=$(jq -r '.homepage // ""' <<<"$metadata")
@@ -180,6 +200,21 @@ build_commit_body() {
       "$repo_url/compare/${old_version}...${new_version}" \
       "$repo_url/compare/V${old_version}...V${new_version}" \
       || true)
+
+    # A package pinned to a revision rather than to a tag carries a version no
+    # ref answers to ("<version>-unstable-<date>"), so all of the URLs above
+    # 404. The two revisions the update moved between are a range GitHub can
+    # compare, and the only ones it can expand into a changelog.
+    if [[ -z "$compare_url" ]]; then
+      old_rev=$(package_rev "HEAD" "pkgs/$pkg/default.nix" || true)
+      new_rev=$(package_rev "" "pkgs/$pkg/default.nix" || true)
+
+      if [[ -n "$old_rev" ]] && [[ -n "$new_rev" ]] && [[ "$old_rev" != "$new_rev" ]]; then
+        compare_url=$(find_first_existing_url \
+          "$repo_url/compare/${old_rev}...${new_rev}" \
+          || true)
+      fi
+    fi
 
     if [[ -n "$changelog" ]] && [[ "$changelog" == https://github.com/* ]]; then
       release_url="$changelog"

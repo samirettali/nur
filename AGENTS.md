@@ -41,7 +41,10 @@ API (merges dropped, otherwise complete). The list is only trimmed — newest
 kept — when it would push the body past GitHub's 65536-character limit, which
 takes a range of roughly 500 commits. Packages whose upstream is not on GitHub —
 `grok-cli`, for instance — have no fetchable changelog and fall back to links
-only.
+only. The range itself is built from the package's two versions, which name tags
+for most packages; where they name nothing — `herdr` is pinned to a revision, so
+its version is the nixpkgs `<version>-unstable-<date>` — no such URL resolves and
+the range falls back to the two `rev` hashes the bump moved between.
 
 ## The browser packages
 
