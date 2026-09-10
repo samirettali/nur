@@ -6,13 +6,13 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-provider-kimi-code";
-  version = "0.6.11";
+  version = "0.6.12";
 
   src = fetchFromGitHub {
     owner = "Leechael";
     repo = "pi-provider-kimi-code";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-b4911mduxiB2lW8W9OTdQMpH8IsktFSAiOgUqniLRo4=";
+    hash = "sha256-pGa8/piyUU+xuAQv/gS4dX69k42x3sE3rc/1SA9RIeo=";
   };
 
   postPatch = ''
