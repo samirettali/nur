@@ -5,7 +5,7 @@
   fetchFromGitHub,
   callPackage,
   runCommand,
-  zig_0_15,
+  zig_0_16,
   zstd,
   pkg-config,
   git,
@@ -17,13 +17,13 @@ let
   # 0.9.0 and its fixes keep arriving on master, so the release lags what is
   # usable. update.sh follows master's HEAD.
   version = "0.9.0-unstable-2026-09-11";
-  rev = "eba7758cedd1bd3a86c527b8a458075e8ef1efc2";
+  rev = "fb5525fc2234a246dfdfc9e0d7ed73c824cbd8a6";
 
   src = fetchFromGitHub {
     owner = "herdrdev";
     repo = "herdr";
     inherit rev;
-    hash = "sha256-gzLppUjjMXFQE59oe9HSWyClMytCm2nmZJxJDttRcxQ=";
+    hash = "sha256-XjzIoLboZ+R1xI0d5yfo2lGh7h8WDSS+PQpIkutz4I0=";
   };
 
   zigDeps = callPackage "${src}/vendor/libghostty-vt/build.zig.zon.nix" {
@@ -57,7 +57,7 @@ rustPlatform.buildRustPackage {
     LIBGHOSTTY_VT_OPTIMIZE = "ReleaseFast";
     LIBGHOSTTY_VT_SIMD = "true";
     LIBGHOSTTY_VT_ZIG_SYSTEM_DIR = zigDeps;
-    ZIG = lib.getExe zig_0_15;
+    ZIG = lib.getExe zig_0_16;
   };
 
   preBuild = ''
