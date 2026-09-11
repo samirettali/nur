@@ -6,7 +6,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "sol";
-  version = "2.1.357";
+  version = "2.1.358";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -36,11 +36,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     sources = {
       "aarch64-darwin" = fetchurl {
         url = "https://github.com/ospfranco/sol/releases/download/${finalAttrs.version}/${finalAttrs.version}.zip";
-        hash = "sha256-bCXDV4NxJhApZNTdk/ZM8TuYhakOjuFnb4BvFsHBJjg=";
+        hash = "sha256-Yns25Wdd7KlwLtktHHNnm9wCec2D54KpIX34PuAod6U=";
       };
       "x86_64-darwin" = fetchurl {
         url = "https://github.com/ospfranco/sol/releases/download/${finalAttrs.version}/${finalAttrs.version}.zip";
-        hash = "sha256-bCXDV4NxJhApZNTdk/ZM8TuYhakOjuFnb4BvFsHBJjg=";
+        hash = "sha256-Yns25Wdd7KlwLtktHHNnm9wCec2D54KpIX34PuAod6U=";
       };
     };
 
