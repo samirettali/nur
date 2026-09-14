@@ -16,7 +16,7 @@ let
   # Tracks master rather than the release tag: the multi-machine work landed in
   # 0.9.0 and its fixes keep arriving on master, so the release lags what is
   # usable. update.sh follows master's HEAD.
-  version = "0.9.0-unstable-2026-09-14";
+  version = "0.9.0-unstable-2026-09-14-03749ae";
   rev = "03749ae3970a74e077fc16b9327bddfc957771c9";
 
   src = fetchFromGitHub {
