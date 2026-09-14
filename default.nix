@@ -30,6 +30,7 @@
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
   hunk = pkgs.callPackage ./pkgs/hunk {};
   spotctl = pkgs.callPackage ./pkgs/spotctl {};
+  fluxctl = pkgs.callPackage ./pkgs/fluxctl {};
   sottomano = pkgs.callPackage ./pkgs/sottomano {};
   sottovoce = pkgs.callPackage ./pkgs/sottovoce {};
   mole = pkgs.callPackage ./pkgs/mole {};
