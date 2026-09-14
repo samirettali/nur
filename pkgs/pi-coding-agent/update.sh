@@ -8,7 +8,7 @@ DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 NUR_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 
 echo "Fetching release information for earendil-works/pi..."
-releases_json=$(curl --silent --fail "https://api.github.com/repos/earendil-works/pi/releases?per_page=100")
+releases_json=$(curl --silent --fail ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/earendil-works/pi/releases?per_page=100")
 latest_version=$(python3 -c '
 import json, re, sys
 

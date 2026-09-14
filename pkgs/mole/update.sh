@@ -8,7 +8,7 @@ DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 NUR_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 
 echo "Fetching latest release information for tw93/mole..."
-latest_version=$(curl --silent --fail "https://api.github.com/repos/tw93/mole/releases/latest" | jq -r .tag_name | sed 's/^V//')
+latest_version=$(curl --silent --fail ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/tw93/mole/releases/latest" | jq -r .tag_name | sed 's/^V//')
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 
 if [[ "$latest_version" == "$current_version" ]]; then

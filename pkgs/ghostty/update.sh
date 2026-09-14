@@ -7,7 +7,7 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 
 latest_version=$(curl --silent --fail \
-  "https://api.github.com/repos/ghostty-org/ghostty/tags" \
+  ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/ghostty-org/ghostty/tags" \
   | jq -r '[.[] | select(.name | test("^v[0-9]"))] | first | .name | ltrimstr("v")')
 
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)

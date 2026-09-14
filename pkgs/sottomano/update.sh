@@ -7,7 +7,7 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 
 latest_version=$(curl --silent --fail \
-  "https://api.github.com/repos/samirettali/sottomano/releases/latest" \
+  ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/samirettali/sottomano/releases/latest" \
   | jq -r .tag_name | sed 's/^v//')
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 

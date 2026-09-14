@@ -9,13 +9,15 @@ NUR_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 
 # herdr is pinned to master, not to the latest release: the multi-machine
 # feature set keeps landing there and the tags lag behind it. The version is
-# therefore <cargo version>-unstable-<commit date>, the nixpkgs convention for
-# an unreleased pin.
+# therefore <cargo version>-unstable-<commit date>-<short rev>: the nixpkgs
+# convention for an unreleased pin, plus the rev so that two commits on the
+# same day still produce two versions. Without it the top-level updater sees
+# changed files with an unchanged version and aborts the whole run.
 
 echo "Fetching master HEAD for herdrdev/herdr..."
 head_json=$(curl --silent --fail \
 	-H "Accept: application/vnd.github+json" \
-	"https://api.github.com/repos/herdrdev/herdr/commits/master")
+	${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/herdrdev/herdr/commits/master")
 latest_rev=$(jq -r .sha <<<"$head_json")
 commit_date=$(jq -r '.commit.committer.date | split("T")[0]' <<<"$head_json")
 current_rev=$(grep -E '^ *rev = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
@@ -28,7 +30,7 @@ fi
 url="https://github.com/herdrdev/herdr/archive/${latest_rev}.tar.gz"
 cargo_version=$(curl --silent --fail "https://raw.githubusercontent.com/herdrdev/herdr/${latest_rev}/Cargo.toml" |
 	grep -m1 -E '^version = "' | cut -d '"' -f 2)
-latest_version="${cargo_version}-unstable-${commit_date}"
+latest_version="${cargo_version}-unstable-${commit_date}-${latest_rev:0:7}"
 current_version=$(grep -E '^ *version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 
 echo "Updating herdr from $current_version to $latest_version"
