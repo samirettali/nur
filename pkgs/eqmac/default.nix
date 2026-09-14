@@ -5,11 +5,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "eqmac";
-  version = "1.8.15";
+  version = "1.9.1";
 
   src = fetchurl {
     url = "https://github.com/bitgapp/eqMac/releases/download/v${finalAttrs.version}/eqMac.dmg";
-    hash = "sha256-IL0KslVlXdHiLL7JARfIpQlfjndPMvCkZppHVRPH8I0=";
+    hash = "sha256-ZV/rZXjN1c0Px6K5wJVbvdt71rsjsp6n+YKuNbi6XiY=";
   };
 
   strictDeps = true;
