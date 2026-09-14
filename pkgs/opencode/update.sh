@@ -7,7 +7,7 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 
 echo "Fetching latest release information for anomalyco/opencode..."
-latest_release_data=$(curl --silent --fail "https://api.github.com/repos/anomalyco/opencode/releases/latest")
+latest_release_data=$(curl --silent --fail ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/anomalyco/opencode/releases/latest")
 
 latest_version=$(echo "$latest_release_data" | jq -r .tag_name | sed 's/^v//')
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)

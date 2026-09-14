@@ -48,6 +48,9 @@ jobs:
         env:
           UPDATE_RESULTS_DIR: ${{ runner.temp }}/update-results
           ONLY: ${{ inputs.only }}
+          # The updaters query api.github.com; anonymous calls share a 60/hour
+          # budget per runner IP, which a full sweep exhausts about halfway.
+          GH_TOKEN: ${{ secrets.PR_AUTOMATION_TOKEN || github.token }}
         run: |
           args=()
           if [ -n "${ONLY}" ]; then
