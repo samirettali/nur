@@ -31,6 +31,7 @@
   hunk = pkgs.callPackage ./pkgs/hunk {};
   spotctl = pkgs.callPackage ./pkgs/spotctl {};
   fluxctl = pkgs.callPackage ./pkgs/fluxctl {};
+  linkctl = pkgs.callPackage ./pkgs/linkctl {};
   sottomano = pkgs.callPackage ./pkgs/sottomano {};
   sottovoce = pkgs.callPackage ./pkgs/sottovoce {};
   mole = pkgs.callPackage ./pkgs/mole {};

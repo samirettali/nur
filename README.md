@@ -55,6 +55,7 @@ nix-build -A <name>
 | [herdr](https://herdr.dev) | Terminal workspace manager for AI coding agents |
 | [hunk](https://github.com/modem-dev/hunk) | Review-first terminal diff viewer for agentic coders |
 | [lathe](https://github.com/devenjarvis/lathe) | Generate, store, serve, verify, and extend hands-on technical tutorials |
+| [linkctl](https://github.com/samirettali/linkctl) | Agent-friendly linkding CLI with machine-readable JSON output |
 | [mole](https://github.com/tw93/mole) | A macOS utility for cleaning, optimization, and system monitoring |
 | [opencode](https://github.com/sst/opencode) | The AI coding agent built for the terminal |
 | [pi-coding-agent](https://github.com/earendil-works/pi) | Coding agent CLI with read, bash, edit, write tools and session management |
