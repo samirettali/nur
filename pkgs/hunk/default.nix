@@ -18,6 +18,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook preInstall
 
     install -Dm 755 ./hunk $out/bin/hunk
+    cp -r ./skills $out/skills
 
     runHook postInstall
   '';
