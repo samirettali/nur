@@ -16,14 +16,14 @@ let
   # Tracks master rather than the release tag: the multi-machine work landed in
   # 0.9.0 and its fixes keep arriving on master, so the release lags what is
   # usable. update.sh follows master's HEAD.
-  version = "0.9.1-unstable-2026-09-16-956f23f";
-  rev = "956f23ff6b72d16fe66169730b76bf565d12d449";
+  version = "0.9.1-unstable-2026-09-18-241063f";
+  rev = "241063f7ffb9583ba9b3438b32a82fcec3cf32a3";
 
   src = fetchFromGitHub {
     owner = "herdrdev";
     repo = "herdr";
     inherit rev;
-    hash = "sha256-IdaMVekcsbvAPHJFzzDnQWSf60gS6TOnG19L9Yo+pbM=";
+    hash = "sha256-gsl3rSvU5AhMf9dXL6kX3/e7hsAOeQw+H9sO6yFFrU8=";
   };
 
   zigDeps = callPackage "${src}/vendor/libghostty-vt/build.zig.zon.nix" {
