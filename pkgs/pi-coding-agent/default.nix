@@ -32,10 +32,6 @@ buildNpmPackage (finalAttrs: {
     hash = "sha256-KzewhtP1DRFDIOrJ4wN9bKwG3EioQW7eTsipK5AJ2z8=";
   };
 
-  patches = [
-    ./normalize-package-display-paths.patch
-  ];
-
   postPatch = ''
     cp -r ${finalAttrs.modelData}/dist/providers/data packages/ai/src/providers/
   '';
