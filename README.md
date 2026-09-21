@@ -49,6 +49,7 @@ nix-build -A <name>
 | [fluxctl](https://github.com/samirettali/fluxctl) | Agent-friendly Miniflux CLI with machine-readable JSON output |
 | [ghostty](https://ghostty.org) | Fast, feature-rich, and cross-platform terminal emulator |
 | [git-sync](https://github.com/AkashRajpurohit/git-sync) | A simple tool to backup and sync your git repositories |
+| [git-who](https://github.com/sinclairtarget/git-who) | Git blame for file trees |
 | [go-qo](https://github.com/kiki-ki/go-qo) | A minimalist TUI for querying JSON, CSV using SQL |
 | [grok-cli](https://x.ai/cli) | Grok CLI coding agent |
 | [helium](https://helium.computer) | Private, fast, and honest web browser |

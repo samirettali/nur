@@ -26,6 +26,7 @@
   opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
+  git-who = pkgs.callPackage ./pkgs/git-who {};
   tredis = pkgs.callPackage ./pkgs/tredis {};
   go-qo = pkgs.callPackage ./pkgs/go-qo {};
   hunk = pkgs.callPackage ./pkgs/hunk {};
