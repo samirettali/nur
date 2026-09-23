@@ -8,7 +8,7 @@
   bubblewrap,
 }:
 let
-  linuxRuntimePath = lib.makeBinPath (lib.optionals stdenvNoCC.isLinux [bubblewrap]);
+  linuxRuntimePath = lib.makeBinPath (lib.optionals stdenvNoCC.hostPlatform.isLinux [bubblewrap]);
 in
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "codex";
@@ -51,7 +51,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     makeWrapper "$out/bin/codex-raw" "$out/bin/codex" \
       --run 'export CODEX_EXECUTABLE_PATH="$HOME/.local/bin/codex"' \
       --set DISABLE_AUTOUPDATER 1 \
-      ${lib.optionalString stdenvNoCC.isLinux ''--prefix PATH : "${linuxRuntimePath}"''}
+      ${lib.optionalString stdenvNoCC.hostPlatform.isLinux ''--prefix PATH : "${linuxRuntimePath}"''}
 
     runHook postInstall
   '';
