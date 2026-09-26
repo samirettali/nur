@@ -1,9 +1,9 @@
 {
   "acmacodkjbdgmoleebolmdjonilkdbch": {
-    "hash": "sha256-oG4Jw1F+vk76A3igSn21pgs6kP+4itZoPa7/uGDw4rk=",
+    "hash": "sha256-ipz1rOeZ3wnRWVPiOYQpw50DwWvT6nXzr0y280OkrIQ=",
     "name": "rabby",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL5vkc3CMhgBazsyKWpS1AMVcd5A5euBZdrqXSxCX6FnB5bEON20QCobKHuDlpqggXVh3Aj_KrDi-WmOt_n0sG_ge7LM-Du8oitg_K4__DVgFDL5l3EavqFuUoSwRBJMAMZSmuUeOvbSjgra2iy7s7-eHhb9mtgg7Q/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_9_0.crx",
-    "version": "0.94.9"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/AZPVhcSNy4MQpDZhe8he9Zs59PEQjL7txgcP0gkChlaw_G06Y3skdxZzS79P4DRA3pWwF01tHGSUB8jg3IRGAFqNWEvBanSP5cYV2Ek6KulAVzlvH4QST1xVQ2gwHowkstPXAMZSmuXwkF1A30C0s1S2URfwjXrnmvoyQg/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_10_0.crx",
+    "version": "0.94.10"
   },
   "beakmhbijpdhipnjhnclmhgjlddhidpe": {
     "hash": "sha256-sAiPAvtjcpbtFciHdXOFVkHjuyJ4G1RHHp5QNgwRRnE=",
@@ -24,10 +24,10 @@
     "version": "1.7.1"
   },
   "dmkamcknogkgcdfhhbddcghachkejeap": {
-    "hash": "sha256-m/hjNct6QvDsY8ahDMHtFYJrGvuIPr8dSTx5Cu8ReGs=",
+    "hash": "sha256-RSZo2ynsEnbHhbIRTXgUYNvWp1iFf0wkpM6RhCUiEr8=",
     "name": "keplr",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7JvKqYL6q37IZMkT4EvBlju4ASbv-y4gFhNhmblW-le1ghefq6NbHkja0m0Y1LhuH-jKVHBxiAisXislGxKQ4bK3IYlJ4SRZxjB5kbZ78_BG8BaVb1lX1HMmTN42VCAMZSmuUTx9WL5hEh7fPikg4ypoN_ZnKVAg/DMKAMCKNOGKGCDFHHBDDCGHACHKEJEAP_0_13_51_0.crx",
-    "version": "0.13.51"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/AZPVhcTAQV4_jMHOWOgL4gnqy8YArkigolz-gskJYy2o6aIwm-8Pcbc1Ufz2cybWPu6X93b59nEuBimuTJaPyV8rCEcn6pHv5QJftlDYlGyHx-tyMFH5bPD9R0l1ENlq3mMBAMZSmuWqE0LDymEiuBGGaQTjXfeRXykTXw/DMKAMCKNOGKGCDFHHBDDCGHACHKEJEAP_0_13_52_0.crx",
+    "version": "0.13.52"
   },
   "hfjbmagddngcpeloejdejnfgbamkjaeg": {
     "hash": "sha256-1kiLH+QIjOIheJXFNE/BKJ7tWZLvwHpr6ec1cLIlBCM=",
@@ -54,9 +54,9 @@
     "version": "6.1.6"
   },
   "nngceckbapebfimnlniiiahkandclblb": {
-    "hash": "sha256-0aWULZwjTQM4LamSeZMgVQZMquejLMmxV5QMhjFl1Z8=",
+    "hash": "sha256-bTCH2rMNIVSUgFja6OTH5BQg0qyBaFHnxoyqkyQWyTA=",
     "name": "bitwarden",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/Abe5cL7_g5bgahzKWnklqVbAa1Aqwx8z0TDFZhWlNA_3gtEtR2V_XsBqF0TUPiKRyytOnHBiE7ZQ5kwC6WDQ1iIBkMWbjBXWsXEZVIH0DlQWkIC_6i3DMvpw0zlxlJjGQTCIAMZSmuVbqR_s3kCm0U4bYGjxX3MhHW6EDA/NNGCECKBAPEBFIMNLNIIIAHKANDCLBLB_2026_8_0_0.crx",
-    "version": "2026.8.0"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/AZPVhcTabWormV0eKvFTjab5a1DDGoA5mHnIR4ofKd8TZuKF0t6arbliBUlEDrera_U3Qp-54xACEjv2IHej1ril3WQen1QyNJ0cezvjENgKjytcoKrB5TVA5_rXCpwVlR2vAMZSmuUK4QmthwMzo0kI6JhCQK7DIhcqSw/NNGCECKBAPEBFIMNLNIIIAHKANDCLBLB_2026_9_2_0.crx",
+    "version": "2026.9.2"
   }
 }
