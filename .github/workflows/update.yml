@@ -14,6 +14,7 @@ permissions:
   contents: write
   issues: write
   pull-requests: write
+  statuses: write
 
 concurrency:
   group: update
@@ -24,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    outputs:
+      prs: ${{ steps.prs.outputs.prs }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -114,11 +117,15 @@ jobs:
           echo "commit_count=${commit_count}" >> "$GITHUB_OUTPUT"
 
       - name: Create or update pull requests
+        id: prs
         if: steps.changes.outputs.commit_count != '0'
         env:
           GH_TOKEN: ${{ secrets.PR_AUTOMATION_TOKEN || github.token }}
         run: |
           mapfile -t commits < <(git rev-list --reverse "origin/${DEFAULT_BRANCH}..HEAD")
+          # The package bumps the build and merge jobs act on. Anything else the
+          # updater committed, such as a README refresh, is left for review.
+          prs='[]'
 
           for commit in "${commits[@]}"; do
             subject=$(git log -1 --format=%s "$commit")
@@ -151,16 +158,145 @@ jobs:
                 --title "${pr_title}" \
                 --body-file "${pr_body_file}"
             else
-              gh pr create \
+              pr_url=$(gh pr create \
                 --base "${DEFAULT_BRANCH}" \
                 --head "${update_branch}" \
                 --title "${pr_title}" \
-                --body-file "${pr_body_file}"
+                --body-file "${pr_body_file}")
+              pr_number=${pr_url##*/}
             fi
 
             rm -f "${pr_body_file}"
+
+            if [ -d "pkgs/${pkg}" ]; then
+              prs=$(jq -c \
+                --arg pkg "${pkg}" \
+                --arg sha "$(git rev-parse HEAD)" \
+                --argjson number "${pr_number}" \
+                '. + [{pkg: $pkg, sha: $sha, number: $number}]' <<<"${prs}")
+            fi
           done
+
+          echo "prs=${prs}" >> "$GITHUB_OUTPUT"
 
       - name: No changes
         if: steps.changes.outputs.commit_count == '0'
         run: echo 'No package updates found.'
+
+  # Builds each bump on the two systems the dotfiles consume, mbp and andromeda,
+  # and records the result as a commit status on its pull request.
+  build:
+    needs: update
+    if: needs.update.outputs.prs != '' && needs.update.outputs.prs != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Build each bump
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRS: ${{ needs.update.outputs.prs }}
+        run: |
+          system=$(nix eval --impure --raw --expr builtins.currentSystem)
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          failed=0
+
+          mapfile -t prs < <(jq -r '.[] | "\(.pkg) \(.sha)"' <<<"${PRS}")
+          for pr in "${prs[@]}"; do
+            read -r pkg sha <<<"${pr}"
+            git fetch --quiet --depth 1 origin "${sha}"
+            git checkout --quiet "${sha}"
+            attr=".#packages.${system}.${pkg}"
+
+            if ! available=$(nix eval --json "${attr}.meta.available"); then
+              state=failure description="Evaluation failed on ${system}"
+            elif [ "${available}" != true ]; then
+              state=success description="Not available on ${system}"
+            elif nix build --print-build-logs --no-link "${attr}"; then
+              state=success description="Built on ${system}"
+            else
+              state=failure description="Build failed on ${system}"
+            fi
+            if [ "${state}" = failure ]; then
+              failed=1
+            fi
+
+            gh api --silent "repos/${GITHUB_REPOSITORY}/statuses/${sha}" \
+              -f state="${state}" \
+              -f context="build (${system})" \
+              -f description="${description}" \
+              -f target_url="${run_url}"
+          done
+
+          exit "${failed}"
+
+  # Merges each bump that built on both systems and lists them in one Telegram
+  # message. A bump that failed anywhere stays open with its red status.
+  merge:
+    needs: [update, build]
+    if: ${{ !cancelled() && needs.update.outputs.prs != '' && needs.update.outputs.prs != '[]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge the bumps that built
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PRS: ${{ needs.update.outputs.prs }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          merged=()
+
+          mapfile -t prs < <(jq -r '.[] | "\(.number) \(.sha)"' <<<"${PRS}")
+          for pr in "${prs[@]}"; do
+            read -r number sha <<<"${pr}"
+            passed=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${sha}/status" --jq '
+              [.statuses[] | select(.state == "success")
+                | select(.context == "build (aarch64-darwin)" or .context == "build (aarch64-linux)")]
+              | length')
+            if [ "${passed}" != 2 ]; then
+              echo "#${number} did not build on both systems; left open."
+              continue
+            fi
+
+            # Merges in quick succession can fail with "Base branch was modified"
+            # while GitHub recomputes mergeability after the previous one.
+            for attempt in 1 2 3; do
+              if gh pr merge "${number}" --squash --match-head-commit "${sha}"; then
+                merged+=("${number}")
+                break
+              fi
+              if [ "${attempt}" -lt 3 ]; then
+                sleep 10
+              fi
+            done
+          done
+
+          if [ "${#merged[@]}" -eq 0 ]; then
+            exit 0
+          fi
+          if [ -z "${TELEGRAM_BOT_TOKEN}" ] || [ -z "${TELEGRAM_CHAT_ID}" ]; then
+            echo "::warning::TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not set; no notification sent."
+            exit 0
+          fi
+
+          text='<b>nur</b>, merged automatically:'
+          for number in "${merged[@]}"; do
+            text+=$'\n'$(gh pr view "${number}" --json title,url --jq '"• <a href=\"\(.url)\">\(.title | @html)</a>"')
+          done
+
+          # The token goes through stdin so it never sits on a command line.
+          printf 'url = "https://api.telegram.org/bot%s/sendMessage"\n' "${TELEGRAM_BOT_TOKEN}" |
+            curl --silent --show-error --fail --output /dev/null --config - \
+              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+              --data-urlencode "text=${text}" \
+              --data-urlencode "parse_mode=HTML" \
+              --data-urlencode 'link_preview_options={"is_disabled":true}'

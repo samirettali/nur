@@ -46,6 +46,25 @@ for most packages; where they name nothing — `herdr` is pinned to a revision, 
 its version is the nixpkgs `<version>-unstable-<date>` — no such URL resolves and
 the range falls back to the two `rev` hashes the bump moved between.
 
+## Merging
+
+`update.yml` merges its own bumps. After opening the pull requests, it builds
+each bumped package through the flake on `macos-latest` and `ubuntu-24.04-arm`,
+the systems of mbp and andromeda, and records each result as a
+`build (<system>)` commit status on the pull request. A package whose
+`meta.platforms` leaves a system out passes there without a build. A bump that
+passes on both is squash-merged, and one Telegram message lists what the run
+merged; infra stores the bot's token and chat ID as the `TELEGRAM_BOT_TOKEN` and
+`TELEGRAM_CHAT_ID` secrets. A bump that fails anywhere stays open with its red
+status, and the next run builds it again, because the updater pushes the same
+bump every day until it lands.
+
+The workflow merges by itself rather than through GitHub's auto-merge because a
+pull request opened with `GITHUB_TOKEN` starts no other workflow: a separate
+check on it would never run. That is also why `main` has no branch protection.
+Only package bumps are merged; anything else the updater commits, such as a
+README refresh, waits for review.
+
 ## The browser packages
 
 `helium`, `widevine-cdm` and `chrome-extensions` are one story: a Chromium fork
@@ -58,8 +77,9 @@ Three things in them break the usual shape of a package here:
 - `helium` re-signs the macOS bundle ad-hoc so a third-party CDM can load, which
   needs `/usr/bin/codesign` rather than `rcodesign`. `enableWidevine = false`
   keeps upstream's Developer ID signature instead.
-- `widevine-cdm` and `chrome-extensions` are `unfree`, so CI neither builds nor
-  caches them.
+- `widevine-cdm` and `chrome-extensions` are `unfree`. The flake allows unfree
+  itself, so a consumer need not, and the merge check builds them like any
+  other package.
 - `chrome-extensions` pins nine independently versioned CRX files, so its
   `version` is the date its updater last changed the pins. Anything else would
   either lie or trip update.sh's "changed files, same version" check.
