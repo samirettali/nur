@@ -209,9 +209,9 @@ jobs:
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           failed=0
 
-          mapfile -t prs < <(jq -r '.[] | "\(.pkg) \(.sha)"' <<<"${PRS}")
-          for pr in "${prs[@]}"; do
-            read -r pkg sha <<<"${pr}"
+          # macOS runs this with /bin/bash 3.2, which has no mapfile. The list is
+          # read on descriptor 3 so nothing in the loop can consume it from stdin.
+          while read -r pkg sha <&3; do
             git fetch --quiet --depth 1 origin "${sha}"
             git checkout --quiet "${sha}"
             attr=".#packages.${system}.${pkg}"
@@ -234,7 +234,7 @@ jobs:
               -f context="build (${system})" \
               -f description="${description}" \
               -f target_url="${run_url}"
-          done
+          done 3< <(jq -r '.[] | "\(.pkg) \(.sha)"' <<<"${PRS}")
 
           exit "${failed}"
 
