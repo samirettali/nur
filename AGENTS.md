@@ -27,10 +27,11 @@ Consumed by the dotfiles repo (`~/dev/dotfiles`) via the `nurPkgs` specialArg.
 `./update.sh` runs every wired package's `update.sh` and commits each bump
 as `<pkg>: <old> -> <new>`. It requires a clean working tree. A failed updater
 is rolled back within its `pkgs/<name>` directory and skipped; changes outside
-that directory still stop the run as a safety check. In CI, each failed updater
-opens or comments on `chore(<pkg>): fix failed automatic update`; the issue is
-closed automatically after that updater next exits successfully, including an
-already-up-to-date result.
+that directory still stop the run as a safety check. In CI, which runs every 15
+minutes, the first failure of an updater opens
+`chore(<pkg>): fix failed automatic update`, and later failures leave it alone;
+the issue is closed automatically after that updater next exits successfully,
+including an already-up-to-date result.
 
 The commit body is a list of plain `key: value` lines (`homepage`,
 `repository`, `compare`, `release`) derived from the package's `meta`, with each
@@ -56,8 +57,12 @@ the systems of mbp and andromeda, and records each result as a
 passes on both is squash-merged, and one Telegram message lists what the run
 merged; infra stores the bot's token and chat ID as the `TELEGRAM_BOT_TOKEN` and
 `TELEGRAM_CHAT_ID` secrets. A bump that fails anywhere stays open with its red
-status, and the next run builds it again, because the updater pushes the same
-bump every day until it lands.
+status.
+
+The updater proposes the same bump on every run until it lands. The branch is
+pushed again only when the bump or main changes, because a push makes a new
+commit, and each commit is built once per system: a failed build is retried only
+by a new version, or by anything landing on main.
 
 The workflow merges by itself rather than through GitHub's auto-merge because a
 pull request opened with `GITHUB_TOKEN` starts no other workflow: a separate

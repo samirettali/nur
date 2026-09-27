@@ -8,7 +8,9 @@ on:
         required: false
         type: string
   schedule:
-    - cron: '40 15 * * *'
+    # Every 15 minutes, off the top of the hour, when GitHub's scheduled runs are
+    # busiest. They still start late, or not at all, under load.
+    - cron: '7,22,37,52 * * * *'
 
 permissions:
   contents: write
@@ -27,6 +29,7 @@ jobs:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     outputs:
       prs: ${{ steps.prs.outputs.prs }}
+      unbuilt: ${{ steps.prs.outputs.unbuilt }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -44,7 +47,7 @@ jobs:
 
       - name: Create update workspace
         run: |
-          git fetch origin "${DEFAULT_BRANCH}"
+          git fetch origin "${DEFAULT_BRANCH}" '+refs/heads/automated/*:refs/remotes/origin/automated/*'
           git checkout -B automated/update-workspace "origin/${DEFAULT_BRANCH}"
 
       - name: Run update
@@ -68,19 +71,22 @@ jobs:
         run: |
           shopt -s nullglob
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          open_issues=$(gh issue list --state open --limit 200 --json number,title)
 
           for status_file in "${UPDATE_RESULTS_DIR}"/*.status; do
             pkg=$(basename "${status_file}" .status)
             status=$(<"${status_file}")
             title="chore(${pkg}): fix failed automatic update"
-            issue_number=$(gh issue list \
-              --state open \
-              --limit 100 \
-              --json number,title \
-              | jq -r --arg title "${title}" ".[] | select(.title == \$title) | .number" \
-              | head -n1)
+            issue_number=$(jq -r --arg title "${title}" \
+              '.[] | select(.title == $title) | .number' <<<"${open_issues}" | head -n1)
 
             if [ "${status}" = failure ]; then
+              # The issue reports the first failure only: with a run every 15
+              # minutes, a comment per run would bury it.
+              if [ -n "${issue_number}" ]; then
+                continue
+              fi
+
               body_file=$(mktemp)
               {
                 printf 'The automatic updater for **%s** failed.\n\n' "${pkg}"
@@ -93,14 +99,10 @@ jobs:
                 fi
               } >"${body_file}"
 
-              if [ -n "${issue_number}" ]; then
-                gh issue comment "${issue_number}" --body-file "${body_file}"
-              else
-                gh issue create \
-                  --title "${title}" \
-                  --body-file "${body_file}" \
-                  --assignee "${GITHUB_REPOSITORY_OWNER}"
-              fi
+              gh issue create \
+                --title "${title}" \
+                --body-file "${body_file}" \
+                --assignee "${GITHUB_REPOSITORY_OWNER}"
 
               rm -f "${body_file}"
             elif [ -n "${issue_number}" ]; then
@@ -123,9 +125,12 @@ jobs:
           GH_TOKEN: ${{ secrets.PR_AUTOMATION_TOKEN || github.token }}
         run: |
           mapfile -t commits < <(git rev-list --reverse "origin/${DEFAULT_BRANCH}..HEAD")
+          open_prs=$(gh pr list --state open --base "${DEFAULT_BRANCH}" --limit 200 --json number,headRefName)
           # The package bumps the build and merge jobs act on. Anything else the
           # updater committed, such as a README refresh, is left for review.
           prs='[]'
+          # The bumps whose commit lacks a build status on either system.
+          unbuilt='[]'
 
           for commit in "${commits[@]}"; do
             subject=$(git log -1 --format=%s "$commit")
@@ -140,54 +145,68 @@ jobs:
 
             git checkout -B "${update_branch}" "origin/${DEFAULT_BRANCH}"
             git cherry-pick "$commit"
-            git push --force-with-lease origin "HEAD:${update_branch}"
 
-            pr_title="$subject"
+            pr_number=$(jq -r --arg head "${update_branch}" \
+              '.[] | select(.headRefName == $head) | .number' <<<"${open_prs}" | head -n1)
 
-            pr_body_file=$(mktemp)
-            ./.github/scripts/build-pr-body.sh "$commit" > "${pr_body_file}"
-
-            pr_number=$(gh pr list \
-              --head "${update_branch}" \
-              --base "${DEFAULT_BRANCH}" \
-              --json number \
-              --jq '.[0].number')
-
-            if [ -n "${pr_number}" ]; then
-              gh pr edit "${pr_number}" \
-                --title "${pr_title}" \
-                --body-file "${pr_body_file}"
+            # The updater proposes the same bump on every run until it lands, and
+            # pushing it again would make a new commit, to be built again, out of
+            # identical content. The branch moves only when the bump or main does.
+            if [ -n "${pr_number}" ] && git diff --quiet "origin/${update_branch}" HEAD 2>/dev/null; then
+              sha=$(git rev-parse "origin/${update_branch}")
             else
-              pr_url=$(gh pr create \
-                --base "${DEFAULT_BRANCH}" \
-                --head "${update_branch}" \
-                --title "${pr_title}" \
-                --body-file "${pr_body_file}")
-              pr_number=${pr_url##*/}
+              git push --force-with-lease origin "HEAD:${update_branch}"
+              sha=$(git rev-parse HEAD)
+
+              pr_title="$subject"
+
+              pr_body_file=$(mktemp)
+              ./.github/scripts/build-pr-body.sh "$commit" > "${pr_body_file}"
+
+              if [ -n "${pr_number}" ]; then
+                gh pr edit "${pr_number}" \
+                  --title "${pr_title}" \
+                  --body-file "${pr_body_file}"
+              else
+                pr_url=$(gh pr create \
+                  --base "${DEFAULT_BRANCH}" \
+                  --head "${update_branch}" \
+                  --title "${pr_title}" \
+                  --body-file "${pr_body_file}")
+                pr_number=${pr_url##*/}
+              fi
+
+              rm -f "${pr_body_file}"
             fi
 
-            rm -f "${pr_body_file}"
-
             if [ -d "pkgs/${pkg}" ]; then
-              prs=$(jq -c \
-                --arg pkg "${pkg}" \
-                --arg sha "$(git rev-parse HEAD)" \
-                --argjson number "${pr_number}" \
-                '. + [{pkg: $pkg, sha: $sha, number: $number}]' <<<"${prs}")
+              pr=$(jq -cn --arg pkg "${pkg}" --arg sha "${sha}" --argjson number "${pr_number}" \
+                '{pkg: $pkg, sha: $sha, number: $number}')
+              prs=$(jq -c --argjson pr "${pr}" '. + [$pr]' <<<"${prs}")
+
+              built=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${sha}/status" --jq '
+                [.statuses[].context
+                  | select(. == "build (aarch64-darwin)" or . == "build (aarch64-linux)")]
+                | length')
+              if [ "${built}" != 2 ]; then
+                unbuilt=$(jq -c --argjson pr "${pr}" '. + [$pr]' <<<"${unbuilt}")
+              fi
             fi
           done
 
           echo "prs=${prs}" >> "$GITHUB_OUTPUT"
+          echo "unbuilt=${unbuilt}" >> "$GITHUB_OUTPUT"
 
       - name: No changes
         if: steps.changes.outputs.commit_count == '0'
         run: echo 'No package updates found.'
 
   # Builds each bump on the two systems the dotfiles consume, mbp and andromeda,
-  # and records the result as a commit status on its pull request.
+  # and records the result as a commit status on its pull request. A commit is
+  # built once per system: a failed build waits for the bump or main to change.
   build:
     needs: update
-    if: needs.update.outputs.prs != '' && needs.update.outputs.prs != '[]'
+    if: needs.update.outputs.unbuilt != '' && needs.update.outputs.unbuilt != '[]'
     strategy:
       fail-fast: false
       matrix:
@@ -203,7 +222,7 @@ jobs:
       - name: Build each bump
         env:
           GH_TOKEN: ${{ github.token }}
-          PRS: ${{ needs.update.outputs.prs }}
+          PRS: ${{ needs.update.outputs.unbuilt }}
         run: |
           system=$(nix eval --impure --raw --expr builtins.currentSystem)
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
@@ -212,6 +231,13 @@ jobs:
           # macOS runs this with /bin/bash 3.2, which has no mapfile. The list is
           # read on descriptor 3 so nothing in the loop can consume it from stdin.
           while read -r pkg sha <&3; do
+            existing=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${sha}/status" \
+              --jq ".statuses[] | select(.context == \"build (${system})\") | .state")
+            if [ -n "${existing}" ]; then
+              echo "${pkg}: ${sha} already built on ${system} (${existing})."
+              continue
+            fi
+
             git fetch --quiet --depth 1 origin "${sha}"
             git checkout --quiet "${sha}"
             attr=".#packages.${system}.${pkg}"
