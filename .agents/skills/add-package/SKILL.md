@@ -26,9 +26,9 @@ Then wire it up in `default.nix`:
 <name> = pkgs.callPackage ./pkgs/<name> {};
 ```
 
-### Pre-built binaries (e.g. opencode)
+### Pre-built binaries (e.g. hunk)
 
-Use `stdenvNoCC.mkDerivation` with `fetchurl` per platform. Follow `pkgs/opencode/default.nix` exactly as the template:
+Use `stdenvNoCC.mkDerivation` with `fetchurl` per platform. Follow `pkgs/hunk/default.nix` exactly as the template:
 - Use `finalAttrs` pattern
 - Put sources in `passthru.sources` keyed by Nix system strings (`aarch64-darwin`, `x86_64-linux`, etc.)
 - Fetch the source hash with `nix-prefetch-url` for each platform URL
@@ -188,7 +188,7 @@ sed -i -E "s|( *cargoHash = \").*(\";)|\1${dep_hash}\2|" "$DEFAULT_NIX_FILE"
 echo "Successfully updated <name> to version $latest_version"
 ```
 
-For pre-built binaries, the update script should update the version and re-fetch each platform URL hash individually (see `pkgs/opencode/update.sh`).
+For pre-built binaries, the update script should update the version and re-fetch each platform URL hash individually (see `pkgs/hunk/update.sh`).
 
 ---
 

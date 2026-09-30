@@ -23,7 +23,6 @@
   helium = pkgs.callPackage ./pkgs/helium {};
   widevine-cdm = pkgs.callPackage ./pkgs/widevine-cdm {};
   chrome-extensions = pkgs.callPackage ./pkgs/chrome-extensions {};
-  opencode = pkgs.callPackage ./pkgs/opencode {};
   zesh = pkgs.callPackage ./pkgs/zesh {};
   git-sync = pkgs.callPackage ./pkgs/git-sync {};
   git-who = pkgs.callPackage ./pkgs/git-who {};
