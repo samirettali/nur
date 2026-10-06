@@ -12,7 +12,7 @@
 # to carve the CDM out of a full Chrome install.
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "widevine-cdm";
-  version = "4.10.3112.0";
+  version = "4.10.3050.0";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
