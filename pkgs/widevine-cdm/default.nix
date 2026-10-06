@@ -12,7 +12,7 @@
 # to carve the CDM out of a full Chrome install.
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "widevine-cdm";
-  version = "4.10.3112.0";
+  version = "4.10.3050.0";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -49,8 +49,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   passthru = {
     sources = {
       "aarch64-darwin" = fetchurl {
-        url = "https://edgedl.me.gvt1.com/edgedl/release2/chrome_component/ad7g6ajom265ggbvq6rrx4nb22ra_4.10.3050.0/oimompecagnajdejgnnjijobebaeigek_4.10.3050.0_mac_arm64_ad6r3hn3iuwofjkdi4widjwuy3na.crx3";
-        hash = "sha256-EaLGRPG6+zzNtX+E37W9kHvYWXSUKNgHo19Vo/dMbyE=";
+        url = "https://edgedl.me.gvt1.com/edgedl/release2/chrome_component/ac7kldzznoqpelvhlm22cvg6iw7q_4.10.3112.0/oimompecagnajdejgnnjijobebaeigek_4.10.3112.0_mac_arm64_acwuvzzk4g3lgkvyjjsbyjwqnxoq.crx3";
+        hash = "sha256-a/MtEGMNWuvhriqvtRD0OAE0fDDQEpMnZOY7VRMyWvQ=";
       };
       "x86_64-darwin" = fetchurl {
         url = "https://edgedl.me.gvt1.com/edgedl/release2/chrome_component/ac46odufbnrvxcdn4wur6s2o4kjq_4.10.3050.0/oimompecagnajdejgnnjijobebaeigek_4.10.3050.0_mac64_acvag6gyzleiuk2y32voj4ebbeja.crx3";
