@@ -82,7 +82,7 @@
 
       extraInstallCommands = ''
         install -Dm444 ${appImageContents}/helium.desktop $out/share/applications/helium.desktop
-        install -Dm444 ${appImageContents}/product_logo_256.png \
+        install -Dm444 ${appImageContents}/usr/share/icons/hicolor/256x256/apps/helium.png \
           $out/share/icons/hicolor/256x256/apps/helium.png
       '';
     };
