@@ -6,9 +6,21 @@ set -euo pipefail
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 DEFAULT_NIX_FILE="$SCRIPT_DIR/default.nix"
 
-latest_version=$(curl --silent --fail \
-  ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/imputnet/helium-linux/releases/latest" \
-  | jq -r .tag_name)
+releases() {
+  curl --silent --fail \
+    ${GH_TOKEN:+-H "Authorization: Bearer $GH_TOKEN"} "https://api.github.com/repos/imputnet/$1/releases?per_page=100" \
+    | jq -r '.[] | select((.draft or .prerelease) | not) | .tag_name' \
+    | sort
+}
+
+# Linux and macOS ship from separate repositories, and either can publish a
+# version days before the other. Take the newest version released in both.
+latest_version=$(comm -12 <(releases helium-linux) <(releases helium-macos) | sort -V | tail -n1)
+
+if [[ -z "$latest_version" ]]; then
+  echo "No helium version is released for both Linux and macOS" >&2
+  exit 1
+fi
 
 current_version=$(grep 'version = "' "$DEFAULT_NIX_FILE" | head -n1 | cut -d '"' -f 2)
 
