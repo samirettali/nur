@@ -85,7 +85,9 @@ buildNpmPackage (finalAttrs: {
                 @earendil-works/pi-tui:packages/tui \
                 @earendil-works/pi-telemetry:packages/telemetry \
                 @earendil-works/pi-protocol:packages/protocol \
-                @earendil-works/pi-client:packages/client; do
+                @earendil-works/pi-client:packages/client \
+                @earendil-works/pi-codemode:packages/codemode \
+                @earendil-works/pi-mcp:packages/mcp; do
         IFS=: read -r pkg src <<< "$ws"
         rm "$nm/$pkg"
         cp -r "$src" "$nm/$pkg"
