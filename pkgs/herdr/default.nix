@@ -16,14 +16,14 @@ let
   # Tracks master rather than the release tag: the multi-machine work landed in
   # 0.9.0 and its fixes keep arriving on master, so the release lags what is
   # usable. update.sh follows master's HEAD.
-  version = "0.9.4-unstable-2026-10-14-6521382";
-  rev = "6521382dbed36f2d001417108149c338aee116ea";
+  version = "0.9.5-unstable-2026-10-14-916fcf8";
+  rev = "916fcf8de029c6cac965b50f3cdb9687cd7d1537";
 
   src = fetchFromGitHub {
     owner = "herdrdev";
     repo = "herdr";
     inherit rev;
-    hash = "sha256-HMgn65u+PBmgF9PLKksomGzUECF3ve90xG/4zjQjycs=";
+    hash = "sha256-qi4htt98YMOPi/UEkr8tjOHJlsyY23NCSK6qTncQtaE=";
   };
 
   zigDeps = callPackage "${src}/vendor/libghostty-vt/build.zig.zon.nix" {
@@ -43,7 +43,7 @@ rustPlatform.buildRustPackage {
   pname = "herdr";
   inherit version src;
 
-  cargoHash = "sha256-IPsukFZI+VARH2e4I3dNe6pD8f3NaC3WtLiylfl/qQA=";
+  cargoHash = "sha256-a6DgQodo+qa5yg/d+yMfsM9EUv2LQRFrqZgmwgVxggE=";
 
   nativeBuildInputs = [
     git
