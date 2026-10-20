@@ -8,11 +8,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "tailscale-gui";
-  version = "1.104.1";
+  version = "1.104.2";
 
   src = fetchurl {
     url = "https://pkgs.tailscale.com/stable/Tailscale-${finalAttrs.version}-macos.pkg";
-    hash = "sha256-Z+xV8Y7ir6wKj7V/eBGXf0rW3x3r1KGH+g2z27XUAdU=";
+    hash = "sha256-FyTS4CHTxfgX9Cf2KCYMATUxpSjxJYp9R3c10ZixH1U=";
   };
 
   strictDeps = true;
