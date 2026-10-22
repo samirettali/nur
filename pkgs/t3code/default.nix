@@ -6,7 +6,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "t3code";
-  version = "0.1.1";
+  version = "0.1.2";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -38,11 +38,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     sources = {
       "aarch64-darwin" = fetchurl {
         url = "https://github.com/pingdotgg/t3code/releases/download/v${finalAttrs.version}/T3-Code-${finalAttrs.version}-arm64.zip";
-        hash = "sha256-oZs/PPF+G2mj0thjD9ll8bYyU+wHglcZn95m5hVn4pM=";
+        hash = "sha256-yZ295yaxaIU8RAnzIpK3OB2yyDwayg690cUGBl6smQ8=";
       };
       "x86_64-darwin" = fetchurl {
         url = "https://github.com/pingdotgg/t3code/releases/download/v${finalAttrs.version}/T3-Code-${finalAttrs.version}-x64.zip";
-        hash = "sha256-6QQaiH7n43qDm8PaxRlMHBOudTb+Uxo0OfKVKBESJkg=";
+        hash = "sha256-I1gKJq+tvgoQvT55/eWMTVxN9+k263EIdV/xcZqEEeo=";
       };
     };
 
