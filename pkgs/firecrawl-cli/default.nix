@@ -10,7 +10,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "firecrawl-cli";
-  version = "1.26.22";
+  version = "1.26.23";
   __structuredAttrs = true;
   strictDeps = true;
 
@@ -23,7 +23,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     owner = "firecrawl";
     repo = "cli";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-0XLQgPWTeS3M0SeXzqH5doAms4hh7JwbcJuw3Qio1vk=";
+    hash = "sha256-z3xVqexcsnja+//ATWh1mYLLFGnBPBQS/Rj+twazYu8=";
   };
 
   patches = [
@@ -34,7 +34,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     pnpm = pnpm_11;
     fetcherVersion = 4;
-    hash = "sha256-/6C10/jdIR8D7Yh+0CRsNYoOrW2FnHK8tDS7yfIfTSk=";
+    hash = "sha256-0te+kHlOGMViNLOFlt97mkEbs1ZGCe5wKG1KFgzuZOM=";
   };
 
   nativeBuildInputs = [
