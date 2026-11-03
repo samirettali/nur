@@ -5,13 +5,13 @@
 }:
 buildGoModule rec {
   pname = "mole";
-  version = "1.67.0";
+  version = "1.68.0";
 
   src = fetchFromGitHub {
     owner = "tw93";
     repo = "mole";
     rev = "V${version}";
-    hash = "sha256-U30X+Ty5oJKXU0bfrvelJphr/fVGsZMfPjeLirBwUAg=";
+    hash = "sha256-S5Xa2VwZ5DJlB+Y0MLS677g2xU9EheEDOQ6W1DgNQts=";
   };
 
   vendorHash = "sha256-PBnWwgH9xYgMwcr/MVbH29Sb4ODI0+lgqSvlYC+pj/0=";
