@@ -5,7 +5,7 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "claude-code";
-  version = "2.1.322";
+  version = "2.1.323";
 
   src =
     finalAttrs.passthru.sources.${stdenvNoCC.hostPlatform.system}
@@ -48,19 +48,19 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     sources = {
       "aarch64-darwin" = fetchurl {
         url = "https://github.com/anthropics/claude-code/releases/download/v${finalAttrs.version}/claude-darwin-arm64.tar.gz";
-        hash = "sha256-D/OJ8aMT9Qd4wkcsL4WILKgsEBVjmMaM/DwzIARpRkY=";
+        hash = "sha256-iaRn7C77WzS9m60amdnCntqATeA95eL2XXh7crFQI2E=";
       };
       "aarch64-linux" = fetchurl {
         url = "https://github.com/anthropics/claude-code/releases/download/v${finalAttrs.version}/claude-linux-arm64.tar.gz";
-        hash = "sha256-ZcGtNegE70Y/NFhdDAgK/Uvy6QGMe60fKe+4306cN1A=";
+        hash = "sha256-gI+pxxyvfr7ZOD0+OL7m590vqAh3rBLGwnQ4eGKVCZ4=";
       };
       "x86_64-darwin" = fetchurl {
         url = "https://github.com/anthropics/claude-code/releases/download/v${finalAttrs.version}/claude-darwin-x64.tar.gz";
-        hash = "sha256-enKRxa4ByPjpHcJjbaQ/kFvTy1KxFwIphQ+D8/7xlOE=";
+        hash = "sha256-DAjE14bBASN/M+Ph/K8ZPYr+R5rkqc0tsg9kWBU5O3o=";
       };
       "x86_64-linux" = fetchurl {
         url = "https://github.com/anthropics/claude-code/releases/download/v${finalAttrs.version}/claude-linux-x64.tar.gz";
-        hash = "sha256-PSvFrlTU1M1jUQ6fzKW21I0rGIBnCN+Mj2kapIbF3Kg=";
+        hash = "sha256-UiJVZ4VIhZuXmbewmMA6OqKGyant4BlX419HE8zENjE=";
       };
     };
 
