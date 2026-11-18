@@ -5,16 +5,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "rift";
-  version = "0.8.3";
+  version = "0.8.4";
 
   src = fetchFromGitHub {
     owner = "acsandmann";
     repo = "rift";
     rev = "v${version}";
-    hash = "sha256-8imLFJ90Ovb9y19iTN+JgQ+FtiKx7pbgpPzdSl4Agug=";
+    hash = "sha256-mgl09uli0qHPnCzmv8KRq1unNgXbmoCjfZX3tFn76Lo=";
   };
 
-  cargoHash = "sha256-OOQhpopVGKhS2QHfRuapVBx6bZdZAxNlOHM54c5JvxI=";
+  cargoHash = "sha256-MpsI9Pr4jZMQjW3WAS5r0Q+Wi8Xa470nATyduELJKW4=";
 
   passthru.updateScript = ./update.sh;
 
