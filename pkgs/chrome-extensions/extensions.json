@@ -1,9 +1,9 @@
 {
   "acmacodkjbdgmoleebolmdjonilkdbch": {
-    "hash": "sha256-s+VQpGCtEoK+9Ybtx047Dn+ew1Rv6YQTkLQx4gvKC9g=",
+    "hash": "sha256-c4SYZC3axNf/RnjIKHoJMj3+/xE06XSriaihQg4X6E0=",
     "name": "rabby",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZI-thzo2Ak0PtqxLxQdHX2INfr9cLnWHIKtRDByPj-QuMeIRfDMvD4I6tcK2j2HvjWMP0sbMyHUVkRgj4vVggEZmG_tRcTeRmlqDMNtv6nV7DzjUWKFi0srIEDfCNafAMZSmuX2sTlBeRxbAOG2aW7tEJbIsH__Zg/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_16_0.crx",
-    "version": "0.94.16"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZIkd_0qxdSOi5oHlEmXAY_g8tF_M4u7FZxDIuuxMc_6_knBXv8iK2b5nXTY_1rHmlTjAWI46jkZrN-LvZJ1qIL5aBK1ZNDvJTviXiI6Wd16QyZlEd6xTCjfs_dFLKqhAMZSmuW-djwOx_V9je2b6bm9f_v8HU6r1Q/ACMACODKJBDGMOLEEBOLMDJONILKDBCH_0_94_17_0.crx",
+    "version": "0.94.17"
   },
   "beakmhbijpdhipnjhnclmhgjlddhidpe": {
     "hash": "sha256-sAiPAvtjcpbtFciHdXOFVkHjuyJ4G1RHHp5QNgwRRnE=",
@@ -12,16 +12,16 @@
     "version": "1.15.1"
   },
   "bfnaelmomeimhlpmgjnjophhpkkoljpa": {
-    "hash": "sha256-ZHBJjMlNGfZUOKoXY2XogQ1VtoXxZdgN3g5UTMgaGmY=",
+    "hash": "sha256-odLMM4lXALXJi1AuWLMv/hhv6a81JuVQ3RyOLi7A9Pg=",
     "name": "phantom",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZIosEBxdtHT7PSHWULZDbwj0z-xl_fK4sYPpoLX_GzvHNgE7hD2ut4Br7S49E0UE_BkK5PxVoMbTvQKCnxuCKVaciKb-Pybz-_0uDlybA1H9CfW91t3JtV2w5yNPM0lAMZSmuXrCWA3D0rTkwhNMyTjVv1F-O4hiQ/BFNAELMOMEIMHLPMGJNJOPHHPKKOLJPA_26_41_0_0.crx",
-    "version": "26.41.0"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZJcCpu1XR3g4zUoOcL4o0OWEd43S_Ezf5zaUsy6WYl2S1vdEgAtIHwnc5Zlw9QjMbAfriQ0goK1rjMjCxYOtVYHbkq3p0oE3TZgvuzOEf8xS_-L5J2SEJQzpZ_4KXrdAMZSmuWZ3qsz7chwJhqUs-q7g3Cn8Be6pQ/BFNAELMOMEIMHLPMGJNJOPHHPKKOLJPA_26_42_0_0.crx",
+    "version": "26.42.0"
   },
   "cnjifjpddelmedmihgijeibhnjfabmlf": {
-    "hash": "sha256-cEJ2lsp5qR5JUOei7nIjLUfYAcpuVoZ/Wtj/CB0UM1s=",
+    "hash": "sha256-LkTJwkYvyoB5OKRSJjFGgz5x2XPrUGgNTBWDT1CR8jQ=",
     "name": "obsidian-web-clipper",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZIDGiSqmikPE6wqtiPrC9zGT731GfdXG0YZvAyyXyxOqVF_iz3WFqqmjYCmMPo5TwERXPAvyAJkaVzszlK3iRvxJD9wjtYmd7FdgoGzwwzvL8WXaHTG5TrCe1oQrMcUAMZSmuUgUbOIGbFsG2RqC_QrgZ1H57EaTA/CNJIFJPDDELMEDMIHGIJEIBHNJFABMLF_1_8_0_0.crx",
-    "version": "1.8.0"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZK2y6j0PP7doeOkY_W1J64rWu7sRRL4HSpA_Vw0gjO1oOGnHpeJeV9m2Wb1yy8yaiGdw9KTjBv5gtaJn_QH-Cl1EuOMFJxsT7EQ0-1bG144y8fCF8fWb2w4nWRCuEVvAMZSmuUpDtsLng0tY5wPF67U51Q7Xm2nHQ/CNJIFJPDDELMEDMIHGIJEIBHNJFABMLF_1_8_3_0.crx",
+    "version": "1.8.3"
   },
   "dmkamcknogkgcdfhhbddcghachkejeap": {
     "hash": "sha256-+GaMI5BYQq7PKgsZm+/6XcwnvYxjyBMUce7wopPBVvU=",
@@ -54,9 +54,9 @@
     "version": "6.1.6"
   },
   "nngceckbapebfimnlniiiahkandclblb": {
-    "hash": "sha256-HJlRefdYYxBMim44nhBQVoqCwNLAfWrPa2JwPSSUMMk=",
+    "hash": "sha256-W7/EQcarOCqGd7EzrqP8P/K67XzP5usbFhcbQpiTc/I=",
     "name": "bitwarden",
-    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZKrZCDk7UJWQXzUQ8_0pOOy6h1s3wvynvj3vqcHsuSvjGAmX2lV7s6ji5YP7A7DtxD42g7KMQK_5GXm_vg2NDXXdpmUbI8KoV-GsJ1nYSJ_koU3RksuUv-S7IUYLaPkAMZSmuXJX4rmXGST-41wO8smk2xEA2h2yA/NNGCECKBAPEBFIMNLNIIIAHKANDCLBLB_2026_10_2_0.crx",
-    "version": "2026.10.2"
+    "url": "https://clients2.googleusercontent.com/crx/blobs/ARGaeZJHvbuMnV5Tdhfis6hgmKl4rkjNL3Zj1QvL7s6D6WxD0FSi9gXd6M2iBsFzzISI9y_YFedsgzpr-X6r4JEpuTI9f4SmBUKjNle5mJvoxA0IPc3pf2C6hO4UqksPACknAMZSmuX5FiKPhkwkrRiG45N2-_zY100xXw/NNGCECKBAPEBFIMNLNIIIAHKANDCLBLB_2026_11_0_0.crx",
+    "version": "2026.11.0"
   }
 }
