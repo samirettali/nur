@@ -6,18 +6,18 @@
 }:
 buildNpmPackage rec {
   pname = "quartz";
-  version = "5.1.0";
+  version = "5.2.0";
 
   src = fetchFromGitHub {
     owner = "jackyzha0";
     repo = "quartz";
     rev = "v${version}";
-    hash = "sha256-iCk2QZqIgLGKdh1kKLK+ayq8PLbVTP5Oee8VKxp0n6s=";
+    hash = "sha256-D9yWt/th55jnv/gnOl+9elnhZqYFrTQMS19XYX+vhnQ=";
   };
 
   nodejs = nodejs_22;
 
-  npmDepsHash = "sha256-36sFu+u8gpKqilbyyxhcqzpleTktCwUrNHr9WpIdIgU=";
+  npmDepsHash = "sha256-cdNhmcj+mBxaT8Qkpj8OWsyU0kFyYbUfK0cootk43qQ=";
 
   dontBuild = true;
 
